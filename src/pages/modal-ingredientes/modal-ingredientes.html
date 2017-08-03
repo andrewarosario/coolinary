@@ -1,0 +1,32 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>{{titulo}}</ion-title>
+
+        <ion-buttons start>
+            <button ion-button (click)="fecharModal()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>        
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-item>
+        <ion-label floating>Ingrediente</ion-label>
+        <ion-input type="text" [(ngModel)]="ingrediente.nome"></ion-input>
+    </ion-item>
+
+    <ion-item>        
+        <ion-label floating>Quantidade</ion-label>
+        <ion-input type="number" [(ngModel)]="ingrediente.quantidade"></ion-input>
+    </ion-item>
+
+    <br>
+
+    <button ion-button block color="secondary" (click)="salvarIngrediente(ingrediente)">Salvar</button>  
+
+</ion-content>

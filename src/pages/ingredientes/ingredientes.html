@@ -1,0 +1,23 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Meus Ingredientes</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+    <ion-item *ngFor="let ingrediente of ingredientesListRef$ | async" (click)="selecionarIngrediente(ingrediente)">
+        <h2>{{ingrediente.nome}}</h2>
+        <h3>Quantidade: {{ingrediente.quantidade}}</h3>
+    </ion-item>
+
+
+    <ion-fab bottom right>
+        <button ion-fab color="danger" (click)="inserirIngrediente()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+
+</ion-content>
