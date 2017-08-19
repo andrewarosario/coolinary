@@ -29,4 +29,15 @@
 
     <button ion-button block color="secondary" (click)="salvarIngrediente(ingrediente)">Salvar</button>  
 
+    <ion-item>
+        <select-searchable
+            [(ngModel)]="port"
+            title="Port"
+            itemValueField="id"
+            itemTextField="name"
+            [items]="ports"
+            [canSearch]="true">
+        </select-searchable>
+    </ion-item>    
+
 </ion-content>

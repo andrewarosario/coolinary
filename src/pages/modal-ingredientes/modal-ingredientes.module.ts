@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ModalIngredientesPage } from './modal-ingredientes';
+import { SelectSearchableModule } from '../../components/select/select-module';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { ModalIngredientesPage } from './modal-ingredientes';
   ],
   imports: [
     IonicPageModule.forChild(ModalIngredientesPage),
+    SelectSearchableModule
   ],
 })
 export class ModalIngredientesPageModule {}

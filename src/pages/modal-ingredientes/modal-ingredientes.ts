@@ -5,12 +5,22 @@ import { FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable }
 import { Subscription } from "rxjs/Subscription";
 import { ToastController } from 'ionic-angular';
 
+
+class Port {
+    public id: number;
+    public name: string;
+    public country: string;
+}
+
 @Component({
     selector: 'page-modal-ingredientes',
     templateUrl: 'modal-ingredientes.html',
 })
 
 export class ModalIngredientesPage {
+
+    ports: Port[];
+    port: Port;    
 
     public possuiParametro: boolean = false;
     public titulo: string;
@@ -29,6 +39,12 @@ export class ModalIngredientesPage {
                 public viewCtrl: ViewController,
                 private toastCtrl: ToastController) {
 
+        this.ports = [
+            { id: 0, name: 'Tokai', country: 'Japan' },
+            { id: 1, name: 'Vladivostok', country: 'Russia' },
+            { id: 2, name: 'Navlakhi', country: 'India' }
+        ];                    
+
         if (navParams.get('ingredienteId')) {
             this.possuiParametro = true;
             this.titulo = 'Editar Ingrediente';          
@@ -46,6 +62,18 @@ export class ModalIngredientesPage {
         }         
         
     }
+
+  /*  portChange(event: { component: SelectSearchable, value: any }) {
+        console.log('value:', event.value);
+        
+        https://forum.ionicframework.com/t/ion-select-with-searchbar/89255/9
+        git config user.name "andrewarosario"
+        git config --global user.email andrew.arosario@gmail.com
+        git remote set-url origin https://github.com/andrewarosario/startup-univem.git
+        git add *
+        git commit -m "comentários das alterações"
+        git push origin master
+    }*/    
 
     salvarIngrediente(ingrediente: Ingrediente) {                
         if (!this.confereCampos(ingrediente)) {

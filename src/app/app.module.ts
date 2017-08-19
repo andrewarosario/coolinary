@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { SelectSearchableModule } from '../components/select/select-module';
 
 import { MyApp } from './app.component';
 import { FIREBASE_CREDENTIALS } from './firebase.credentials'
@@ -22,6 +23,7 @@ import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-i
         //Inicializando AngularFire com as credenciais
         AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
         AngularFireDatabaseModule,
+        SelectSearchableModule,
 
         IngredientesPageModule,
         ModalIngredientesPageModule
