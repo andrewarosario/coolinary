@@ -1,8 +1,8 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="primary">
         <ion-title>{{selectComponent.title}}</ion-title>
     </ion-navbar>
-    <ion-toolbar *ngIf="selectComponent.canSearch">
+    <ion-toolbar color="primary" *ngIf="selectComponent.canSearch">
         <ion-searchbar
             #searchbarComponent
             [(ngModel)]="selectComponent.filterText"

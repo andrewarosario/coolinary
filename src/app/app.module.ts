@@ -9,6 +9,8 @@ import { SelectSearchableModule } from '../components/select/select-module';
 
 import { MyApp } from './app.component';
 import { FIREBASE_CREDENTIALS } from './firebase.credentials'
+
+import { TabsPageModule } from '../pages/tabs/tabs.module'
 import { IngredientesPageModule } from '../pages/ingredientes/ingredientes.module';
 import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-ingredientes.module";
 
@@ -25,6 +27,7 @@ import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-i
         AngularFireDatabaseModule,
         SelectSearchableModule,
 
+        TabsPageModule,
         IngredientesPageModule,
         ModalIngredientesPageModule
     ],

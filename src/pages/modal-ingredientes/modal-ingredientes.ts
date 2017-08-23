@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
+//import { SelectIngrediente } from "../../models/ingrediente/selectIngrediente.interface";
 import { FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable } from "angularfire2/database";
 import { Subscription } from "rxjs/Subscription";
 import { ToastController } from 'ionic-angular';
 
-
-class Port {
-    public id: number;
-    public name: string;
-    public country: string;
-}
+class SelectIngrediente {
+    public $key?: number;
+    public nome: string;    
+    public unidade: string;
+} 
 
 @Component({
     selector: 'page-modal-ingredientes',
@@ -19,18 +19,16 @@ class Port {
 
 export class ModalIngredientesPage {
 
-    ports: Port[];
-    port: Port;    
-
     public possuiParametro: boolean = false;
     public titulo: string;
 
     ingrediente = {} as Ingrediente;
+    selectIngredientes: SelectIngrediente[];
+    //selectIngrediente: SelectIngrediente;
+    selectIngrediente = {} as SelectIngrediente;
 
     ingredienteSubscription: Subscription;
-
     ingredienteObjectRef$: FirebaseObjectObservable<Ingrediente>
-
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
@@ -39,13 +37,14 @@ export class ModalIngredientesPage {
                 public viewCtrl: ViewController,
                 private toastCtrl: ToastController) {
 
-        this.ports = [
-            { id: 0, name: 'Tokai', country: 'Japan' },
-            { id: 1, name: 'Vladivostok', country: 'Russia' },
-            { id: 2, name: 'Navlakhi', country: 'India' }
+        this.selectIngredientes = [
+            { nome: 'Arroz', unidade: 'gramas' },
+            { nome: 'Feijão', unidade: 'gramas' },
+            { nome: 'Leite', unidade: 'litros' },
+            { nome: 'Alface', unidade: 'gramas'}
         ];                    
 
-        if (navParams.get('ingredienteId')) {
+        if (navParams.get('ingredienteId')) { //Editar ingrediente
             this.possuiParametro = true;
             this.titulo = 'Editar Ingrediente';          
 
@@ -53,29 +52,19 @@ export class ModalIngredientesPage {
             this.ingredienteObjectRef$ = this.database.object(`ingrediente/${ingredienteId}`);
             this.ingredienteSubscription = this.ingredienteObjectRef$
                                                .subscribe(ingrediente => { this.ingrediente = ingrediente });
-        } else {
+
+            this.selectIngrediente = this.selectIngredientes.find(dado => dado.nome === this.ingrediente.nome);
+                                                                                            
+        } else { //Incluir ingrediente
             this.possuiParametro = false;
             this.titulo = 'Novo Ingrediente';
 
-            this.ingredientesListRef$ = this.database.list('ingrediente');
-
+            this.ingredientesListRef$ = this.database.list('ingrediente');                        
         }         
-        
     }
 
-  /*  portChange(event: { component: SelectSearchable, value: any }) {
-        console.log('value:', event.value);
-        
-        https://forum.ionicframework.com/t/ion-select-with-searchbar/89255/9
-        git config user.name "andrewarosario"
-        git config --global user.email andrew.arosario@gmail.com
-        git remote set-url origin https://github.com/andrewarosario/startup-univem.git
-        git add *
-        git commit -m "comentários das alterações"
-        git push origin master
-    }*/    
-
-    salvarIngrediente(ingrediente: Ingrediente) {                
+    salvarIngrediente(ingrediente: Ingrediente, selectIngrediente: SelectIngrediente) {         
+        ingrediente.nome = selectIngrediente.nome                
         if (!this.confereCampos(ingrediente)) {
             return;
         }
@@ -84,25 +73,20 @@ export class ModalIngredientesPage {
         Cria um objeto anônimo e converte quantidade para number.
         Dá um Push pro Firebase dentro da coleção 'ingrediente'
         */
-
         if (this.possuiParametro) {
-
             this.ingredienteObjectRef$.update(ingrediente);
-
         } else {
-
             this.ingredientesListRef$.push({
                 nome: this.ingrediente.nome,
                 quantidade: Number(this.ingrediente.quantidade)
             });
         }
-
         this.fecharModal();        
     }
 
     confereCampos(ingrediente: Ingrediente) {
         try {
-            if (! this.ingrediente.nome) throw "Informe o nome do ingrediente!";
+            if (!this.ingrediente.nome || this.ingrediente.nome == "") throw "Informe o nome do ingrediente!";
             if (!this.ingrediente.quantidade || this.ingrediente.quantidade <= 0) throw "Informe uma quantidade!";
 
             return true;
@@ -123,7 +107,6 @@ export class ModalIngredientesPage {
 
     fecharModal() {
         this.ingrediente = {} as Ingrediente;
-
         this.viewCtrl.dismiss();  
     }
 
