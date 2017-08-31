@@ -24,7 +24,6 @@ export class ModalIngredientesPage {
 
     ingrediente = {} as Ingrediente;
     selectIngredientes: SelectIngrediente[];
-    //selectIngrediente: SelectIngrediente;
     selectIngrediente = {} as SelectIngrediente;
 
     ingredienteSubscription: Subscription;

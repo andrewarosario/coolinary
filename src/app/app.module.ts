@@ -13,6 +13,7 @@ import { FIREBASE_CREDENTIALS } from './firebase.credentials'
 import { TabsPageModule } from '../pages/tabs/tabs.module'
 import { IngredientesPageModule } from '../pages/ingredientes/ingredientes.module';
 import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-ingredientes.module";
+import { ListaReceitasPageModule } from "../pages/lista-receitas/lista-receitas.module";
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-i
 
         TabsPageModule,
         IngredientesPageModule,
-        ModalIngredientesPageModule
+        ModalIngredientesPageModule,
+        ListaReceitasPageModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [

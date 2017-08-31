@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IngredientesPage } from "../ingredientes/ingredientes";
+import { ListaReceitasPage } from "../lista-receitas/lista-receitas";
 
 @Component({
     selector: 'page-tabs',
@@ -8,7 +9,7 @@ import { IngredientesPage } from "../ingredientes/ingredientes";
 export class TabsPage {
 
     tab1Root = IngredientesPage;
-    tab2Root = IngredientesPage;
+    tab2Root = ListaReceitasPage;
     tab3Root = IngredientesPage;
 
     constructor() {
