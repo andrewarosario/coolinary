@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
-import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
+import { FirebaseListObservable } from "angularfire2/database";
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { ModalIngredientesPage } from "../modal-ingredientes/modal-ingredientes";
+import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 
 @Component({
     selector: 'page-ingredientes',
@@ -14,12 +15,12 @@ export class IngredientesPage {
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
-                public navParams: NavParams,
-                private database: AngularFireDatabase,
+                public navParams: NavParams,                
                 public modalCtrl: ModalController,
-                public actionSheetCtrl: ActionSheetController) {
+                public actionSheetCtrl: ActionSheetController,
+                public ingredienteService: IngredienteService) {
 
-        this.ingredientesListRef$ = this.database.list('ingrediente');
+        this.ingredientesListRef$ = this.ingredienteService.ingredientes;
     }
 
     inserirIngrediente():void {

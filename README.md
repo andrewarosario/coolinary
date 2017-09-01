@@ -3,13 +3,13 @@ Aplicativo desenvolvido com Ionic Framework que recomenda receitas a partir dos 
 
 ### Instalação:
 
-1 - Clone este repositório
-2 - Pelo prompt de comando, vá para o diretório do projeto e execute:
+1 - Clone este repositório;
+2 - Pelo prompt de comando, vá ao diretório do projeto clonado e execute:
 
 ```bash
 $ npm install
 ```
-3 - Quando o processo de instalação das dependências estiver finalizado, execute:
+3 - Quando o processo de instalação das dependências estiver finalizado execute:
 
 ```bash
 $ ionic serve

@@ -14,6 +14,7 @@ import { TabsPageModule } from '../pages/tabs/tabs.module'
 import { IngredientesPageModule } from '../pages/ingredientes/ingredientes.module';
 import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-ingredientes.module";
 import { ListaReceitasPageModule } from "../pages/lista-receitas/lista-receitas.module";
+import { IngredienteService } from '../providers/ingrediente/ingrediente.service';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { ListaReceitasPageModule } from "../pages/lista-receitas/lista-receitas.
     providers: [
         StatusBar,
         SplashScreen,
-        {provide: ErrorHandler, useClass: IonicErrorHandler}
+        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        IngredienteService
     ]
 })
 

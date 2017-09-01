@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 //import { SelectIngrediente } from "../../models/ingrediente/selectIngrediente.interface";
-import { FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable } from "angularfire2/database";
+import { FirebaseListObservable, FirebaseObjectObservable } from "angularfire2/database";
 import { Subscription } from "rxjs/Subscription";
 import { ToastController } from 'ionic-angular';
+import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 
 class SelectIngrediente {
     public $key?: number;
@@ -31,10 +32,10 @@ export class ModalIngredientesPage {
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
-                public navParams: NavParams,
-                private database: AngularFireDatabase,
+                public navParams: NavParams,                
                 public viewCtrl: ViewController,
-                private toastCtrl: ToastController) {
+                private toastCtrl: ToastController,
+                public ingredienteService: IngredienteService) {
 
         this.selectIngredientes = [
             { nome: 'Arroz', unidade: 'gramas' },
@@ -48,17 +49,18 @@ export class ModalIngredientesPage {
             this.titulo = 'Editar Ingrediente';          
 
             const ingredienteId = this.navParams.get('ingredienteId');
-            this.ingredienteObjectRef$ = this.database.object(`ingrediente/${ingredienteId}`);
+            this.ingredienteObjectRef$ = this.ingredienteService.selecionar(ingredienteId);
             this.ingredienteSubscription = this.ingredienteObjectRef$
                                                .subscribe(ingrediente => { this.ingrediente = ingrediente });
 
-            this.selectIngrediente = this.selectIngredientes.find(dado => dado.nome === this.ingrediente.nome);
+            this.selectIngrediente = this.selectIngredientes
+                                         .find(ingrediente => ingrediente.nome === this.ingrediente.nome);
                                                                                             
         } else { //Incluir ingrediente
             this.possuiParametro = false;
             this.titulo = 'Novo Ingrediente';
 
-            this.ingredientesListRef$ = this.database.list('ingrediente');                        
+            this.ingredientesListRef$ = this.ingredienteService.ingredientes;            
         }         
     }
 
