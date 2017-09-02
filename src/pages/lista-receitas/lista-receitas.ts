@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { Receita } from "../../models/receita/receita.interface";
 
@@ -12,8 +11,7 @@ export class ListaReceitasPage {
 
     receitasListRef$: FirebaseListObservable<Receita[]>;
 
-    constructor(public navCtrl: NavController,                 
-                private database: AngularFireDatabase,) {
+    constructor(private database: AngularFireDatabase,) {
 
         this.receitasListRef$ = this.database.list('999');
         var teste = this.database.list('993');

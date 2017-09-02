@@ -15,6 +15,8 @@ import { IngredientesPageModule } from '../pages/ingredientes/ingredientes.modul
 import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-ingredientes.module";
 import { ListaReceitasPageModule } from "../pages/lista-receitas/lista-receitas.module";
 import { IngredienteService } from '../providers/ingrediente/ingrediente.service';
+import { InclusaoRapidaIngredientePageModule } from "../pages/inclusao-rapida-ingrediente/inclusao-rapida-ingrediente.module";
+
 
 @NgModule({
     declarations: [
@@ -32,7 +34,8 @@ import { IngredienteService } from '../providers/ingrediente/ingrediente.service
         TabsPageModule,
         IngredientesPageModule,
         ModalIngredientesPageModule,
-        ListaReceitasPageModule
+        ListaReceitasPageModule,
+        InclusaoRapidaIngredientePageModule,
     ],
     bootstrap: [IonicApp],
     entryComponents: [

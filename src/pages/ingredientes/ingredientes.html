@@ -14,10 +14,18 @@
     </ion-item>
 
 
-    <ion-fab bottom right>
-        <button ion-fab color="danger" (click)="inserirIngrediente()">
+    <ion-fab bottom right #fab>
+        <button ion-fab color="secondary">
             <ion-icon name="add"></ion-icon>
         </button>
+        <ion-fab-list side="left">                        
+            <button ion-button round color="secondary" (click)="inserirIngrediente(fab)">                
+                Específica                
+            </button>
+            <button ion-button round color="secondary" (click)="inserirMultiplosIngredientes(fab)">
+                Rápida
+            </button>            
+        </ion-fab-list>
     </ion-fab>
 
 </ion-content>

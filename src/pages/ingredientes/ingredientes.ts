@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, ModalController, FabContainer } from 'ionic-angular';
 import { FirebaseListObservable } from "angularfire2/database";
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { ModalIngredientesPage } from "../modal-ingredientes/modal-ingredientes";
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
+import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente";
 
 @Component({
     selector: 'page-ingredientes',
@@ -23,9 +24,15 @@ export class IngredientesPage {
         this.ingredientesListRef$ = this.ingredienteService.ingredientes;
     }
 
-    inserirIngrediente():void {
+    inserirIngrediente(fab: FabContainer):void {
+        fab.close();
         let modal = this.modalCtrl.create(ModalIngredientesPage);
         modal.present();
+    }
+
+    inserirMultiplosIngredientes(fab: FabContainer):void {
+        fab.close();
+        this.navCtrl.push(InclusaoRapidaIngredientePage);
     }
 
     selecionarIngrediente(ingrediente: Ingrediente):void {

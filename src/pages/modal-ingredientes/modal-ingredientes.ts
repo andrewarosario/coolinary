@@ -7,11 +7,13 @@ import { Subscription } from "rxjs/Subscription";
 import { ToastController } from 'ionic-angular';
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 
+////ALTERAR//////
 class SelectIngrediente {
     public $key?: number;
     public nome: string;    
     public unidade: string;
 } 
+////ALTERAR//////
 
 @Component({
     selector: 'page-modal-ingredientes',
@@ -37,12 +39,14 @@ export class ModalIngredientesPage {
                 private toastCtrl: ToastController,
                 public ingredienteService: IngredienteService) {
 
+        ////ALTERAR//////
         this.selectIngredientes = [
             { nome: 'Arroz', unidade: 'gramas' },
             { nome: 'Feijão', unidade: 'gramas' },
             { nome: 'Leite', unidade: 'litros' },
             { nome: 'Alface', unidade: 'gramas'}
-        ];                    
+        ]; 
+        ////ALTERAR//////                   
 
         if (navParams.get('ingredienteId')) { //Editar ingrediente
             this.possuiParametro = true;
