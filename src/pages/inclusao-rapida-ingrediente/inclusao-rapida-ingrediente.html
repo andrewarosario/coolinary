@@ -7,18 +7,15 @@
         <ion-searchbar (ionInput)="buscarIngredientes($event)" placeholder="Buscar"></ion-searchbar>
     </ion-toolbar>
 
-  
 </ion-header>
 
 
 <ion-content padding>
 
-    
-
     <ion-item *ngFor="let ingrediente of selectIngredientes">
         <h2>{{ingrediente.nome}}</h2>  
         <button ion-button clear item-end>
-            <ion-icon name="add" color="secondary" (click)="incluirIngrediente(ingrediente)"></ion-icon>  
+            <ion-icon name="md-add-circle" color="secondary" (click)="incluirIngrediente(ingrediente)"></ion-icon>  
         </button>      
     </ion-item>  
 </ion-content>
