@@ -1,5 +1,10 @@
 export interface Receita {
-    $key?: string;
-    nome: string;
-    secao: {string}
+    $key?: number;
+    titulo: string; 
+    tempoPreparo: string;   
+    porcoes: string;
+    ingredientes: string[];
+    modoPreparo: string[];
+    adicionais?: string[];
+    tags?: string[];
 }
