@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, ModalController, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, ModalController, FabContainer } from 'ionic-angular';
 import { FirebaseListObservable } from "angularfire2/database";
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { ModalIngredientesPage } from "../modal-ingredientes/modal-ingredientes";
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente";
+import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 
 @Component({
     selector: 'page-ingredientes',
@@ -13,15 +14,19 @@ import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/in
 
 export class IngredientesPage {
 
+    view: string = 'Meus Ingredientes';
+
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
+    itensCompraListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,                
                 public modalCtrl: ModalController,
-                public actionSheetCtrl: ActionSheetController,
-                public ingredienteService: IngredienteService) {
+                public ingredienteService: IngredienteService,
+                public itemCompraService: ItemCompraService) {
 
         this.ingredientesListRef$ = this.ingredienteService.ingredientes;
+        this.itensCompraListRef$ = this.itemCompraService.itensCompra;
     }
 
     inserirIngrediente(fab: FabContainer):void {
@@ -30,36 +35,29 @@ export class IngredientesPage {
         modal.present();
     }
 
-    inserirMultiplosIngredientes(fab: FabContainer):void {
+    inserirMultiplosIngredientes(fab: FabContainer, tipo: string):void {
         fab.close();
-        this.navCtrl.push(InclusaoRapidaIngredientePage);
+        this.navCtrl.push(InclusaoRapidaIngredientePage, {
+            tipo: tipo    
+        });
     }
 
-    selecionarIngrediente(ingrediente: Ingrediente):void {
-        this.actionSheetCtrl.create({
-            title: `${ingrediente.nome}`,
-            buttons: [
-                {
-                    text: 'Editar',
-                    handler: () => {
-                        let modal = this.modalCtrl.create(ModalIngredientesPage, { ingredienteId: ingrediente.$key });
-                        modal.present();                                              
-                    }
-                },
-                {
-                    text: 'Deletar',
-                    role: 'destructive',
-                    handler: () => {
-                        this.ingredientesListRef$.remove(ingrediente.$key);
-                    }
-                },
-                {
-                    text: 'Cancelar',
-                    role: 'cancel',
-                    handler: () => {}
-                }                  
-            ]
-        }).present();
+    editarIngrediente(ingrediente: Ingrediente):void {
+        let modal = this.modalCtrl.create(ModalIngredientesPage, 
+            { 
+                ingredienteId: ingrediente.$key 
+            });
+
+        modal.present(); 
+    }
+
+    excluirIngrediente(item: Ingrediente):void {
+        if (this.view == 'Meus Ingredientes') {
+            this.ingredientesListRef$.remove(item.$key);
+        } else {
+            this.itensCompraListRef$.remove(item.$key);
+        }
+        
     }
 
 }

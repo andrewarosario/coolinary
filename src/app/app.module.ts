@@ -16,6 +16,7 @@ import { ModalIngredientesPageModule } from "../pages/modal-ingredientes/modal-i
 import { ListaReceitasPageModule } from "../pages/lista-receitas/lista-receitas.module";
 import { IngredienteService } from '../providers/ingrediente/ingrediente.service';
 import { InclusaoRapidaIngredientePageModule } from "../pages/inclusao-rapida-ingrediente/inclusao-rapida-ingrediente.module";
+import { ItemCompraService } from '../providers/item-compra/item-compra.service';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { InclusaoRapidaIngredientePageModule } from "../pages/inclusao-rapida-in
         StatusBar,
         SplashScreen,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
-        IngredienteService
+        IngredienteService,
+        ItemCompraService
     ]
 })
 

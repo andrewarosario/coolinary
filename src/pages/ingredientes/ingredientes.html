@@ -1,18 +1,52 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title>Meus Ingredientes</ion-title>
+        <ion-title>{{view}}</ion-title>
     </ion-navbar>
+
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="view">
+            <ion-segment-button value="Meus Ingredientes">Meus ingredientes</ion-segment-button>
+            <ion-segment-button value="Lista De Compras">Lista de Compras</ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding>
 
-    <ion-item *ngFor="let ingrediente of ingredientesListRef$ | async" (click)="selecionarIngrediente(ingrediente)">
-        <h2>{{ingrediente.nome}}</h2>
-        <h3>Quantidade: {{ingrediente.quantidade}}</h3>
-    </ion-item>
+    <div [ngSwitch]="view">
+        <ion-list *ngSwitchCase="'Meus Ingredientes'">
+            <button ion-item *ngFor="let ingrediente of ingredientesListRef$ | async"
+            (click)="editarIngrediente(ingrediente)">
+                <h2>{{ingrediente.nome}}</h2>
+                <h3>Quantidade: {{ingrediente.quantidade}}</h3>
 
+                <button ion-button clear item-end>
+                    <ion-icon class="icon-excluir" name="md-close-circle" 
+                              color="danger" (click)="excluirIngrediente(ingrediente)">
+                    </ion-icon>  
+                </button>
+
+            </button>
+            
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'Lista De Compras'">
+            
+            <ion-item *ngFor="let itemCompra of itensCompraListRef$ | async">
+                <ion-checkbox color="primary"></ion-checkbox>
+                <ion-label>{{itemCompra.nome}}</ion-label>
+                <ion-label class="quantidade">Quantidade: {{itemCompra.quantidade}}</ion-label>
+                <button ion-button clear item-end>
+                    <ion-icon class="icon-excluir" name="md-close-circle" 
+                                color="danger" (click)="excluirIngrediente(itemCompra)">
+                    </ion-icon>  
+                </button>
+            </ion-item>
+        </ion-list>        
+
+    </div>
 
     <ion-fab bottom right #fab>
         <button ion-fab color="secondary">
@@ -22,7 +56,7 @@
             <button ion-button round color="secondary" (click)="inserirIngrediente(fab)">                
                 Específica                
             </button>
-            <button ion-button round color="secondary" (click)="inserirMultiplosIngredientes(fab)">
+            <button ion-button round color="secondary" (click)="inserirMultiplosIngredientes(fab,view)">
                 Rápida
             </button>            
         </ion-fab-list>

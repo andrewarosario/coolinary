@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 import { FirebaseListObservable } from "angularfire2/database";
+import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 
 ////ALTERAR//////
 class SelectIngrediente {
@@ -24,14 +25,19 @@ export class InclusaoRapidaIngredientePage {
     ingrediente = {} as Ingrediente;
     selectIngredientes: SelectIngrediente[];
 
-    ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
+    itemListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams, 
                 public ingredienteService: IngredienteService,
+                public itemCompraService: ItemCompraService,
                 private toastCtrl: ToastController) {
 
-        this.ingredientesListRef$ = this.ingredienteService.ingredientes;
+        if (navParams.get('tipo')  == 'Meus Ingredientes') {        
+            this.itemListRef$ = this.ingredienteService.ingredientes;
+        } else {
+            this.itemListRef$ = this.itemCompraService.itensCompra;
+        }
 
         this.init();
       
@@ -61,7 +67,7 @@ export class InclusaoRapidaIngredientePage {
     }
 
     incluirIngrediente(ingrediente: SelectIngrediente): void {
-        this.ingredientesListRef$.push({
+        this.itemListRef$.push({
             nome: ingrediente.nome,
             quantidade: 1
         }).then(() => this.avisoToast(ingrediente.nome + ' adicionado(a)!','green'))

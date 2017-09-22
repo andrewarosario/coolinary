@@ -1,21 +1,20 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>Receitas</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Receitas</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
-<ion-content padding>
-    <ion-card *ngFor="let receita of receitas">
+<ion-content>
+    <ion-card class="card" *ngFor="let receita of receitas">
 
         <img src="assets/img/palha_italiana.jpg">
         <ion-card-content>
             <h1>{{receita.titulo}}</h1>
         </ion-card-content>
-        
-        
+          
         <ion-item>            
-            <h1 color="secondary">100% dos ingredientes!</h2>            
+            <h2 color="secondary">100% dos ingredientes!</h2>            
         </ion-item>
 
         <ion-item>
