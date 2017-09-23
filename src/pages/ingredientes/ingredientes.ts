@@ -15,6 +15,7 @@ import { ItemCompraService } from '../../providers/item-compra/item-compra.servi
 export class IngredientesPage {
 
     view: string = 'Meus Ingredientes';
+    itemChecado: boolean = false;
 
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
     itensCompraListRef$: FirebaseListObservable<Ingrediente[]>;

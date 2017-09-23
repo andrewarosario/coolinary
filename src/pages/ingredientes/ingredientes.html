@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title>{{view}}</ion-title>
+        <ion-title>{{view}}</ion-title>        
     </ion-navbar>
 
     <ion-toolbar>
@@ -10,6 +10,8 @@
             <ion-segment-button value="Lista De Compras">Lista de Compras</ion-segment-button>
         </ion-segment>
     </ion-toolbar>
+    
+    <button *ngIf="itemChecado" ion-button color="secondary" block outline>Adicionar aos meus ingredientes</button>
 
 </ion-header>
 
@@ -61,5 +63,8 @@
             </button>            
         </ion-fab-list>
     </ion-fab>
+
+            
+   
 
 </ion-content>

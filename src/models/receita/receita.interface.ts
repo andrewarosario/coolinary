@@ -7,4 +7,5 @@ export interface Receita {
     modoPreparo: string[];
     adicionais?: string[];
     tags?: string[];
+    imagem: string
 }

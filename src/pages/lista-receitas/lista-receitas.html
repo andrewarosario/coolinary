@@ -6,9 +6,9 @@
 </ion-header>
 
 <ion-content>
-    <ion-card class="card" *ngFor="let receita of receitas">
+    <ion-card class="card" *ngFor="let receita of receitas" (click)="abrirReceita(receita)">
 
-        <img src="assets/img/palha_italiana.jpg">
+        <img [src]="receita.imagem"/>
         <ion-card-content>
             <h1>{{receita.titulo}}</h1>
         </ion-card-content>
@@ -18,7 +18,7 @@
         </ion-item>
 
         <ion-item>
-            <ion-badge color="secondary" *ngFor="let tag of receita.tags">{{tag}}</ion-badge>
+            <span class="tags" color="secondary" *ngFor="let tag of receita.tags">{{tag}}</span>
         </ion-item>
 
         <ion-item>

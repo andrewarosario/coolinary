@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import { Receita } from "../../models/receita/receita.interface";
+
+import { ReceitaPage } from '../../pages/receita/receita';
 
 @Component({
     selector: 'page-lista-receitas',
@@ -10,7 +13,7 @@ export class ListaReceitasPage {
 
     receitas: Receita[];
     
-    constructor() {
+    constructor(public navCtrl: NavController) {
          this.receitas = [{titulo: 'Palha Italiana',
          tempoPreparo: '20min',
          porcoes: '30',
@@ -24,8 +27,15 @@ export class ListaReceitasPage {
                        'Quando frio corte ( pode pôr para esfriar na geladeira por + ou - 1 h).',
                        'Se quiser, pode passar no açúcar de confeiteiro ou refinado mesmo.',
                        'Savor, buon appetito.'],
-         tags: ['doces','italiana']
+         tags: ['doces','italiana'],
+         imagem: 'assets/img/palha_italiana.jpg'
      }];        
+    }
+
+    abrirReceita(receita: Receita) :void {
+        this.navCtrl.push(ReceitaPage, {
+            receita: receita
+        });
     }
 
 }
