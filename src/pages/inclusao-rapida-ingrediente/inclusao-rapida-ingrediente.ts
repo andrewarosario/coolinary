@@ -70,11 +70,11 @@ export class InclusaoRapidaIngredientePage {
         this.itemListRef$.push({
             nome: ingrediente.nome,
             quantidade: 1
-        }).then(() => this.avisoToast(ingrediente.nome + ' adicionado(a)!','green'))
-          .catch(() => this.avisoToast('Não foi possível adicionar :(','red'));        
+        }).then(() => this.avisoToast(ingrediente.nome + ' adicionado(a)!'))
+          .catch(() => this.avisoToast('Não foi possível adicionar :('));        
     }
 
-    avisoToast(mensagem: string, cor:string) {
+    avisoToast(mensagem: string) {
         let toast = this.toastCtrl.create( {
             message: mensagem, 
             duration: 700,            

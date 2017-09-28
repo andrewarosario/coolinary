@@ -91,7 +91,7 @@ export class ModalIngredientesPage {
 
     confereCampos(ingrediente: Ingrediente) {
         try {
-            if (!this.ingrediente.nome || this.ingrediente.nome == "") throw "Informe o nome do ingrediente!";
+            if (!this.ingrediente.nome || this.ingrediente.nome == "") throw "Selecione um ingrediente!";
             if (!this.ingrediente.quantidade || this.ingrediente.quantidade <= 0) throw "Informe uma quantidade!";
 
             return true;

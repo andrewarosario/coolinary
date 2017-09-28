@@ -3,4 +3,5 @@ export interface Ingrediente {
     nome: string;
     quantidade: number;
     unidade: string;
+    checado?: boolean;
 }

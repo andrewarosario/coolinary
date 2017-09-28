@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, ModalController, FabContainer, ToastController } from 'ionic-angular';
 import { FirebaseListObservable } from "angularfire2/database";
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { ModalIngredientesPage } from "../modal-ingredientes/modal-ingredientes";
@@ -15,7 +15,7 @@ import { ItemCompraService } from '../../providers/item-compra/item-compra.servi
 export class IngredientesPage {
 
     view: string = 'Meus Ingredientes';
-    itemChecado: boolean = false;
+    existeItemChecado: boolean;
 
     ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
     itensCompraListRef$: FirebaseListObservable<Ingrediente[]>;
@@ -24,10 +24,21 @@ export class IngredientesPage {
                 public navParams: NavParams,                
                 public modalCtrl: ModalController,
                 public ingredienteService: IngredienteService,
-                public itemCompraService: ItemCompraService) {
+                public itemCompraService: ItemCompraService,
+                private toastCtrl: ToastController) {
 
         this.ingredientesListRef$ = this.ingredienteService.ingredientes;
         this.itensCompraListRef$ = this.itemCompraService.itensCompra;
+
+        this.verificaItemChecado();
+      
+    }
+
+    private verificaItemChecado(): void {
+        this.itemCompraService.verificaItemCompraChecado()
+        .subscribe((existeChecado: boolean) => {
+            this.existeItemChecado = existeChecado;
+        });
     }
 
     inserirIngrediente(fab: FabContainer):void {
@@ -61,4 +72,35 @@ export class IngredientesPage {
         
     }
 
+    atualizaChecados(itemCompra: Ingrediente): void {
+        this.itemCompraService.toggleChecado(itemCompra);
+    }
+
+    adicionarItensCompraAosIngredientes(): void {
+        this.itemCompraService.retornaItensCompraChecados()
+            .subscribe((itens: Ingrediente[]) => {
+                itens.forEach((item: Ingrediente) => {
+                    this.ingredientesListRef$.push({
+                        nome: item.nome,
+                        quantidade: Number(item.quantidade)
+                    });
+
+                    this.itensCompraListRef$.remove(item.$key);
+                })
+
+                this.avisoToast('Os ingredientes foram adicionados!');
+                
+            })
+            .unsubscribe();
+    }
+
+    avisoToast(mensagem: string) {
+        let toast = this.toastCtrl.create( {
+            message: mensagem, 
+            duration: 850,            
+            position: 'bottom',
+            showCloseButton: false,            
+        });
+        toast.present();
+    }
 }
