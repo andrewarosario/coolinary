@@ -1,8 +1,24 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title>{{view}}</ion-title>        
+        <ion-title>{{view}}</ion-title>
+        <ion-buttons start>
+            <button ion-button
+                    *ngIf="existeItemChecado && view == 'Lista De Compras'"
+                    (click)="adicionarItensCompraAosIngredientes()">
+                <ion-icon class="icon-add-compras" name="md-cart"></ion-icon>
+            </button>
+        </ion-buttons>     
     </ion-navbar>
+
+    <!-- <button ion-button clear item-end 
+        *ngIf="existeItemChecado && view == 'Lista De Compras'" 
+        (click)="adicionarItensCompraAosIngredientes()">
+        <ion-icon name="ios-basket-outline"></ion-icon>
+        Adicionar aos Meus Ingredientes
+    </button> -->
+    
+
 
     <ion-toolbar>
         <ion-segment [(ngModel)]="view">
@@ -12,14 +28,18 @@
     </ion-toolbar>
     
 
+
 </ion-header>
+
+
+
 
 <ion-content padding>
 
     <div [ngSwitch]="view">
         <ion-list *ngSwitchCase="'Meus Ingredientes'">
             <button ion-item *ngFor="let ingrediente of ingredientesListRef$ | async"
-            (click)="editarIngrediente(ingrediente)">
+            (click)="editarIngrediente(ingrediente,view)">
                 <h2>{{ingrediente.nome}}</h2>
                 <h3>Quantidade: {{ingrediente.quantidade}}</h3>
 
@@ -33,26 +53,29 @@
             
         </ion-list>
 
-        <ion-list *ngSwitchCase="'Lista De Compras'">
 
-                <button class="button-add-itens-ingredientes" 
-                        *ngIf="existeItemChecado" ion-button
-                        (click)="adicionarItensCompraAosIngredientes()" 
-                        color="secondary" block outline>
-                            Adicionar aos meus ingredientes
-                </button>
-            
-            <ion-item *ngFor="let itemCompra of itensCompraListRef$ | async">
-                <ion-checkbox [(ngModel)]="itemCompra.checado" color="primary" (ionChange)="atualizaChecados(itemCompra)"></ion-checkbox>
-                <ion-label>{{itemCompra.nome}}</ion-label>
-                <ion-label class="quantidade">Quantidade: {{itemCompra.quantidade}}</ion-label>
-                <button ion-button clear item-end>
-                    <ion-icon class="icon-excluir" name="md-close-circle" 
-                                color="danger" (click)="excluirIngrediente(itemCompra)">
-                    </ion-icon>  
-                </button>
-            </ion-item>
-        </ion-list>        
+        <div *ngSwitchCase="'Lista De Compras'">
+        
+            <ion-list>
+                <!-- <button class="button-add-itens-ingredientes" 
+                    *ngIf="existeItemChecado" ion-button
+                    
+                    color="secondary" block outline>
+                    Adicionar aos meus ingredientes
+                </button> -->
+                <ion-item *ngFor="let itemCompra of itensCompraListRef$ | async">
+                    <ion-checkbox [(ngModel)]="itemCompra.checado" color="primary" (ionChange)="atualizaChecados(itemCompra)"></ion-checkbox>
+                    <ion-label>{{itemCompra.nome}}</ion-label>
+                    <ion-label class="quantidade">Quantidade: {{itemCompra.quantidade}}</ion-label>
+                    <button ion-button clear item-end>
+                        <ion-icon class="icon-excluir" name="md-close-circle" 
+                                    color="danger" (click)="excluirIngrediente(itemCompra)">
+                        </ion-icon>  
+                    </button>
+                </ion-item>
+            </ion-list>
+        </div>  
+    
 
     </div>
 
@@ -60,17 +83,18 @@
         <button ion-fab color="secondary">
             <ion-icon name="add"></ion-icon>
         </button>
+
         <ion-fab-list side="left">                        
-            <button ion-button round color="secondary" (click)="inserirIngrediente(fab)">                
-                Específica                
+            <button ion-button round color="secondary">                
+                QRCode                
             </button>
             <button ion-button round color="secondary" (click)="inserirMultiplosIngredientes(fab,view)">
-                Rápida
+                Incluir
             </button>            
         </ion-fab-list>
+
     </ion-fab>
 
-            
-   
+
 
 </ion-content>

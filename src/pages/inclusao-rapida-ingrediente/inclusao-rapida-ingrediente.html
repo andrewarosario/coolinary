@@ -12,10 +12,13 @@
 
 <ion-content padding>
 
-    <ion-item *ngFor="let ingrediente of selectIngredientes">
+    <ion-item *ngFor="let ingrediente of selectIngredientesListRef$ | async">
         <h2>{{ingrediente.nome}}</h2>  
         <button ion-button clear item-end>
-            <ion-icon name="md-add-circle" color="secondary" (click)="incluirIngrediente(ingrediente)"></ion-icon>  
-        </button>      
+            <ion-icon name="md-add-circle" color="secondary" (click)="inclusaoRapida(ingrediente)"></ion-icon>
+        </button>
+        <button ion-button clear item-end>
+            <ion-icon name="md-arrow-dropdown-circle" color="secondary" (click)="abrirModalIngrediente(ingrediente)"></ion-icon>  
+        </button>
     </ion-item>  
 </ion-content>

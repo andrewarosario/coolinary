@@ -6,6 +6,7 @@ import { ModalIngredientesPage } from "../modal-ingredientes/modal-ingredientes"
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente";
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
+import 'rxjs/add/operator/first';
 
 @Component({
     selector: 'page-ingredientes',
@@ -54,10 +55,11 @@ export class IngredientesPage {
         });
     }
 
-    editarIngrediente(ingrediente: Ingrediente):void {
+    editarIngrediente(ingrediente: Ingrediente, tipo: string): void {
         let modal = this.modalCtrl.create(ModalIngredientesPage, 
             { 
-                ingredienteId: ingrediente.$key 
+                selectIngredienteId: ingrediente.keySelectIngrediente,
+                tipo: tipo
             });
 
         modal.present(); 
@@ -78,20 +80,34 @@ export class IngredientesPage {
 
     adicionarItensCompraAosIngredientes(): void {
         this.itemCompraService.retornaItensCompraChecados()
+            .first()
             .subscribe((itens: Ingrediente[]) => {
-                itens.forEach((item: Ingrediente) => {
-                    this.ingredientesListRef$.push({
-                        nome: item.nome,
-                        quantidade: Number(item.quantidade)
+                itens.forEach((itemCompra: Ingrediente) => {
+
+                    this.ingredienteService.getIngrediente(itemCompra.keySelectIngrediente)
+                    .first()
+                    .subscribe((ingrediente: Ingrediente) => {
+                        if (ingrediente == null) {
+                            this.ingredientesListRef$.push({
+                                nome: itemCompra.nome,
+                                quantidade: Number(itemCompra.quantidade),
+                                keySelectIngrediente: itemCompra.keySelectIngrediente
+                            });
+
+                        } else {
+                            let quantidade = Number(ingrediente.quantidade);
+                            ingrediente.quantidade = quantidade + itemCompra.quantidade;
+                    
+                            this.ingredienteService.atualiza(ingrediente);
+                        }
                     });
 
-                    this.itensCompraListRef$.remove(item.$key);
-                })
+                    this.itensCompraListRef$.remove(itemCompra.$key);
+                });
 
                 this.avisoToast('Os ingredientes foram adicionados!');
                 
             })
-            .unsubscribe();
     }
 
     avisoToast(mensagem: string) {

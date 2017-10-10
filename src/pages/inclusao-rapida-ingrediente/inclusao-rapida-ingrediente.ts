@@ -1,17 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
+import { SelectIngrediente } from "../../models/select-ingrediente/select-ingrediente.interface";
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 import { FirebaseListObservable } from "angularfire2/database";
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
-
-////ALTERAR//////
-class SelectIngrediente {
-  public $key?: number;
-  public nome: string;    
-  public unidade: string;
-} 
-////ALTERAR//////
+import { SelectIngredienteService } from '../../providers/select-ingrediente/select-ingrediente.service';
+import { ModalIngredientesPage } from '../modal-ingredientes/modal-ingredientes';
+import 'rxjs/add/operator/first';
 
 @Component({
     selector: 'page-inclusao-rapida-ingrediente',
@@ -20,58 +16,101 @@ class SelectIngrediente {
 
 export class InclusaoRapidaIngredientePage {
 
-    buscaQuery: string = '';
-
     ingrediente = {} as Ingrediente;
+
     selectIngredientes: SelectIngrediente[];
+    selectIngredientesListRef$: FirebaseListObservable<SelectIngrediente[]>;
 
     itemListRef$: FirebaseListObservable<Ingrediente[]>;
+    modoItemCompra: boolean;
 
     constructor(public navCtrl: NavController, 
-                public navParams: NavParams, 
+                public navParams: NavParams,
+                public modalCtrl: ModalController,
+                public selectIngredienteService: SelectIngredienteService,
                 public ingredienteService: IngredienteService,
                 public itemCompraService: ItemCompraService,
                 private toastCtrl: ToastController) {
 
         if (navParams.get('tipo')  == 'Meus Ingredientes') {        
             this.itemListRef$ = this.ingredienteService.ingredientes;
+            this.modoItemCompra = false;
         } else {
             this.itemListRef$ = this.itemCompraService.itensCompra;
+            this.modoItemCompra = true;
         }
 
-        this.init();
-      
+        this.carregarTodosIngredientes()
+           
     }
 
-    init() {
-        ////ALTERAR//////
-        this.selectIngredientes = [
-            { nome: 'Arroz', unidade: 'gramas' },
-            { nome: 'Feijão', unidade: 'gramas' },
-            { nome: 'Leite', unidade: 'litros' },
-            { nome: 'Alface', unidade: 'gramas'}
-        ]; 
-      ////ALTERAR//////                
+    carregarTodosIngredientes() {
+        this.selectIngredientesListRef$ = this.selectIngredienteService.selectIngredientes;
     }
 
-    buscarIngredientes(event: any) {
-        this.init();
 
-        let val = event.target.value;
+    buscarIngredientes(event: any){
+        this.carregarTodosIngredientes()
 
-        if (val && val.trim() != '') {
-            this.selectIngredientes = this.selectIngredientes.filter((item) => {
-                return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        let termoBusca: string = event.target.value;
+
+        if (termoBusca && termoBusca.trim() != '') {
+            this.selectIngredientesListRef$ = <FirebaseListObservable<SelectIngrediente[]>>this.selectIngredientesListRef$
+            .map((selectIngredientes: SelectIngrediente[]) => {
+                return selectIngredientes
+                        .filter((selectIngrediente: SelectIngrediente) => {
+                    return (selectIngrediente.nome
+                                .toLowerCase().indexOf(termoBusca.toLowerCase()) > -1);    
+                });
+            });
+        }
+    }
+
+    inclusaoRapida(selectIngrediente: SelectIngrediente): void {
+        let qualProvider;
+        if (this.modoItemCompra) {
+            qualProvider = this.itemCompraService;
+        } else {
+            qualProvider = this.ingredienteService;
+        }
+        
+        qualProvider.getIngrediente(selectIngrediente.$key)
+            .first()
+            .subscribe((ingrediente: Ingrediente) => {
+                this.ingrediente = ingrediente; 
+                if (this.ingrediente == null) {
+                    this.incluir(selectIngrediente); 
+                } else {
+                    this.atualizar(ingrediente, qualProvider);
+                }
             })
-        }        
     }
 
-    incluirIngrediente(ingrediente: SelectIngrediente): void {
+    incluir(selectIngrediente: SelectIngrediente) {
         this.itemListRef$.push({
-            nome: ingrediente.nome,
-            quantidade: 1
-        }).then(() => this.avisoToast(ingrediente.nome + ' adicionado(a)!'))
-          .catch(() => this.avisoToast('Não foi possível adicionar :('));        
+            nome: selectIngrediente.nome,
+            quantidade: 1,
+            keySelectIngrediente: selectIngrediente.$key
+        }).then(() => this.avisoToast(selectIngrediente.nome + ' adicionado(a)!'))
+          .catch(() => this.avisoToast('Não foi possível adicionar :(')); 
+    }
+
+    atualizar(ingrediente: Ingrediente, qualProvider) {
+        let quantidade = Number(ingrediente.quantidade);
+        ingrediente.quantidade = quantidade + 1;
+
+        qualProvider.atualiza(ingrediente);
+        this.avisoToast(ingrediente.nome + ' adicionado(a)!')
+    }
+
+    abrirModalIngrediente(selectIngrediente: SelectIngrediente): void {
+        let modal = this.modalCtrl.create(ModalIngredientesPage, 
+            { 
+                selectIngredienteId: selectIngrediente.$key,
+                tipo: this.navParams.get('tipo')
+            });
+
+        modal.present(); 
     }
 
     avisoToast(mensagem: string) {

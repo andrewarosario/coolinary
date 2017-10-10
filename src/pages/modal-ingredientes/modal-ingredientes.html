@@ -16,15 +16,8 @@
 <ion-content padding>
 
     <ion-item>
-        <select-searchable            
-            [(ngModel)]="selectIngrediente"
-            title="Ingrediente"
-            itemValueField="nome"
-            itemTextField="nome"
-            [items]="selectIngredientes"
-            [canSearch]="true"
-            searchPlaceholder="Buscar">
-        </select-searchable>
+        <ion-label floating>Ingrediente</ion-label>
+        <ion-input [readonly]="true" type="text" [(ngModel)]="selectIngrediente.nome"></ion-input>
     </ion-item>  
 
     <ion-item>        
@@ -34,6 +27,6 @@
 
     <br>
 
-    <button ion-button block color="secondary" (click)="salvarIngrediente(ingrediente,selectIngrediente)">Salvar</button>    
+    <button ion-button block color="secondary" (click)="salvarIngrediente(ingrediente)">Salvar</button>    
 
 </ion-content>

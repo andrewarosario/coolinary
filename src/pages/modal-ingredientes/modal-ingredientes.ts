@@ -1,19 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
-//import { SelectIngrediente } from "../../models/ingrediente/selectIngrediente.interface";
-import { FirebaseListObservable, FirebaseObjectObservable } from "angularfire2/database";
-import { Subscription } from "rxjs/Subscription";
+import { SelectIngrediente } from "../../models/select-ingrediente/select-ingrediente.interface";
+import { FirebaseListObservable } from "angularfire2/database";
 import { ToastController } from 'ionic-angular';
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
-
-////ALTERAR//////
-class SelectIngrediente {
-    public $key?: number;
-    public nome: string;    
-    public unidade: string;
-} 
-////ALTERAR//////
+import { SelectIngredienteService } from '../../providers/select-ingrediente/select-ingrediente.service';
+import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 
 @Component({
     selector: 'page-modal-ingredientes',
@@ -22,68 +15,89 @@ class SelectIngrediente {
 
 export class ModalIngredientesPage {
 
-    public possuiParametro: boolean = false;
+    selectIngredienteId: string;
+
+    public modoEdicao: boolean = false;
+    public modoItemCompra: boolean = false;
     public titulo: string;
 
     ingrediente = {} as Ingrediente;
-    selectIngredientes: SelectIngrediente[];
     selectIngrediente = {} as SelectIngrediente;
 
-    ingredienteSubscription: Subscription;
-    ingredienteObjectRef$: FirebaseObjectObservable<Ingrediente>
-    ingredientesListRef$: FirebaseListObservable<Ingrediente[]>;
+    itemListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,                
                 public viewCtrl: ViewController,
                 private toastCtrl: ToastController,
-                public ingredienteService: IngredienteService) {
+                public ingredienteService: IngredienteService,
+                public selectIngredienteService: SelectIngredienteService,
+                public itemCompraService: ItemCompraService) {   
+                    
+        if (navParams.get('tipo')  == 'Meus Ingredientes') {      
+            this.itemListRef$ = this.ingredienteService.ingredientes;
+            this.modoItemCompra = false;
+        } else {
+            this.itemListRef$ = this.itemCompraService.itensCompra;
+            this.modoItemCompra = true;
+        }
+        
+        this.selectIngredienteId = navParams.get('selectIngredienteId');         
+        
+        this.selectIngredienteService.getPorId(this.selectIngredienteId)
+            .subscribe((selectIngrediente: SelectIngrediente) => {
+                this.selectIngrediente = selectIngrediente;
+                
+                this.verificaExisteIngrediente(); 
 
-        ////ALTERAR//////
-        this.selectIngredientes = [
-            { nome: 'Arroz', unidade: 'gramas' },
-            { nome: 'Feijão', unidade: 'gramas' },
-            { nome: 'Leite', unidade: 'litros' },
-            { nome: 'Alface', unidade: 'gramas'}
-        ]; 
-        ////ALTERAR//////                   
-
-        if (navParams.get('ingredienteId')) { //Editar ingrediente
-            this.possuiParametro = true;
-            this.titulo = 'Editar Ingrediente';          
-
-            const ingredienteId = this.navParams.get('ingredienteId');
-            this.ingredienteObjectRef$ = this.ingredienteService.selecionar(ingredienteId);
-            this.ingredienteSubscription = this.ingredienteObjectRef$
-                                               .subscribe(ingrediente => { this.ingrediente = ingrediente });
-
-            this.selectIngrediente = this.selectIngredientes
-                                         .find(ingrediente => ingrediente.nome === this.ingrediente.nome);
-                                                                                            
-        } else { //Incluir ingrediente
-            this.possuiParametro = false;
-            this.titulo = 'Novo Ingrediente';
-
-            this.ingredientesListRef$ = this.ingredienteService.ingredientes;            
-        }         
+            });
     }
 
-    salvarIngrediente(ingrediente: Ingrediente, selectIngrediente: SelectIngrediente) {         
-        ingrediente.nome = selectIngrediente.nome                
-        if (!this.confereCampos(ingrediente)) {
-            return;
-        }
+    verificaExisteIngrediente(): void {
 
+        let qualProvider;
+        if (this.modoItemCompra) {
+            qualProvider = this.itemCompraService;
+        } else {
+            qualProvider = this.ingredienteService;
+        }        
+
+        qualProvider.getIngrediente(this.selectIngredienteId)
+            .subscribe((ingrediente: Ingrediente) => {
+                this.ingrediente = ingrediente; 
+                if (this.ingrediente == null) {
+                    this.titulo = 'Novo Ingrediente';
+                    this.ingrediente = {} as Ingrediente;
+                    this.ingrediente.quantidade = 0;
+                    this.modoEdicao = false;
+                } else {
+                    this.titulo = 'Editar Ingrediente';
+                    this.modoEdicao = true
+                }         
+            });
+    }
+
+    salvarIngrediente(ingrediente: Ingrediente) {         
+        if (!this.confereCampos(ingrediente)) return;
+        
         /*
         Cria um objeto anônimo e converte quantidade para number.
         Dá um Push pro Firebase dentro da coleção 'ingrediente'
         */
-        if (this.possuiParametro) {
-            this.ingredienteObjectRef$.update(ingrediente);
+         
+        if (this.modoEdicao) {
+            if (this.navParams.get('tipo')  == 'Meus Ingredientes') {
+                 
+                this.ingredienteService.atualiza(ingrediente);
+            } else {
+                this.itemCompraService.atualiza(ingrediente);
+            }         
         } else {
-            this.ingredientesListRef$.push({
-                nome: this.ingrediente.nome,
-                quantidade: Number(this.ingrediente.quantidade)
+            this.itemListRef$.push({
+                nome: this.selectIngrediente.nome,
+                quantidade: Number(this.ingrediente.quantidade),
+                keySelectIngrediente: this.selectIngrediente.$key,
+                checado: false
             });
         }
         this.fecharModal();        
@@ -91,7 +105,7 @@ export class ModalIngredientesPage {
 
     confereCampos(ingrediente: Ingrediente) {
         try {
-            if (!this.ingrediente.nome || this.ingrediente.nome == "") throw "Selecione um ingrediente!";
+            if (!this.selectIngrediente.nome || this.selectIngrediente.nome == "") throw "Ingrediente não encontrado!";
             if (!this.ingrediente.quantidade || this.ingrediente.quantidade <= 0) throw "Informe uma quantidade!";
 
             return true;
@@ -113,13 +127,7 @@ export class ModalIngredientesPage {
     fecharModal() {
         this.ingrediente = {} as Ingrediente;
         this.viewCtrl.dismiss();  
-    }
-
-    ionViewWillLeave() {
-        if (this.possuiParametro) {
-            this.ingredienteSubscription.unsubscribe();
-        }        
-    }    
+    }  
 
 }
 

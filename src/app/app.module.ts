@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { SelectSearchableModule } from '../components/select/select-module';
 
 import { MyApp } from './app.component';
 import { FIREBASE_CREDENTIALS } from './firebase.credentials'
@@ -18,6 +17,7 @@ import { IngredienteService } from '../providers/ingrediente/ingrediente.service
 import { InclusaoRapidaIngredientePageModule } from "../pages/inclusao-rapida-ingrediente/inclusao-rapida-ingrediente.module";
 import { ItemCompraService } from '../providers/item-compra/item-compra.service';
 import { ReceitaPageModule } from '../pages/receita/receita.module';
+import { SelectIngredienteService } from '../providers/select-ingrediente/select-ingrediente.service';
 
 
 @NgModule({
@@ -31,14 +31,12 @@ import { ReceitaPageModule } from '../pages/receita/receita.module';
         //Inicializando AngularFire com as credenciais
         AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
         AngularFireDatabaseModule,
-        SelectSearchableModule,
-
         TabsPageModule,
-        IngredientesPageModule,
-        ModalIngredientesPageModule,
+        IngredientesPageModule,      
         ListaReceitasPageModule,
         InclusaoRapidaIngredientePageModule,
-        ReceitaPageModule
+        ReceitaPageModule,
+        ModalIngredientesPageModule,
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -49,6 +47,7 @@ import { ReceitaPageModule } from '../pages/receita/receita.module';
         SplashScreen,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         IngredienteService,
+        SelectIngredienteService,
         ItemCompraService
     ]
 })

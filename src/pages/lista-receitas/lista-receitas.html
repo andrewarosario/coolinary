@@ -16,10 +16,10 @@
         <ion-item>            
             <h2 color="secondary">100% dos ingredientes!</h2>            
         </ion-item>
-
-        <ion-item>
-            <span class="tags" color="secondary" *ngFor="let tag of receita.tags">{{tag}}</span>
-        </ion-item>
+        
+        <ion-chip *ngFor="let tag of receita.tags" color="secondary">
+            <ion-label>{{tag}}</ion-label>
+        </ion-chip>
 
         <ion-item>
             <button ion-button icon-left clear item-left>

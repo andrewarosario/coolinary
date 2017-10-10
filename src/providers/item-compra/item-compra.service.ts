@@ -38,4 +38,15 @@ export class ItemCompraService {
         });  
     }
 
+    atualiza(item: Ingrediente) {
+        this.itemCompra = this.selecionar(item.$key);
+        this.itemCompra.update(item);
+    }
+
+    getIngrediente(selectIngredienteId: string): Observable<Ingrediente> {
+        return this.itensCompra.map((ingredientes: Ingrediente[]) => {
+                    return ingredientes.find((item: Ingrediente) => item.keySelectIngrediente == selectIngredienteId);
+                });   
+    }
+
 }
