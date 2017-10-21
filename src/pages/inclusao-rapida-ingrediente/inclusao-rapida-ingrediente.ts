@@ -8,6 +8,7 @@ import { ItemCompraService } from '../../providers/item-compra/item-compra.servi
 import { SelectIngredienteService } from '../../providers/select-ingrediente/select-ingrediente.service';
 import { ModalIngredientesPage } from '../modal-ingredientes/modal-ingredientes';
 import 'rxjs/add/operator/first';
+import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 
 @Component({
     selector: 'page-inclusao-rapida-ingrediente',
@@ -30,6 +31,7 @@ export class InclusaoRapidaIngredientePage {
                 public selectIngredienteService: SelectIngredienteService,
                 public ingredienteService: IngredienteService,
                 public itemCompraService: ItemCompraService,
+                public atualizaReceitasService: AtualizaReceitasService,
                 private toastCtrl: ToastController) {
 
         if (navParams.get('tipo')  == 'Meus Ingredientes') {        
@@ -91,8 +93,10 @@ export class InclusaoRapidaIngredientePage {
             nome: selectIngrediente.nome,
             quantidade: 1,
             keySelectIngrediente: selectIngrediente.$key
-        }).then(() => this.avisoToast(selectIngrediente.nome + ' adicionado(a)!'))
-          .catch(() => this.avisoToast('Não foi possível adicionar :(')); 
+        }).then(() => {
+            this.avisoToast(selectIngrediente.nome + ' adicionado(a)!')
+            this.atualizaReceitasService.setAtualizar(true);
+        }).catch(() => this.avisoToast('Não foi possível adicionar :(')); 
     }
 
     atualizar(ingrediente: Ingrediente, qualProvider) {
@@ -101,6 +105,7 @@ export class InclusaoRapidaIngredientePage {
 
         qualProvider.atualiza(ingrediente);
         this.avisoToast(ingrediente.nome + ' adicionado(a)!')
+        this.atualizaReceitasService.setAtualizar(true);
     }
 
     abrirModalIngrediente(selectIngrediente: SelectIngrediente): void {

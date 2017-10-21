@@ -1,21 +1,38 @@
 <ion-header>
     <ion-navbar color="primary">
         <ion-title>Receitas</ion-title>
+
+        <ion-buttons start>
+            <button ion-button                    
+                    (click)="carregarReceitas()">
+                <ion-icon class="botao-atualiza" name="md-refresh"></ion-icon>
+            </button>
+        </ion-buttons> 
     </ion-navbar>
 
 </ion-header>
 
 <ion-content>
+
+    <ion-refresher (ionRefresh)="atualizaPagina($event)" [pullMin]=95>
+        <ion-refresher-content
+            pullingIcon="arrow-dropDown"
+            pullingText="Deslize para atualizar"
+            refreshingSpinner="circles"
+            refreshingText="Aguarde...">
+        </ion-refresher-content>
+    </ion-refresher>
+
     <ion-card class="card" *ngFor="let receita of receitas" (click)="abrirReceita(receita)">
 
         <img [src]="receita.imagem"/>
         <ion-card-content>
             <h1>{{receita.titulo}}</h1>
         </ion-card-content>
-          
-        <ion-item>            
-            <h2 color="secondary">100% dos ingredientes!</h2>            
-        </ion-item>
+
+        <barra-porcentagem-receita [porcentagem]="receita.porcentagemIngredientes"
+                                   [texto]="receita.textoIngredientesPossui">
+        </barra-porcentagem-receita>
         
         <ion-chip *ngFor="let tag of receita.tags" color="secondary">
             <ion-label>{{tag}}</ion-label>

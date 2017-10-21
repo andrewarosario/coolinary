@@ -1,0 +1,29 @@
+barra-porcentagem-receita {
+
+    .barra-externa {
+         width: 96%;
+         margin: 10px 2%;
+         border: 1px solid #dcdcdc;
+        position: relative;
+        width: 96;
+        height: 15px;
+        background-color: #f4f4f4;
+        border-radius: 20px;
+        //box-shadow: inset 3px 5px 0 -1px darken(fade(#f4f4f4 20%), 20%);
+        overflow: hidden;
+    }
+    
+    .barra-interna {        
+        width: 0%;
+        height: inherit;
+        background-color: map-get($colors, secondary);
+        border-radius: 20px;
+    }
+
+    .percentual {
+        position: absolute;
+        top: 0%;
+        left: 50%;
+    }
+    
+}

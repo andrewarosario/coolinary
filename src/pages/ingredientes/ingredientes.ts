@@ -7,6 +7,7 @@ import { IngredienteService } from "../../providers/ingrediente/ingrediente.serv
 import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente";
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 import 'rxjs/add/operator/first';
+import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 
 @Component({
     selector: 'page-ingredientes',
@@ -26,6 +27,7 @@ export class IngredientesPage {
                 public modalCtrl: ModalController,
                 public ingredienteService: IngredienteService,
                 public itemCompraService: ItemCompraService,
+                public atualizaReceitasService: AtualizaReceitasService,
                 private toastCtrl: ToastController) {
 
         this.ingredientesListRef$ = this.ingredienteService.ingredientes;
@@ -68,6 +70,7 @@ export class IngredientesPage {
     excluirIngrediente(item: Ingrediente):void {
         if (this.view == 'Meus Ingredientes') {
             this.ingredientesListRef$.remove(item.$key);
+            this.atualizaReceitasService.setAtualizar(true);
         } else {
             this.itensCompraListRef$.remove(item.$key);
         }
@@ -106,6 +109,7 @@ export class IngredientesPage {
                 });
 
                 this.avisoToast('Os ingredientes foram adicionados!');
+                this.atualizaReceitasService.setAtualizar(true);
                 
             })
     }

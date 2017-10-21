@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ListaReceitasPage } from './lista-receitas';
+import { BarraPorcentagemReceitaComponent } from '../../components/barra-porcentagem-receita/barra-porcentagem-receita';
+
+
 
 @NgModule({
   declarations: [
-    ListaReceitasPage,
+    ListaReceitasPage, 
+    BarraPorcentagemReceitaComponent
   ],
   imports: [
     IonicPageModule.forChild(ListaReceitasPage),

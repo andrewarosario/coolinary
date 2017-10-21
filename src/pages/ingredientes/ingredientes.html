@@ -11,15 +11,6 @@
         </ion-buttons>     
     </ion-navbar>
 
-    <!-- <button ion-button clear item-end 
-        *ngIf="existeItemChecado && view == 'Lista De Compras'" 
-        (click)="adicionarItensCompraAosIngredientes()">
-        <ion-icon name="ios-basket-outline"></ion-icon>
-        Adicionar aos Meus Ingredientes
-    </button> -->
-    
-
-
     <ion-toolbar>
         <ion-segment [(ngModel)]="view">
             <ion-segment-button value="Meus Ingredientes">Meus ingredientes</ion-segment-button>
@@ -27,12 +18,7 @@
         </ion-segment>
     </ion-toolbar>
     
-
-
 </ion-header>
-
-
-
 
 <ion-content padding>
 
@@ -57,12 +43,6 @@
         <div *ngSwitchCase="'Lista De Compras'">
         
             <ion-list>
-                <!-- <button class="button-add-itens-ingredientes" 
-                    *ngIf="existeItemChecado" ion-button
-                    
-                    color="secondary" block outline>
-                    Adicionar aos meus ingredientes
-                </button> -->
                 <ion-item *ngFor="let itemCompra of itensCompraListRef$ | async">
                     <ion-checkbox [(ngModel)]="itemCompra.checado" color="primary" (ionChange)="atualizaChecados(itemCompra)"></ion-checkbox>
                     <ion-label>{{itemCompra.nome}}</ion-label>

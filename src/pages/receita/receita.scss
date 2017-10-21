@@ -21,16 +21,9 @@ page-receita {
         background-size: cover;
         height: 50vh;
         position: relative;
+        background-position-x: center;
     }
 
-    .housing-banner {
-        color: $banner-text-color;
-        background: $black-overlay;
-        height: 10vh;
-        width: 100vw;
-        position: absolute;
-        bottom: -1px;
-    }
     /* Content */
     .content {
         background: $content-color;

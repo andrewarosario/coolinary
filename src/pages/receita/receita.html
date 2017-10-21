@@ -7,11 +7,10 @@
 </ion-header>
 
 <ion-content fullscreen elestic-header>
-    <section class="housing-image"
-            [ngStyle]="{ 'background-image': 'url(' + estateProperty.image + ')'}">
-
-        <section class="housing-banner" padding></section>
-    </section>
+    <!-- <section class="housing-image"
+            [ngStyle]="{ 'background-image': 'url(' + receita.imagem + ')'}">
+    </section> -->
+    <img [src]="receita.imagem" width="100%">
 
     <section class="main-content">
         <ion-grid class="main-features">

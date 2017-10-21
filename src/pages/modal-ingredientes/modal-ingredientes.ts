@@ -7,6 +7,7 @@ import { ToastController } from 'ionic-angular';
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
 import { SelectIngredienteService } from '../../providers/select-ingrediente/select-ingrediente.service';
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
+import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 
 @Component({
     selector: 'page-modal-ingredientes',
@@ -32,7 +33,8 @@ export class ModalIngredientesPage {
                 private toastCtrl: ToastController,
                 public ingredienteService: IngredienteService,
                 public selectIngredienteService: SelectIngredienteService,
-                public itemCompraService: ItemCompraService) {   
+                public itemCompraService: ItemCompraService,
+                public atualizaReceitasService: AtualizaReceitasService) {   
                     
         if (navParams.get('tipo')  == 'Meus Ingredientes') {      
             this.itemListRef$ = this.ingredienteService.ingredientes;
@@ -84,11 +86,13 @@ export class ModalIngredientesPage {
         Cria um objeto anônimo e converte quantidade para number.
         Dá um Push pro Firebase dentro da coleção 'ingrediente'
         */
+        
          
         if (this.modoEdicao) {
             if (this.navParams.get('tipo')  == 'Meus Ingredientes') {
                  
                 this.ingredienteService.atualiza(ingrediente);
+                this.atualizaReceitasService.setAtualizar(true);
             } else {
                 this.itemCompraService.atualiza(ingrediente);
             }         
@@ -99,6 +103,10 @@ export class ModalIngredientesPage {
                 keySelectIngrediente: this.selectIngrediente.$key,
                 checado: false
             });
+
+            if (this.navParams.get('tipo')  == 'Meus Ingredientes') {
+                this.atualizaReceitasService.setAtualizar(true);
+            }
         }
         this.fecharModal();        
     }

@@ -18,11 +18,12 @@ import { InclusaoRapidaIngredientePageModule } from "../pages/inclusao-rapida-in
 import { ItemCompraService } from '../providers/item-compra/item-compra.service';
 import { ReceitaPageModule } from '../pages/receita/receita.module';
 import { SelectIngredienteService } from '../providers/select-ingrediente/select-ingrediente.service';
-
+import { ReceitasService } from '../providers/receitas/receitas.service';
+import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza-receitas';
 
 @NgModule({
     declarations: [
-        MyApp        
+        MyApp
     ],
     imports: [
         BrowserModule,
@@ -37,6 +38,7 @@ import { SelectIngredienteService } from '../providers/select-ingrediente/select
         InclusaoRapidaIngredientePageModule,
         ReceitaPageModule,
         ModalIngredientesPageModule,
+        
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -48,7 +50,9 @@ import { SelectIngredienteService } from '../providers/select-ingrediente/select
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         IngredienteService,
         SelectIngredienteService,
-        ItemCompraService
+        ItemCompraService,
+        ReceitasService,
+        AtualizaReceitasService
     ]
 })
 

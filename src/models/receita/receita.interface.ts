@@ -7,5 +7,9 @@ export interface Receita {
     modoPreparo: string[];
     adicionais?: string[];
     tags?: string[];
-    imagem: string
+    imagem: string;
+    ingredienteKey: string[];
+    numeroIngredientesPossui?: number;
+    textoIngredientesPossui?: string;
+    porcentagemIngredientes?: number;
 }
