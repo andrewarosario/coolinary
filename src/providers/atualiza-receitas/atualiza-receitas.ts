@@ -6,8 +6,6 @@ let atualiza_key_name = "atualiza";
 @Injectable()
 export class AtualizaReceitasService {
 
-    private atualiza: boolean;
-
     constructor() {
       
     }

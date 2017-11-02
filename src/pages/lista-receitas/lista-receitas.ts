@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, Loading, LoadingController, ToastController } from 'ionic-angular';
 import { Receita } from "../../models/receita/receita.interface";
 
@@ -16,7 +16,9 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 export class ListaReceitasPage {
 
     receitas: Receita[];
+    todasReceitas: Receita[];
     ingredientes: Ingrediente[];
+    toggled: boolean = false;
     
     constructor(public navCtrl: NavController,
                 public loadingCtrl: LoadingController,
@@ -44,6 +46,22 @@ export class ListaReceitasPage {
         loading.dismiss(); 
     }
 
+    toggleSearch() {
+        this.toggled = this.toggled ? false : true;
+    }
+
+    buscarReceitas( ev: any ) {
+        let val = ev.target.value;
+        
+        if (val && val.trim() != '') {
+            this.receitas = this.recebeTodasReceitasPorPorcentagem().filter((item) => {
+                return (item.titulo.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            })
+        } else {
+            this.receitas = this.recebeTodasReceitasPorPorcentagem();
+        }
+    }
+
     private mostrarLoading(): Loading {
         let loading: Loading = this.loadingCtrl.create({
             content: 'Carregando receitas...'
@@ -53,7 +71,7 @@ export class ListaReceitasPage {
         return loading;
     }
 
-    private atualizaPagina(refresher) {
+    atualizaPagina(refresher) {
         this.carregarReceitas();
 
         refresher.complete();
@@ -71,34 +89,36 @@ export class ListaReceitasPage {
         this.receitasService.receitas
             .first()
             .subscribe((receitas: Receita[]) => {
-                this.receitas = receitas;
+                this.todasReceitas = receitas;
 
                 this.filtrarReceitas();
             })
     }
 
     filtrarReceitas() {
-        this.receitas.forEach((receita: Receita,index) => {
+        this.todasReceitas.forEach((receita: Receita,index) => {
 
-            this.receitas[index].numeroIngredientesPossui = 0;
+            this.todasReceitas[index].numeroIngredientesPossui = 0;
 
             receita.ingredienteKey.forEach((ingredienteReceita) => {
 
                 this.ingredientes.forEach((ingrediente: Ingrediente) => {
                     if (ingrediente.nome == ingredienteReceita) {
-                        this.receitas[index].numeroIngredientesPossui ++;
+                        this.todasReceitas[index].numeroIngredientesPossui ++;
                     }
                 })
 
             })
 
-            let disponiveis = this.receitas[index].numeroIngredientesPossui;
-            let total = this.receitas[index].ingredienteKey.length;
+            let disponiveis = this.todasReceitas[index].numeroIngredientesPossui;
+            let total = this.todasReceitas[index].ingredienteKey.length;
 
-            this.receitas[index].textoIngredientesPossui = this.retornaTextoTotalDisponiveis(disponiveis,total);
-            this.receitas[index].porcentagemIngredientes = this.calculaPorcentagem(disponiveis,total);
+            this.todasReceitas[index].textoIngredientesPossui = this.retornaTextoTotalDisponiveis(disponiveis,total);
+            this.todasReceitas[index].porcentagemIngredientes = this.calculaPorcentagem(disponiveis,total);
             
         });
+
+        this.receitas = this.recebeTodasReceitasPorPorcentagem();
 
     }
 
@@ -124,6 +144,11 @@ export class ListaReceitasPage {
             showCloseButton: false,            
         });
         toast.present();
+    }
+
+    recebeTodasReceitasPorPorcentagem() {
+        return this.todasReceitas.sort((a, b) => a.porcentagemIngredientes - b.porcentagemIngredientes)
+                                 .reverse();
     }
 
 }

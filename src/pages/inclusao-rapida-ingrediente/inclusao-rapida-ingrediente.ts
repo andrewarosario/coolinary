@@ -95,7 +95,10 @@ export class InclusaoRapidaIngredientePage {
             keySelectIngrediente: selectIngrediente.$key
         }).then(() => {
             this.avisoToast(selectIngrediente.nome + ' adicionado(a)!')
-            this.atualizaReceitasService.setAtualizar(true);
+            if (!this.modoItemCompra) {
+                this.atualizaReceitasService.setAtualizar(true);
+            }
+            
         }).catch(() => this.avisoToast('Não foi possível adicionar :(')); 
     }
 

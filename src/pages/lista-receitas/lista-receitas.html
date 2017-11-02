@@ -1,12 +1,28 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Receitas</ion-title>
-
-        <ion-buttons start>
+        
+        <ion-title *ngIf="!toggled">Receitas</ion-title>
+        
+        <ion-searchbar class="barra-busca"
+            *ngIf="toggled" 
+            [animated]="true"
+            [(ngModel)]="searchTerm" 
+            [showCancelButton]="true" 
+            (ionCancel)="toggleSearch()" 
+            (ionInput)="buscarReceitas($event)"
+            placeholder="Buscar receitas">
+        </ion-searchbar>
+          
+        <ion-buttons start *ngIf="!toggled">
+            <button ion-button icon-only (click)="toggleSearch()">
+                <ion-icon name="search"></ion-icon>
+            </button>
+        
             <button ion-button                    
                     (click)="carregarReceitas()">
                 <ion-icon class="botao-atualiza" name="md-refresh"></ion-icon>
             </button>
+
         </ion-buttons> 
     </ion-navbar>
 

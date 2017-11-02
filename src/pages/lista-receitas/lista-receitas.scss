@@ -4,4 +4,8 @@ page-lista-receitas {
         font-size: 25px;
     }
 
+    .barra-busca {
+        background-color: map-get($colors, primary); 
+    }
+
 }

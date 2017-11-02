@@ -24,9 +24,9 @@
 
         <ion-grid class="listing-details">
 
-            <ion-row>
+            <ion-row *ngIf="receita.descricao">
                 <p margin-left margin-right no-margin-top style="text-align: justify">
-                    {{estateProperty.description}}
+                    {{receita.descricao}}
                 </p>
             </ion-row>
 

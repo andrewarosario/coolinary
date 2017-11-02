@@ -20,6 +20,7 @@ import { ReceitaPageModule } from '../pages/receita/receita.module';
 import { SelectIngredienteService } from '../providers/select-ingrediente/select-ingrediente.service';
 import { ReceitasService } from '../providers/receitas/receitas.service';
 import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza-receitas';
+import { ReceitasFavoritasService } from '../providers/receitas-favoritas/receitas-favoritas.service';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza
         SelectIngredienteService,
         ItemCompraService,
         ReceitasService,
-        AtualizaReceitasService
+        AtualizaReceitasService,
+        ReceitasFavoritasService
     ]
 })
 
