@@ -1,5 +1,5 @@
 export interface Receita {
-    $key?: number;
+    $key?: any;
     titulo: string; 
     descricao?: string;
     tempoPreparo: string;   

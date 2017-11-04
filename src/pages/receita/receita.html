@@ -7,17 +7,20 @@
 </ion-header>
 
 <ion-content fullscreen elestic-header>
-    <!-- <section class="housing-image"
-            [ngStyle]="{ 'background-image': 'url(' + receita.imagem + ')'}">
-    </section> -->
+    
     <img [src]="receita.imagem" width="100%">
 
     <section class="main-content">
         <ion-grid class="main-features">
             <ion-row>
-                <ion-col text-center *ngFor="let feature of estateProperty.features">
-                    <ion-icon [name]="feature.icon"></ion-icon>
-                    <span class="item-block">{{feature.title}}</span>
+                <ion-col text-center (click)="adicionarFavoritos(receita)">
+                    <ion-icon [name]="iconeFavorito" [color]="corIconeFavorito"></ion-icon>
+                    <span class="item-block">{{ textoFavorito }}</span>
+                </ion-col>
+
+                <ion-col text-center>
+                    <ion-icon name="restaurant"></ion-icon>
+                    <span class="item-block">Receitas semelhantes</span>
                 </ion-col>
             </ion-row>
         </ion-grid>
