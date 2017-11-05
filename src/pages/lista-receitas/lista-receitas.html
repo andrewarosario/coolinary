@@ -1,5 +1,9 @@
 <ion-header>
     <ion-navbar color="primary">
+
+        <button *ngIf="!toggled" ion-button menuToggle="menu-geral">
+            <ion-icon name="menu"></ion-icon>
+        </button>
         
         <ion-title *ngIf="!toggled">Receitas</ion-title>
         

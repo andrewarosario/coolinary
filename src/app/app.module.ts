@@ -21,10 +21,12 @@ import { SelectIngredienteService } from '../providers/select-ingrediente/select
 import { ReceitasService } from '../providers/receitas/receitas.service';
 import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza-receitas';
 import { ReceitasFavoritasService } from '../providers/receitas-favoritas/receitas-favoritas.service';
+import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
 
 @NgModule({
     declarations: [
-        MyApp
+        MyApp,
+        MenuGeralComponent
     ],
     imports: [
         BrowserModule,
