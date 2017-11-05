@@ -4,6 +4,7 @@ Aplicativo desenvolvido com Ionic Framework que recomenda receitas a partir dos 
 ### Instalação:
 
 1 - Clone este repositório;
+
 2 - Pelo prompt de comando, vá ao diretório do projeto clonado e execute:
 
 ```bash
