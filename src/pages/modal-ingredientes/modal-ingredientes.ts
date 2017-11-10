@@ -28,7 +28,7 @@ export class ModalIngredientesPage {
     itemListRef$: FirebaseListObservable<Ingrediente[]>;
 
     constructor(public navCtrl: NavController, 
-                public navParams: NavParams,                
+                public navParams: NavParams,
                 public viewCtrl: ViewController,
                 private toastCtrl: ToastController,
                 public ingredienteService: IngredienteService,

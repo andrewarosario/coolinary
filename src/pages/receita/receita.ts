@@ -30,8 +30,7 @@ export class ReceitaPage {
     private verificaFavorita(receitaKey: any): void {
         this.receitasFavoritasService.verificaFavorita(receitaKey)
             .subscribe((receitaFavorita: ReceitasFavoritas) => {
-                this.receitaFavorita = receitaFavorita;
-                console.log(this.receitaFavorita)
+                this.receitaFavorita = receitaFavorita;                
             });
     }
 

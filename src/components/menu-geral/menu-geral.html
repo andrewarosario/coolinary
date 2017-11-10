@@ -1,3 +1,8 @@
 <ion-content>
-    
+    <ion-list no-lines>
+        <button menuClose ion-item detail-none *ngFor="let p of paginas" (click)="abrirPagina(p)">
+            <ion-icon [name]="p.icone" item-left></ion-icon>
+            {{ p.titulo }}
+        </button>
+    </ion-list>   
 </ion-content>
