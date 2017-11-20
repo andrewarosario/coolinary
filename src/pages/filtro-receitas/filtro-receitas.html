@@ -1,0 +1,84 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Filtrar Receitas</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    
+
+    <ion-item>
+        <ion-toggle [(ngModel)]="habilitaFiltro"></ion-toggle>
+        <ion-label> Habilitar Filtros </ion-label>
+        <ion-icon name='funnel' color="primary" item-start></ion-icon>
+    </ion-item>
+
+    <ion-list>
+
+        <ion-list-header>Filtros</ion-list-header>
+
+        <ion-item>
+            <ion-icon name='restaurant' item-start></ion-icon>
+            <ion-label>Tipo de Receita</ion-label>
+            <ion-select [(ngModel)]="tipo" cancelText="Cancelar">
+                <ion-option 
+                  *ngFor="let tipo of tipos" 
+                  [value]="tipo">
+                  {{tipo}}
+                </ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name='md-globe' item-start></ion-icon>
+            <ion-label>Regiões</ion-label>
+            <ion-select [(ngModel)]="regiao" cancelText="Cancelar">
+                <ion-option 
+                  *ngFor="let regiao of regioes" 
+                  [value]="regiao">
+                  {{regiao}}
+                </ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name='calendar' item-start></ion-icon>
+            <ion-label>Datas Comemorativas</ion-label>
+            <ion-select [(ngModel)]="dataComemorativa" cancelText="Cancelar">
+                <ion-option 
+                  *ngFor="let dataComemorativa of datasComemorativas"
+                  [value]="dataComemorativa">
+                  {{dataComemorativa}}
+                </ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name='clock' item-start></ion-icon>
+            <ion-label>Tempo de Preparo</ion-label>
+            <ion-select [(ngModel)]="tempoPreparo" cancelText="Cancelar">
+                <ion-option 
+                  *ngFor="let tempoPreparo of temposPreparo"
+                  [value]="tempoPreparo">
+                  {{tempoPreparo}}
+                </ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name='people' item-start></ion-icon>
+            <ion-label>Rendimento</ion-label>
+            <ion-select [(ngModel)]="rendimento" cancelText="Cancelar">
+                <ion-option 
+                  *ngFor="let rendimento of rendimentos"
+                  [value]="rendimento">
+                  {{rendimento}}
+                </ion-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

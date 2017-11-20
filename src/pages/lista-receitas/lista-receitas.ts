@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Loading, LoadingController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, Loading, LoadingController, ToastController, NavParams, ModalController } from 'ionic-angular';
 import { Receita } from "../../models/receita/receita.interface";
 
 import { ReceitaPage } from '../../pages/receita/receita';
@@ -9,6 +9,7 @@ import { Ingrediente } from '../../models/ingrediente/ingrediente.interface';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 import { ReceitasFavoritasService } from '../../providers/receitas-favoritas/receitas-favoritas.service';
 import { ReceitasFavoritas } from '../../models/receitas-favoritas/receitas-favoritas.interface';
+import { FiltroReceitasPage } from '../filtro-receitas/filtro-receitas';
 
 @Component({
     selector: 'page-lista-receitas',
@@ -28,6 +29,7 @@ export class ListaReceitasPage {
                 public navParams: NavParams,
                 public loadingCtrl: LoadingController,
                 public toastCtrl: ToastController,
+                public modalCtrl: ModalController,
                 public receitasService: ReceitasService,
                 public ingredienteService: IngredienteService,
                 public atualizaReceitasService: AtualizaReceitasService,
@@ -186,6 +188,11 @@ export class ListaReceitasPage {
         this.todasReceitas = this.todasReceitas.filter((receita: Receita) => {
             return this.receitasFavoritas.find((receitaFavorita) => receitaFavorita.keyReceita == receita.$key) != null            
         })
+    }
+
+    abrirFiltro() {
+        let modal = this.modalCtrl.create(FiltroReceitasPage);
+        modal.present();
     }
 
 }

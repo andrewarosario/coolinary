@@ -22,6 +22,8 @@ import { ReceitasService } from '../providers/receitas/receitas.service';
 import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza-receitas';
 import { ReceitasFavoritasService } from '../providers/receitas-favoritas/receitas-favoritas.service';
 import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
+import { FiltroReceitasPageModule } from '../pages/filtro-receitas/filtro-receitas.module';
+import { FiltroReceitasProvider } from '../providers/filtro-receitas/filtro-receitas';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,7 @@ import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
         InclusaoRapidaIngredientePageModule,
         ReceitaPageModule,
         ModalIngredientesPageModule,
+        FiltroReceitasPageModule
         
     ],
     bootstrap: [IonicApp],
@@ -56,7 +59,8 @@ import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
         ItemCompraService,
         ReceitasService,
         AtualizaReceitasService,
-        ReceitasFavoritasService
+        ReceitasFavoritasService,
+    FiltroReceitasProvider
     ]
 })
 
