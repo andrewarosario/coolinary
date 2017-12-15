@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Loading, LoadingController, ToastController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, Loading, LoadingController, NavParams } from 'ionic-angular';
 import { Receita } from "../../models/receita/receita.interface";
 
 import { ReceitaPage } from '../../pages/receita/receita';
@@ -28,8 +28,6 @@ export class ListaReceitasPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 public loadingCtrl: LoadingController,
-                public toastCtrl: ToastController,
-                public modalCtrl: ModalController,
                 public receitasService: ReceitasService,
                 public ingredienteService: IngredienteService,
                 public atualizaReceitasService: AtualizaReceitasService,
@@ -40,7 +38,7 @@ export class ListaReceitasPage {
 
     ionViewWillEnter() {
         if (this.atualizaReceitasService.podeAtualizar()) {
-            this.avisoToast('Foram encontradas alterações em seus ingredientes! Atualize para obter novas receitas');
+            this.carregarReceitas();
         }
     }
 
@@ -167,16 +165,6 @@ export class ListaReceitasPage {
         });
     }
 
-    avisoToast(mensagem: string) {
-        let toast = this.toastCtrl.create( {
-            message: mensagem, 
-            duration: 3000,            
-            position: 'bottom',
-            showCloseButton: false,            
-        });
-        toast.present();
-    }
-
     recebeTodasReceitasPorPorcentagem() {
         return this.todasReceitas.sort((a, b) => a.porcentagemIngredientes - b.porcentagemIngredientes)
                                  .reverse();
@@ -189,8 +177,7 @@ export class ListaReceitasPage {
     }
 
     abrirFiltro() {
-        let modal = this.modalCtrl.create(FiltroReceitasPage);
-        modal.present();
+         this.navCtrl.push(FiltroReceitasPage);
     }
 
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
 import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas';
+import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 
 @Component({
     selector: 'page-filtro-receitas',
@@ -20,7 +21,8 @@ export class FiltroReceitasPage {
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
                 public viewCtrl: ViewController,
-                public filtroReceitasService: FiltroReceitasService) {
+                public filtroReceitasService: FiltroReceitasService,
+                public atualizaReceitasService: AtualizaReceitasService,) {
 
         this.filtroReceitasService.filtroReceitas
             .first()
@@ -33,6 +35,8 @@ export class FiltroReceitasPage {
                 this.filtroReceitas.tempoPreparo = this.filtroReceitas.tempoPreparo || 'todos';
                 this.filtroReceitas.rendimento = this.filtroReceitas.rendimento || 'todos';
             });
+
+            this.atualizaReceitasService.setAtualizar(true);
     }
 
     fecharModal() {
@@ -40,6 +44,7 @@ export class FiltroReceitasPage {
     } 
 
     ionViewWillLeave() {
+        
         let salvaFiltro = {
                             habilita: this.filtroReceitas.habilita,
                             tipo: this.filtroReceitas.tipo,

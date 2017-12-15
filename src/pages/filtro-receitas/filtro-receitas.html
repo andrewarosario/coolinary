@@ -2,12 +2,6 @@
 
     <ion-navbar color="primary">
         <ion-title>Filtrar Receitas</ion-title>
-
-        <ion-buttons start>
-            <button ion-button (click)="fecharModal()">
-                <ion-icon name="md-close"></ion-icon>
-            </button>
-        </ion-buttons> 
     </ion-navbar>
 
 </ion-header>
@@ -15,7 +9,6 @@
 
 <ion-content>
     
-
     <ion-item>
         <ion-toggle [(ngModel)]="filtroReceitas.habilita"></ion-toggle>
         <ion-label> Habilitar Filtros </ion-label>
