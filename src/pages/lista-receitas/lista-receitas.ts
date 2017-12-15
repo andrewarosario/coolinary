@@ -98,9 +98,7 @@ export class ListaReceitasPage {
     private getIngredientes() {
         this.ingredienteService.ingredientes
         .first()
-        .subscribe((ingredientes: Ingrediente[]) => {
-            this.ingredientes = ingredientes;
-        })
+        .subscribe((ingredientes: Ingrediente[]) => this.ingredientes = ingredientes)
     }
 
     private getReceitas(): any {

@@ -23,7 +23,7 @@ import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza
 import { ReceitasFavoritasService } from '../providers/receitas-favoritas/receitas-favoritas.service';
 import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
 import { FiltroReceitasPageModule } from '../pages/filtro-receitas/filtro-receitas.module';
-import { FiltroReceitasProvider } from '../providers/filtro-receitas/filtro-receitas';
+import { FiltroReceitasService } from '../providers/filtro-receitas/filtro-receitas';
 
 @NgModule({
     declarations: [
@@ -60,7 +60,7 @@ import { FiltroReceitasProvider } from '../providers/filtro-receitas/filtro-rece
         ReceitasService,
         AtualizaReceitasService,
         ReceitasFavoritasService,
-    FiltroReceitasProvider
+        FiltroReceitasService
     ]
 })
 

@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
+import { AngularFireDatabase, FirebaseObjectObservable  } from 'angularfire2/database';
 
-/*
-  Generated class for the FiltroReceitasProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
 @Injectable()
-export class FiltroReceitasProvider {
+export class FiltroReceitasService {
 
-  constructor(public http: Http) {
-    console.log('Hello FiltroReceitasProvider Provider');
-  }
+    filtroReceitas: FirebaseObjectObservable<FiltroReceitas>;
+    
+    constructor(public db: AngularFireDatabase) {
+        this.filtroReceitas = this.db.object('filtroReceitas');
+        
+    }
 
+    atualiza(filtro) {
+        this.filtroReceitas.set(filtro);
+    }
 }
