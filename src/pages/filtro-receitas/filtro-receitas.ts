@@ -29,6 +29,7 @@ export class FiltroReceitasPage {
             .subscribe((filtroReceitas: FiltroReceitas) => {
                 this.filtroReceitas = filtroReceitas;
 
+                this.filtroReceitas.habilita = this.filtroReceitas.habilita || false;
                 this.filtroReceitas.tipo = this.filtroReceitas.tipo || 'todos';
                 this.filtroReceitas.regiao = this.filtroReceitas.regiao || 'todas';
                 this.filtroReceitas.dataComemorativa = this.filtroReceitas.dataComemorativa || 'todas';
@@ -39,12 +40,7 @@ export class FiltroReceitasPage {
             this.atualizaReceitasService.setAtualizar(true);
     }
 
-    fecharModal() {
-        this.viewCtrl.dismiss();  
-    } 
-
     ionViewWillLeave() {
-        
         let salvaFiltro = {
                             habilita: this.filtroReceitas.habilita,
                             tipo: this.filtroReceitas.tipo,
@@ -54,8 +50,7 @@ export class FiltroReceitasPage {
                             rendimento: this.filtroReceitas.rendimento
                           };
 
-        this.filtroReceitasService.atualiza(salvaFiltro);
-     
+        this.filtroReceitasService.atualiza(salvaFiltro);  
     }
 
 }

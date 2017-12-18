@@ -10,6 +10,8 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 import { ReceitasFavoritasService } from '../../providers/receitas-favoritas/receitas-favoritas.service';
 import { ReceitasFavoritas } from '../../models/receitas-favoritas/receitas-favoritas.interface';
 import { FiltroReceitasPage } from '../filtro-receitas/filtro-receitas';
+import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas';
+import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
 
 @Component({
     selector: 'page-lista-receitas',
@@ -21,6 +23,7 @@ export class ListaReceitasPage {
     receitas: Receita[];
     todasReceitas: Receita[];
     receitasFavoritas: ReceitasFavoritas[];
+    filtroReceitas = {} as FiltroReceitas;
     ingredientes: Ingrediente[];
     toggled: boolean = false;
     paginaFavoritas: boolean;
@@ -31,7 +34,8 @@ export class ListaReceitasPage {
                 public receitasService: ReceitasService,
                 public ingredienteService: IngredienteService,
                 public atualizaReceitasService: AtualizaReceitasService,
-                public receitasFavoritasService: ReceitasFavoritasService) {
+                public receitasFavoritasService: ReceitasFavoritasService,
+                public filtroReceitasService: FiltroReceitasService) {
 
         this.carregarReceitas();
     }
@@ -56,6 +60,8 @@ export class ListaReceitasPage {
         this.getIngredientes();
 
         this.getReceitasFavoritas();
+
+        this.getFiltroReceitas();
 
         this.getReceitas()
 
@@ -120,9 +126,28 @@ export class ListaReceitasPage {
         }
     }
 
+    getFiltroReceitas() {
+        this.filtroReceitasService.filtroReceitas
+        .first()
+        .subscribe((filtroReceitas: FiltroReceitas) => {
+            this.filtroReceitas = filtroReceitas;
+
+            this.filtroReceitas.habilita = this.filtroReceitas.habilita || false;
+            this.filtroReceitas.tipo = this.filtroReceitas.tipo || 'todos';
+            this.filtroReceitas.regiao = this.filtroReceitas.regiao || 'todas';
+            this.filtroReceitas.dataComemorativa = this.filtroReceitas.dataComemorativa || 'todas';
+            this.filtroReceitas.tempoPreparo = this.filtroReceitas.tempoPreparo || 'todos';
+            this.filtroReceitas.rendimento = this.filtroReceitas.rendimento || 'todos';
+        });
+    }
+
     filtrarReceitas() {
         if (this.verificaPaginaFavoritas()) {
             this.filtraReceitasFavoritas();
+        }
+
+        if (this.filtroReceitas.habilita) {
+            this.aplicaFiltros();
         }
 
         this.todasReceitas.forEach((receita: Receita,index) => {
@@ -135,9 +160,8 @@ export class ListaReceitasPage {
                     if (ingrediente.nome == ingredienteReceita) {
                         this.todasReceitas[index].numeroIngredientesPossui ++;
                     }
-                })
-
-            })
+                });
+            });
 
             let disponiveis = this.todasReceitas[index].numeroIngredientesPossui;
             let total = this.todasReceitas[index].ingredienteKey.length;
@@ -173,7 +197,66 @@ export class ListaReceitasPage {
     filtraReceitasFavoritas() {
         this.todasReceitas = this.todasReceitas.filter((receita: Receita) => {
             return this.receitasFavoritas.find((receitaFavorita) => receitaFavorita.keyReceita == receita.$key) != null            
-        })
+        });
+    }
+
+    aplicaFiltros() {
+        let tempoPreparo = 0;
+        let rendimento = 0;
+
+        if (this.filtroReceitas.tempoPreparo != 'todos') {
+            tempoPreparo = parseInt(this.filtroReceitas.tempoPreparo.replace(/[^0-9]/g,''));
+        }
+        if (this.filtroReceitas.rendimento != 'todos') {
+            rendimento = parseInt(this.filtroReceitas.rendimento.replace(/[^0-9]/g,''));
+        }
+
+        this.todasReceitas = this.todasReceitas.filter((receita: Receita) => {
+            return this.confereTodosFiltros(receita,tempoPreparo,rendimento);
+        });
+    }
+
+    confereTodosFiltros(receita: Receita, tempoPreparo, rendimento): boolean {
+        let filtro = {
+                        tipo: false,
+                        regiao: false,
+                        dataComemorativa: false
+                     }
+
+        if (!this.verificaFiltroQuantidade(receita.tempoPreparo,tempoPreparo,this.filtroReceitas.tempoPreparo)) {
+            return false
+        }
+        if (!this.verificaFiltroQuantidade(receita.porcoes,rendimento,this.filtroReceitas.rendimento)) {
+            return false
+        }
+
+        receita.tags.forEach((tag) => {
+            if (this.filtroReceitas.tipo == tag || this.filtroReceitas.tipo == 'todos') {
+                filtro.tipo = true;
+            }
+            if (this.filtroReceitas.regiao == tag || this.filtroReceitas.regiao == 'todas') {
+                filtro.regiao = true;
+            }
+            if (this.filtroReceitas.dataComemorativa == tag || this.filtroReceitas.dataComemorativa == 'todas') {
+                filtro.dataComemorativa = true;
+            }
+        });
+
+        if (!filtro.tipo) return false;
+        if (!filtro.regiao) return false;
+        if (!filtro.dataComemorativa) return false;
+        return true;
+    }
+
+    verificaFiltroQuantidade(receitaQuantidade: number, quantidade: number, texto: string): boolean {
+        if (quantidade != 0) {
+            if (texto.substring(0,4) == 'mais') {
+                if (receitaQuantidade <= quantidade) return false;
+            } else {
+                if (receitaQuantidade > quantidade) return false;
+            }
+        }
+        return true;
     }
 
     abrirFiltro() {

@@ -30,7 +30,7 @@
     "receitas" : [
     {
         "titulo": "Palha Italiana",
-        "tempoPreparo": "20min",
+        "tempoPreparo": 20,
         "porcoes": 30,
         "ingredientes": ["2 latas de leite condensado",
                        "2 pacotes de bolacha maisena picados",
@@ -48,7 +48,7 @@
     },
     {
         "titulo": "Guacamole",
-        "tempoPreparo": "15min",
+        "tempoPreparo": 15,
         "porcoes": 6,
         "ingredientes": ["2 abacates maduros",
                        "2 tomates",
@@ -72,7 +72,7 @@
     },
     {
         "titulo": "Bolo de Fubá",
-        "tempoPreparo": "30min",
+        "tempoPreparo": 30,
         "porcoes": 30,
         "ingredientes": ["3 ovos",
                        "2 xícaras (chá) de açúcar",
@@ -90,7 +90,7 @@
     },
     {
         "titulo": "Frango na Moranga",
-        "tempoPreparo": "60min",
+        "tempoPreparo": 60,
         "porcoes": 8,
         "ingredientes": ["1 moranga média",
                        "1 kg de peito de frango cortado em tirinhas, temperado com sal, pimentadoreino e limão",
