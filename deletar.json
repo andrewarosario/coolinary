@@ -44,7 +44,9 @@
                       "Savor, buon appetito."],
         "tags": ["doces","italiana"],
         "ingredienteKey": ["Leite Condensado","Bolacha","Margarina","Chocolate em Pó"],
+        "favorita": 0,
         "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/palha_italiana.jpg?alt=media&token=10e0b1cd-268b-4156-a634-c04c508f8471"
+
     },
     {
         "titulo": "Guacamole",
@@ -68,6 +70,7 @@
             "Pimenta",
             "Limão",
             "Sal"],
+            "favorita": 0,
         "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/guacamole.jpg?alt=media&token=38a2885c-54dc-4c6c-87e3-6dd907dbce01"
     },
     {
@@ -86,6 +89,7 @@
                       "Leve para assar em forno médio 180 °C) preaquecido por 40 minutos"],
         "tags": ["doces","doces"],
         "ingredienteKey": ["Leite","Açúcar","Óleo","Fermento em Pó","Farinha"],
+        "favorita": 0,
         "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/bolo_de_fuba.jpg?alt=media&token=b960783f-6f05-47da-b7d1-889b9ba7a1f3"
     },
     {
@@ -110,6 +114,7 @@
                       "Mexa bem e despeje o refogado na moranga"],
         "tags": ["aves","frangos","salgados"],
         "ingredienteKey": ["Abóbora","Peito de Frango","Óleo","Cebola","Tomate","Pimenta","Farinha","Creme de Leite","Requeijão"],
+        "favorita": 0,
         "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/frango_na_moranga.jpg?alt=media&token=b09df27e-99a2-4c48-b338-9fabd24db860"
     }]
 }

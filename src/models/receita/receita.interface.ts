@@ -10,6 +10,7 @@ export interface Receita {
     tags?: string[];
     imagem: string;
     ingredienteKey: string[];
+    favorita: number;
     numeroIngredientesPossui?: number;
     textoIngredientesPossui?: string;
     porcentagemIngredientes?: number;

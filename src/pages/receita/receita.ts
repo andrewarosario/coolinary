@@ -4,6 +4,7 @@ import { Receita } from '../../models/receita/receita.interface';
 import { ReceitasFavoritasService } from '../../providers/receitas-favoritas/receitas-favoritas.service';
 import { ReceitasFavoritas } from '../../models/receitas-favoritas/receitas-favoritas.interface';
 import { FirebaseListObservable } from 'angularfire2/database';
+import { ReceitasService } from '../../providers/receitas/receitas.service';
 
 @Component({
     selector: 'page-receita',
@@ -17,6 +18,7 @@ export class ReceitaPage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
+                public receitasService: ReceitasService,
                 public receitasFavoritasService: ReceitasFavoritasService,
                 public toastCtrl: ToastController) {
 
@@ -37,9 +39,15 @@ export class ReceitaPage {
     adicionarFavoritos(receita: Receita) {
 
         if (this.receitaFavorita == null) {
+            this.receitasService.atualizaTotalFavoritos(receita.$key,true);
+
             this.receitasFavoritasListRef$.push({keyReceita: receita.$key});
             this.avisoToast(`${receita.titulo} foi adicionado(a) aos favoritos!`);
+
+            
         } else {
+            this.receitasService.atualizaTotalFavoritos(receita.$key,false);
+
             this.receitasFavoritasListRef$.remove(this.receitaFavorita.$key);
         }
 

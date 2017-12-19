@@ -26,7 +26,8 @@ export class ListaReceitasPage {
     filtroReceitas = {} as FiltroReceitas;
     ingredientes: Ingrediente[];
     toggled: boolean = false;
-    paginaFavoritas: boolean;
+    //paginaFavoritas: boolean;
+
     
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
