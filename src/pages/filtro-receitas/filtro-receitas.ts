@@ -53,4 +53,12 @@ export class FiltroReceitasPage {
         this.filtroReceitasService.atualiza(salvaFiltro);  
     }
 
+    resetarFiltros(): void {
+        this.filtroReceitas.tipo = 'todos';
+        this.filtroReceitas.regiao = 'todas';
+        this.filtroReceitas.dataComemorativa = 'todas';
+        this.filtroReceitas.tempoPreparo = 'todos';
+        this.filtroReceitas.rendimento = 'todos';
+    }
+
 }

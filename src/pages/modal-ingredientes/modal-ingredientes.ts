@@ -81,13 +81,7 @@ export class ModalIngredientesPage {
 
     salvarIngrediente(ingrediente: Ingrediente) {         
         if (!this.confereCampos(ingrediente)) return;
-        
-        /*
-        Cria um objeto anônimo e converte quantidade para number.
-        Dá um Push pro Firebase dentro da coleção 'ingrediente'
-        */
-        
-         
+            
         if (this.modoEdicao) {
             if (this.navParams.get('tipo')  == 'Meus Ingredientes') {
                  

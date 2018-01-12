@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, Loading, LoadingController, NavParams } from 'ionic-angular';
 import { Receita } from "../../models/receita/receita.interface";
+import { InfoIngrediente } from "../../models/receita/receita.interface";
 
 import { ReceitaPage } from '../../pages/receita/receita';
 import { ReceitasService } from '../../providers/receitas/receitas.service';
@@ -26,8 +27,6 @@ export class ListaReceitasPage {
     filtroReceitas = {} as FiltroReceitas;
     ingredientes: Ingrediente[];
     toggled: boolean = false;
-    //paginaFavoritas: boolean;
-
     
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -155,17 +154,27 @@ export class ListaReceitasPage {
 
             this.todasReceitas[index].numeroIngredientesPossui = 0;
 
-            receita.ingredienteKey.forEach((ingredienteReceita) => {
+            receita.infoIngredientes.forEach((infoIngrediente: InfoIngrediente) => {
 
                 this.ingredientes.forEach((ingrediente: Ingrediente) => {
-                    if (ingrediente.nome == ingredienteReceita) {
+                    if (ingrediente.keySelectIngrediente == infoIngrediente.ingredienteKey) {
                         this.todasReceitas[index].numeroIngredientesPossui ++;
                     }
                 });
+
             });
 
+            // receita.ingredienteKey.forEach((ingredienteReceita) => {
+
+            //     this.ingredientes.forEach((ingrediente: Ingrediente) => {
+            //         if (ingrediente.nome == ingredienteReceita) {
+            //             this.todasReceitas[index].numeroIngredientesPossui ++;
+            //         }
+            //     });
+            // });
+
             let disponiveis = this.todasReceitas[index].numeroIngredientesPossui;
-            let total = this.todasReceitas[index].ingredienteKey.length;
+            let total = this.todasReceitas[index].infoIngredientes.length;
 
             this.todasReceitas[index].textoIngredientesPossui = this.retornaTextoTotalDisponiveis(disponiveis,total);
             this.todasReceitas[index].porcentagemIngredientes = this.calculaPorcentagem(disponiveis,total);

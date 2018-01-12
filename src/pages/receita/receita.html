@@ -48,15 +48,20 @@
         <ion-grid>
             <h2 margin-left>Ingredientes</h2>
 
-            <ion-row *ngFor="let ingrediente of receita.ingredientes">
-                <ion-col>
-                    {{ingrediente}}
+            <ion-row *ngFor="let ingrediente of receita.infoIngredientes">
+                <ion-col col-10>
+                    {{ingrediente.nome}}
                 </ion-col>
-                <button ion-button clear item-end>
-                    <ion-icon name="more"></ion-icon>  
-                </button>
+                <ion-col col-2>
+                    <button (click)="abrirOpcoesAdd(ingrediente)" ion-button clear item-end>
+                        <ion-icon name="more"></ion-icon>  
+                    </button>
+                </ion-col>
+                
+                <ion-col col-12>
+                    {{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})
+                </ion-col>                
             </ion-row>
-
         </ion-grid>
 
         <ion-grid>

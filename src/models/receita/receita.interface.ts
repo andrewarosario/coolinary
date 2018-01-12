@@ -1,3 +1,11 @@
+export class InfoIngrediente {
+    quantidade: number;
+    unidade: string;
+    ingredienteKey: any;
+    nome: string;
+    obs: string;
+}
+
 export interface Receita {
     $key?: any;
     titulo: string; 
@@ -6,7 +14,6 @@ export interface Receita {
     porcoes: number;
     ingredientes: string[];
     modoPreparo: string[];
-    adicionais?: string[];
     tags?: string[];
     imagem: string;
     ingredienteKey: string[];
@@ -14,4 +21,7 @@ export interface Receita {
     numeroIngredientesPossui?: number;
     textoIngredientesPossui?: string;
     porcentagemIngredientes?: number;
+
+    infoIngredientes?: InfoIngrediente[];
+    adicionais?: InfoIngrediente[];
 }

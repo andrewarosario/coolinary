@@ -4,6 +4,7 @@
         {  "nome": "Feijão", "unidade": "gramas" },
         {  "nome": "Leite", "unidade": "litros" },
         {  "nome": "Leite Condensado", "unidade": "litros" },
+        {  "nome": "Bolacha", "unidade": "gramas"},
         {  "nome": "Alface", "unidade": "gramas"},
         {  "nome": "Óleo", "unidade": "gramas"},
         {  "nome": "Fubá", "unidade": "gramas"},
@@ -22,7 +23,6 @@
         {  "nome": "Pão", "unidade": "gramas"},
         {  "nome": "Farinha", "unidade": "gramas"},
         {  "nome": "Ovo", "unidade": "gramas"},
-        {  "nome": "Bolacha", "unidade": "gramas"},
         {  "nome": "Margarina", "unidade": "gramas"},
         {  "nome": "Fermento em Pó", "unidade": "gramas"},
         {  "nome": "Vinagre", "unidade": "gramas"}
@@ -116,5 +116,41 @@
         "ingredienteKey": ["Abóbora","Peito de Frango","Óleo","Cebola","Tomate","Pimenta","Farinha","Creme de Leite","Requeijão"],
         "favorita": 0,
         "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/frango_na_moranga.jpg?alt=media&token=b09df27e-99a2-4c48-b338-9fabd24db860"
+    },
+    {
+        "titulo": "Palha Italiana",
+        "tempoPreparo": 20,
+        "porcoes": 30,
+        "ingredientes": ["2 latas de leite condensado",
+                       "2 pacotes de bolacha maisena picados",
+                       "2 colheres de margarina",
+                       "Chocolate em pó ( umas 6 colheres de sopa )"],
+        "infoIngredientes": [
+                            {
+                                "quantidade": 600,
+                                "unidade": "gramas",
+                                "ingredienteKey": 3,
+                                "nome": "Leite Condensado",
+                                "obs": "2 latas"
+                            },
+                            {
+                                "quantidade": 60,
+                                "unidade": "unidades",
+                                "ingredienteKey": 4,
+                                "nome": "Bolacha",
+                                "obs": "2 pacotes"
+                            }
+                         ],
+        "modoPreparo": ["Derrete a margarina na panela, mistura o leite condensado, o chocolate e mexe até o brigadeiro descolar do fundo da panela.",
+                      "Desliga o fogo e mistura a bolacha picada grosseiramente.",
+                      "Despeje numa assadeira retangular ( 35 x 25 cm ) untada com margarina e alise a massa.",
+                      "Quando frio corte ( pode pôr para esfriar na geladeira por + ou - 1 h).",
+                      "Se quiser, pode passar no açúcar de confeiteiro ou refinado mesmo.",
+                      "Savor, buon appetito."],
+        "tags": ["doces","italiana"],
+        "ingredienteKey": ["Leite Condensado","Bolacha","Margarina","Chocolate em Pó"],
+        "favorita": 0,
+        "imagem": "https://firebasestorage.googleapis.com/v0/b/meusingredientes-cfe4d.appspot.com/o/palha_italiana.jpg?alt=media&token=10e0b1cd-268b-4156-a634-c04c508f8471"
+
     }]
 }
