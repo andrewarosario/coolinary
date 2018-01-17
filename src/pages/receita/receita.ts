@@ -88,7 +88,7 @@ export class ReceitaPage {
 
     abrirOpcoesAdd(ingrediente: InfoIngrediente) {
         this.actionSheetCtrl.create({
-            title: `Adicionar ${ingrediente.nome} à:`,
+            title: `Adicionar ${ingrediente.nome} em:`,
             buttons: [
                 {
                     text: 'Meus Ingredientes',
@@ -99,7 +99,7 @@ export class ReceitaPage {
                 {
                     text: 'Minha Lista de Compras',
                     handler: () => {
-                        console.log('lista de compras');
+                        this.addIngrediente(2,ingrediente);
                     }
                 },
                 {
@@ -112,17 +112,21 @@ export class ReceitaPage {
     }
 
     addIngrediente(tipo, ingrediente: InfoIngrediente) {
+        let ingredienteSalvar = {
+                                    nome: ingrediente.nome,
+                                    quantidade: Number(ingrediente.quantidade),
+                                    keySelectIngrediente: ingrediente.ingredienteKey,
+                                    checado: false
+                                }
+
         if (tipo == 1)  {
-            this.ingredienteService.ingredientes.push({
-                nome: ingrediente.nome,
-                quantidade: Number(ingrediente.quantidade),
-                keySelectIngrediente: ingrediente.ingredienteKey,
-                checado: false
-            });
+            this.ingredienteService.ingredientes.push(ingredienteSalvar);
 
             this.atualizaReceitasService.setAtualizar(true);
+            this.avisoToast(`${ingrediente.nome} foi adicionado(a) aos seus ingredientes!`);
         } else {
-
+            this.itemCompraService.itensCompra.push(ingredienteSalvar);
+            this.avisoToast(`${ingrediente.nome} foi adicionado(a) em sua lista de compras!`);
         }
     }
 

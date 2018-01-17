@@ -159,11 +159,11 @@ export class ListaReceitasPage {
                 this.ingredientes.forEach((ingrediente: Ingrediente) => {
                     if (ingrediente.keySelectIngrediente == infoIngrediente.ingredienteKey) {
                         this.todasReceitas[index].numeroIngredientesPossui ++;
+                        infoIngrediente.possui = true;
                     }
                 });
 
             });
-
             // receita.ingredienteKey.forEach((ingredienteReceita) => {
 
             //     this.ingredientes.forEach((ingrediente: Ingrediente) => {

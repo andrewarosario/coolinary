@@ -4,8 +4,6 @@ import { ListaReceitasPage } from './lista-receitas';
 import { BarraPorcentagemReceitaComponent } from '../../components/barra-porcentagem-receita/barra-porcentagem-receita';
 import { NenhumaReceitaComponent } from '../../components/nenhuma-receita/nenhuma-receita';
 
-
-
 @NgModule({
   declarations: [
     ListaReceitasPage, 

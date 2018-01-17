@@ -53,13 +53,33 @@
                     {{ingrediente.nome}}
                 </ion-col>
                 <ion-col col-2>
-                    <button (click)="abrirOpcoesAdd(ingrediente)" ion-button clear item-end>
-                        <ion-icon name="more"></ion-icon>  
+                    <button *ngIf="!ingrediente.possui" 
+                        (click)="abrirOpcoesAdd(ingrediente)" ion-button clear item-end>
+                        <ion-icon name="add"></ion-icon>  
                     </button>
                 </ion-col>
                 
                 <ion-col col-12>
                     {{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})
+                </ion-col>                
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid *ngIf="receita.adicionais">
+            <h4 margin-left>Ingredientes Adicionais</h4>
+            <ion-row *ngFor="let ingredienteAdicional of receita.adicionais">
+                <ion-col col-10>
+                    {{ingredienteAdicional.nome}}
+                </ion-col>
+                <ion-col col-2>
+                    <button *ngIf="!ingredienteAdicional.possui" 
+                        (click)="abrirOpcoesAdd(ingredienteAdicional)" ion-button clear item-end>
+                        <ion-icon name="add"></ion-icon>  
+                    </button>
+                </ion-col>
+                
+                <ion-col col-12>
+                    {{ingredienteAdicional.quantidade}} {{ingredienteAdicional.unidade}} ({{ingredienteAdicional.obs}})
                 </ion-col>                
             </ion-row>
         </ion-grid>
@@ -74,7 +94,14 @@
                 </ion-col>
             </ion-row>
 
-        </ion-grid>      
+        </ion-grid> 
+        
+        <div *ngIf="receita.video">
+            <h2 margin-left>Vídeo</h2>
+
+            <iframe width="100%" height="315" [src]="receita.video | youtube" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        
 
     </section>
  

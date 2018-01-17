@@ -4,6 +4,7 @@ export class InfoIngrediente {
     ingredienteKey: any;
     nome: string;
     obs: string;
+    possui?: boolean;
 }
 
 export interface Receita {
@@ -12,11 +13,10 @@ export interface Receita {
     descricao?: string;
     tempoPreparo: number;   
     porcoes: number;
-    ingredientes: string[];
     modoPreparo: string[];
     tags?: string[];
     imagem: string;
-    ingredienteKey: string[];
+    video?: string;
     favorita: number;
     numeroIngredientesPossui?: number;
     textoIngredientesPossui?: string;
