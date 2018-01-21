@@ -9,6 +9,7 @@ import { IngredienteService } from '../../providers/ingrediente/ingrediente.serv
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 import { Ingrediente } from '../../models/ingrediente/ingrediente.interface';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
+import { AuthService } from '../../providers/auth/auth.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 })
 export class ReceitaPage {
 
+    autenticado: boolean;
     receita: Receita;
     receitaFavorita: ReceitasFavoritas;
     receitasFavoritasListRef$: FirebaseListObservable<ReceitasFavoritas[]>;
@@ -31,13 +33,26 @@ export class ReceitaPage {
                 public itemCompraService: ItemCompraService,
                 public toastCtrl: ToastController,
                 public actionSheetCtrl: ActionSheetController,
-                public atualizaReceitasService: AtualizaReceitasService) {
+                public atualizaReceitasService: AtualizaReceitasService,
+                public authService: AuthService) {
 
         this.receita = navParams.get('receita');
-        this.receitasFavoritasListRef$ = this.receitasFavoritasService.receitasFavoritas;
+        // this.receitasFavoritasListRef$ = this.receitasFavoritasService.receitasFavoritas;
 
-        this.verificaFavorita(this.receita.$key);
+        // this.verificaFavorita(this.receita.$key);
 
+    }
+
+    ionViewDidLoad() {
+        this.authService.autenticado
+            .then(() => {
+                this.autenticado = true;
+                this.receitasFavoritasListRef$ = this.receitasFavoritasService.receitasFavoritas;
+                this.verificaFavorita(this.receita.$key);
+            })
+            .catch(() => {
+                this.autenticado = false
+            });
     }
 
     private verificaFavorita(receitaKey: any): void {
@@ -48,6 +63,11 @@ export class ReceitaPage {
     }
 
     adicionarFavoritos(receita: Receita) {
+
+        if (!this.autenticado) {
+            this.avisoToast(`Faça Login para adicionar a receita aos favoritos!`);
+            return;
+        }
 
         if (this.receitaFavorita == null) {
             this.receitasService.atualizaTotalFavoritos(receita.$key,true);

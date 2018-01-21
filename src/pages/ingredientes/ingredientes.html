@@ -64,7 +64,7 @@
 
     </div>
 
-    <ion-fab bottom right #fab>
+    <ion-fab *ngIf="autenticado" bottom right #fab>
         <button ion-fab color="secondary">
             <ion-icon name="add"></ion-icon>
         </button>

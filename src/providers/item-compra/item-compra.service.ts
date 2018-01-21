@@ -5,20 +5,36 @@ import { FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable }
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
 import { Observable } from 'rxjs/Observable';
 import { IngredienteService } from '../ingrediente/ingrediente.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class ItemCompraService {
 
     itensCompra: FirebaseListObservable<Ingrediente[]>;
     itemCompra: FirebaseObjectObservable<Ingrediente>;
+    idUsuario: any;
 
     constructor(public db: AngularFireDatabase,
+                public afAuth: AngularFireAuth,
                 public ingredienteService: IngredienteService) {
-        this.itensCompra = this.db.list('itemCompra');
+        //this.itensCompra = this.db.list('itemCompra');
+        this.listarItensCompra();
+    }
+
+    listarItensCompra() {
+        this.afAuth
+        .authState
+        .subscribe((authUsuario: firebase.User) => {
+            if (authUsuario) {
+                this.idUsuario = authUsuario.uid
+                this.itensCompra = this.db.list(`itemCompra/${this.idUsuario}`);
+            }
+        });
     }
 
     selecionar(itemCompraId: any) {
-        return this.db.object(`itemCompra/${itemCompraId}`);
+        return this.db.object(`itemCompra/${this.idUsuario}/${itemCompraId}`);
     }
 
     toggleChecado(itemCompra: Ingrediente) {

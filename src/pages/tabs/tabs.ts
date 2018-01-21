@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IngredientesPage } from "../ingredientes/ingredientes";
 import { ListaReceitasPage } from "../lista-receitas/lista-receitas";
 import { NavController } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 
 @Component({
     selector: 'page-tabs',
@@ -9,7 +10,7 @@ import { NavController } from 'ionic-angular';
 })
 export class TabsPage {
 
-    tab1Root: any = IngredientesPage;
+    tab1Root: any = LoginPage;
     tab2Root: any = ListaReceitasPage;
     tab3Root: any = IngredientesPage;
 

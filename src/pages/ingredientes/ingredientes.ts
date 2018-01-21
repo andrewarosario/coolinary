@@ -8,6 +8,7 @@ import { InclusaoRapidaIngredientePage } from "../inclusao-rapida-ingrediente/in
 import { ItemCompraService } from '../../providers/item-compra/item-compra.service';
 import 'rxjs/add/operator/first';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
+import { AuthService } from '../../providers/auth/auth.service';
 
 @Component({
     selector: 'page-ingredientes',
@@ -16,6 +17,7 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 
 export class IngredientesPage {
 
+    autenticado: boolean;
     view: string = 'Meus Ingredientes';
     existeItemChecado: boolean;
 
@@ -25,19 +27,52 @@ export class IngredientesPage {
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,                
                 public modalCtrl: ModalController,
+                public authService: AuthService,
                 public ingredienteService: IngredienteService,
                 public itemCompraService: ItemCompraService,
                 public atualizaReceitasService: AtualizaReceitasService,
                 private toastCtrl: ToastController) {
+                    
+        //this.verificaAutenticacao();
 
-        this.ingredientesListRef$ = this.ingredienteService.ingredientes;
-        this.itensCompraListRef$ = this.itemCompraService.itensCompra;
+        // this.ingredientesListRef$ = this.ingredienteService.ingredientes;
+        // this.itensCompraListRef$ = this.itemCompraService.itensCompra;
 
-        this.verificaItemChecado();
+        // this.verificaItemChecado();
       
     }
 
+    ionViewDidLoad() {
+        //if (!this.autenticado) return;
+
+        // this.ingredientesListRef$ = this.ingredienteService.ingredientes;
+        // this.itensCompraListRef$ = this.itemCompraService.itensCompra;
+        // this.verificaItemChecado();
+    }
+
+    ionViewWillEnter() {
+        this.verificaAutenticacao();
+    }
+
+    verificaAutenticacao() {
+        this.authService.autenticado
+            .then(() => {
+                this.autenticado = true;
+
+                this.ingredientesListRef$ = this.ingredienteService.ingredientes;
+                this.itensCompraListRef$ = this.itemCompraService.itensCompra;
+                this.verificaItemChecado();
+            })
+            .catch(() => this.autenticado = false);
+    }
+
+    // ionViewCanEnter(): Promise<boolean> {
+    //     return this.authService.autenticado;
+    // }
+
     private verificaItemChecado(): void {
+        
+
         this.itemCompraService.verificaItemCompraChecado()
         .subscribe((existeChecado: boolean) => {
             this.existeItemChecado = existeChecado;

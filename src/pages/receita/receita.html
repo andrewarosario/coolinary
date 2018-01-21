@@ -52,7 +52,7 @@
                 <ion-col col-10>
                     {{ingrediente.nome}}
                 </ion-col>
-                <ion-col col-2>
+                <ion-col col-2 *ngIf="autenticado">
                     <button *ngIf="!ingrediente.possui" 
                         (click)="abrirOpcoesAdd(ingrediente)" ion-button clear item-end>
                         <ion-icon name="add"></ion-icon>  
@@ -71,7 +71,7 @@
                 <ion-col col-10>
                     {{ingredienteAdicional.nome}}
                 </ion-col>
-                <ion-col col-2>
+                <ion-col col-2 *ngIf="autenticado">
                     <button *ngIf="!ingredienteAdicional.possui" 
                         (click)="abrirOpcoesAdd(ingredienteAdicional)" ion-button clear item-end>
                         <ion-icon name="add"></ion-icon>  
@@ -98,11 +98,9 @@
         
         <div *ngIf="receita.video">
             <h2 margin-left>Vídeo</h2>
-
             <iframe width="100%" height="315" [src]="receita.video | youtube" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
         
-
     </section>
  
 </ion-content>

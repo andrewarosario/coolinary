@@ -11,8 +11,9 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 import { ReceitasFavoritasService } from '../../providers/receitas-favoritas/receitas-favoritas.service';
 import { ReceitasFavoritas } from '../../models/receitas-favoritas/receitas-favoritas.interface';
 import { FiltroReceitasPage } from '../filtro-receitas/filtro-receitas';
-import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas';
+import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas.service';
 import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
+import { AuthService } from '../../providers/auth/auth.service';
 
 @Component({
     selector: 'page-lista-receitas',
@@ -21,6 +22,7 @@ import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.int
 
 export class ListaReceitasPage {
 
+    autenticado: boolean;
     receitas: Receita[];
     todasReceitas: Receita[];
     receitasFavoritas: ReceitasFavoritas[];
@@ -35,15 +37,30 @@ export class ListaReceitasPage {
                 public ingredienteService: IngredienteService,
                 public atualizaReceitasService: AtualizaReceitasService,
                 public receitasFavoritasService: ReceitasFavoritasService,
-                public filtroReceitasService: FiltroReceitasService) {
+                public filtroReceitasService: FiltroReceitasService,
+                public authService: AuthService) {
 
-        this.carregarReceitas();
+        //this.carregarReceitas();
     }
 
     ionViewWillEnter() {
-        if (this.atualizaReceitasService.podeAtualizar()) {
-            this.carregarReceitas();
-        }
+        this.authService.autenticado
+                .then(() => {
+                    if (this.atualizaReceitasService.podeAtualizar()) {
+                        this.carregarReceitas();
+                    }
+                })
+                .catch(() => {
+                    if (this.atualizaReceitasService.podeAtualizar()) {
+                        this.carregarReceitasSemUsuario();
+                    }
+                });
+    }
+
+    ionViewDidLoad() {
+        this.authService.autenticado
+                .then(() => this.carregarReceitas())
+                .catch(() => this.carregarReceitasSemUsuario());
     }
 
     public get titulo(): string {
@@ -63,9 +80,23 @@ export class ListaReceitasPage {
 
         this.getFiltroReceitas();
 
-        this.getReceitas()
+        this.getReceitas();
 
         loading.dismiss(); 
+    }
+
+    private carregarReceitasSemUsuario() {
+        let loading: Loading = this.mostrarLoading();
+
+        this.receitasService.receitas
+        .first()
+        .subscribe((receitas: Receita[]) => {
+            this.todasReceitas = receitas;
+
+            this.filtrarReceitasSemUsuario();
+        })
+        
+        loading.dismiss();
     }
 
     toggleSearch() {
@@ -164,14 +195,6 @@ export class ListaReceitasPage {
                 });
 
             });
-            // receita.ingredienteKey.forEach((ingredienteReceita) => {
-
-            //     this.ingredientes.forEach((ingrediente: Ingrediente) => {
-            //         if (ingrediente.nome == ingredienteReceita) {
-            //             this.todasReceitas[index].numeroIngredientesPossui ++;
-            //         }
-            //     });
-            // });
 
             let disponiveis = this.todasReceitas[index].numeroIngredientesPossui;
             let total = this.todasReceitas[index].infoIngredientes.length;
@@ -183,6 +206,19 @@ export class ListaReceitasPage {
 
         this.receitas = this.recebeTodasReceitasPorPorcentagem();
 
+    }
+
+    filtrarReceitasSemUsuario() {
+        this.todasReceitas.forEach((receita: Receita,index) => {
+
+            this.todasReceitas[index].numeroIngredientesPossui = 0;
+            let total = this.todasReceitas[index].infoIngredientes.length;
+
+            this.todasReceitas[index].textoIngredientesPossui = this.retornaTextoTotalDisponiveis(0,total);
+            this.todasReceitas[index].porcentagemIngredientes = this.calculaPorcentagem(0,total);
+        });
+
+        this.receitas = this.recebeTodasReceitasPorPorcentagem();
     }
 
     calculaPorcentagem(disponiveis: number, total: number): number {

@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { MyApp } from './app.component';
 import { FIREBASE_CREDENTIALS } from './firebase.credentials'
@@ -23,7 +24,11 @@ import { AtualizaReceitasService } from '../providers/atualiza-receitas/atualiza
 import { ReceitasFavoritasService } from '../providers/receitas-favoritas/receitas-favoritas.service';
 import { MenuGeralComponent } from '../components/menu-geral/menu-geral';
 import { FiltroReceitasPageModule } from '../pages/filtro-receitas/filtro-receitas.module';
-import { FiltroReceitasService } from '../providers/filtro-receitas/filtro-receitas';
+import { FiltroReceitasService } from '../providers/filtro-receitas/filtro-receitas.service';
+import { RegistrarPageModule } from '../pages/registrar/registrar.module';
+import { AuthService } from '../providers/auth/auth.service';
+import { UsuarioService } from '../providers/usuario/usuario.service';
+import { LoginPageModule } from '../pages/login/login.module';
 
 @NgModule({
     declarations: [
@@ -37,13 +42,16 @@ import { FiltroReceitasService } from '../providers/filtro-receitas/filtro-recei
         //Inicializando AngularFire com as credenciais
         AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
         AngularFireDatabaseModule,
+        AngularFireAuthModule,
         TabsPageModule,
         IngredientesPageModule,      
         ListaReceitasPageModule,
         InclusaoRapidaIngredientePageModule,
         ReceitaPageModule,
         ModalIngredientesPageModule,
-        FiltroReceitasPageModule
+        FiltroReceitasPageModule,
+        RegistrarPageModule,
+        LoginPageModule
         
     ],
     bootstrap: [IonicApp],
@@ -60,7 +68,9 @@ import { FiltroReceitasService } from '../providers/filtro-receitas/filtro-recei
         ReceitasService,
         AtualizaReceitasService,
         ReceitasFavoritasService,
-        FiltroReceitasService
+        FiltroReceitasService,
+        AuthService,
+        UsuarioService
     ]
 })
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
-import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas';
+import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas.service';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 
 @Component({
