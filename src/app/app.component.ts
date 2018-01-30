@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, LoadingController, Loading } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -11,19 +11,27 @@ import * as firebase from 'firebase/app';
 import { Usuario } from '../models/usuario/usuario.interface';
 import { LoginPage } from '../pages/login/login';
 
+
 @Component({
     templateUrl: 'app.html'
 })
 
 export class MyApp {
     rootPage:any = LoginPage;
-    usuarioAtual: Usuario;
+    //usuarioAtual: Usuario;
+    usuarioAtual = {} as Usuario;
 
     constructor(platform: Platform, 
         statusBar: StatusBar, 
         splashScreen: SplashScreen,
         authService: AuthService,
+        loadingCtrl: LoadingController,
         usuarioService: UsuarioService) {
+
+        let loading: Loading = loadingCtrl.create({
+            content: 'Aguarde...'
+        });
+        loading.present();
 
         authService
             .afAuth
@@ -32,12 +40,15 @@ export class MyApp {
 
                 if (authUsuario) {
                     usuarioService.usuarioAtual
-                    .subscribe((usuario: Usuario) => {
+                    .subscribe((usuario: Usuario) => {                        
                         this.usuarioAtual = usuario;
                         this.rootPage = TabsPage;
+                        loading.dismiss();
                     });
                 } else {
+                    this.usuarioAtual = undefined;
                     this.rootPage = LoginPage;
+                    loading.dismiss();
                 }
             });
 

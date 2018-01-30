@@ -1,4 +1,9 @@
 <ion-content>
+
+    <div menuClose *ngIf="usuarioAtual" (click)="abrirPerfil()">
+        <info-usuario [usuario]="usuarioAtual"></info-usuario>
+    </div>
+
     <ion-list no-lines>
         <button menuClose ion-item detail-none *ngFor="let p of paginas" (click)="abrirPagina(p)">
             <ion-icon [name]="p.icone" item-left></ion-icon>

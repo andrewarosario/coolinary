@@ -9,6 +9,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { UsuarioService } from '../../providers/usuario/usuario.service';
 import { TabsPage } from '../tabs/tabs';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
+import { LoginInstagramPage } from '../login-instagram/login-instagram';
 
 @Component({
     selector: 'page-registrar',
@@ -102,6 +103,10 @@ export class RegistrarPage {
                 this.atualizaReceitasService.setAtualizar(true);
                 this.navCtrl.setRoot(TabsPage);
             });
+    }
+
+    teste() {
+        this.navCtrl.push(LoginInstagramPage)
     }
 
 }

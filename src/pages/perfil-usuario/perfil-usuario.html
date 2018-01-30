@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+</ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+    <info-usuario [usuario]="usuarioAtual"></info-usuario>
+
+    <button ion-button block (click)="podeEditar = !podeEditar">Editar</button>
+
+    <form (ngSubmit)="enviar($event)" *ngIf="podeEditar" #perfilForm="ngForm">
+
+        <ion-item>
+            <ion-icon name="person" item-start></ion-icon>
+            <ion-input type="text" placeholder="Nome" name="name"
+                        [(ngModel)]="usuarioAtual.nome" required minlenght="3">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name="at" item-start></ion-icon>
+            <ion-input
+                type="text"
+                placeholder="Usuário"
+                name="username"
+                [(ngModel)]="usuarioAtual.usuario"
+                required
+                minlenght="3">
+            </ion-input>
+        </ion-item>
+        
+        <ion-item>
+            <ion-icon name="image" item-end></ion-icon>
+            <input type="file" accept="image/*" (change)="selecionarFoto($event)">
+        </ion-item>
+
+        <barra-progresso *ngIf="progressoUpload" [progresso]="progressoUpload"></barra-progresso>
+
+        <br>
+
+        <button ion-button block type="submit" [disabled]="perfilForm.form.invalid">Salvar</button>
+
+    </form>
+
+</ion-content>

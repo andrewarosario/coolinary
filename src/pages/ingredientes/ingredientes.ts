@@ -9,6 +9,7 @@ import { ItemCompraService } from '../../providers/item-compra/item-compra.servi
 import 'rxjs/add/operator/first';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 import { AuthService } from '../../providers/auth/auth.service';
+import { LoginPage } from '../login/login';
 
 @Component({
     selector: 'page-ingredientes',
@@ -157,5 +158,9 @@ export class IngredientesPage {
             showCloseButton: false,            
         });
         toast.present();
+    }
+
+    abrirLogin() {
+        this.navCtrl.setRoot(LoginPage);
     }
 }

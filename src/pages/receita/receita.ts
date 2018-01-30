@@ -140,7 +140,8 @@ export class ReceitaPage {
                                 }
 
         if (tipo == 1)  {
-            this.ingredienteService.ingredientes.push(ingredienteSalvar);
+            this.ingredienteService.ingredientes.push(ingredienteSalvar)
+                                                .then(() => ingrediente.possui = true);
 
             this.atualizaReceitasService.setAtualizar(true);
             this.avisoToast(`${ingrediente.nome} foi adicionado(a) aos seus ingredientes!`);

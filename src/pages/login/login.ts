@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { RegistrarPage } from "../registrar/registrar";
 import { AuthService } from "../../providers/auth/auth.service";
 import { TabsPage } from "../tabs/tabs";
+import { UsuarioService } from '../../providers/usuario/usuario.service';
+import { Usuario } from '../../models/usuario/usuario.interface';
 
 @Component({
   selector: 'page-login',
@@ -18,6 +20,7 @@ export class LoginPage {
                 public navParams: NavParams,
                 public formBuilder: FormBuilder,
                 public authService: AuthService,
+                public usuarioService: UsuarioService,
                 public loadingCtrl: LoadingController,
                 public alertCtrl: AlertController) {
 
@@ -66,5 +69,43 @@ export class LoginPage {
         }).present();
     }
 
+    loginFacebook() {
+        let loading: Loading = this.mostrarLoading();
+
+        this.authService.logarComFacebook()
+            .then((usuario) => {
+                if (usuario) {
+                    this.usuarioService.idUsuarioJaExiste(usuario.uid)
+                        .first()
+                        .subscribe((jaExiste: boolean) => {
+                            if (!jaExiste) {
+                                let dadosUsuario: Usuario = {
+                                                                usuario: usuario.displayName, 
+                                                                email: usuario.email,
+                                                                foto: usuario.photoURL
+                                                            }
+                                this.usuarioService.criar(dadosUsuario,usuario.uid)
+                                    .then(() => console.log('usuário cadastrado!'))
+                                    .catch((error: any) => {
+                                        console.log(error);
+                                        loading.dismiss();
+                                        this.mostrarAlert(error);
+                                    });
+                            }
+                            loading.dismiss();
+                        });
+                } else {
+                    loading.dismiss();
+                }
+            }).catch((error: any) => {
+                console.log(error);
+                loading.dismiss();
+                this.mostrarAlert(error);
+            });
+    }
+
+    naoLogar() {
+        this.navCtrl.setRoot(TabsPage);
+    }
 
 }

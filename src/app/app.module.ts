@@ -29,20 +29,30 @@ import { RegistrarPageModule } from '../pages/registrar/registrar.module';
 import { AuthService } from '../providers/auth/auth.service';
 import { UsuarioService } from '../providers/usuario/usuario.service';
 import { LoginPageModule } from '../pages/login/login.module';
+import { LoginInstagramPageModule } from '../pages/login-instagram/login-instagram.module';
+import { InfoUsuarioComponent } from '../components/info-usuario/info-usuario';
+import { PerfilUsuarioPage } from '../pages/perfil-usuario/perfil-usuario';
+import { BarraProgressoComponent } from '../components/barra-progresso/barra-progresso';
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
     declarations: [
         MyApp,
-        MenuGeralComponent
+        PerfilUsuarioPage,
+        MenuGeralComponent,
+        InfoUsuarioComponent,
+        BarraProgressoComponent
     ],
     imports: [
         BrowserModule,
+        
         IonicModule.forRoot(MyApp),
-
         //Inicializando AngularFire com as credenciais
         AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
         AngularFireDatabaseModule,
+        //ComponentsModule,
         AngularFireAuthModule,
+        //MenuGeralComponentModule,
         TabsPageModule,
         IngredientesPageModule,      
         ListaReceitasPageModule,
@@ -51,16 +61,21 @@ import { LoginPageModule } from '../pages/login/login.module';
         ModalIngredientesPageModule,
         FiltroReceitasPageModule,
         RegistrarPageModule,
-        LoginPageModule
+        LoginPageModule,
+        //PerfilUsuarioPageModule,
+        LoginInstagramPageModule,
+        
         
     ],
     bootstrap: [IonicApp],
     entryComponents: [
-        MyApp,        
+        MyApp,
+        PerfilUsuarioPage     
     ],
     providers: [
         StatusBar,
         SplashScreen,
+        Facebook,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         IngredienteService,
         SelectIngredienteService,

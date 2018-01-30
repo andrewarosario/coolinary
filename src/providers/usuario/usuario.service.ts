@@ -27,15 +27,15 @@ export class UsuarioService extends BaseService{
         this.receberUsuarioLogado();
     }
 
-    private listarUsuarios(uidUsuarioLogado: string): void {
-        this.usuarios = <FirebaseListObservable<Usuario[]>>this.db.list(`/usuario`, {
-            query: {
-                orderByChild: 'nome'
-            }
-        }).map((usuarios: Usuario[]) => {
-            return usuarios.filter((usuario: Usuario) => usuario.$key !== uidUsuarioLogado);
-        })
-    }
+    // private listarUsuarios(uidUsuarioLogado: string): void {
+        // this.usuarios = <FirebaseListObservable<Usuario[]>>this.db.list(`/usuario`, {
+        //     query: {
+        //         orderByChild: 'nome'
+        //     }
+        // }).map((usuarios: Usuario[]) => {
+        //     return usuarios.filter((usuario: Usuario) => usuario.$key !== uidUsuarioLogado);
+        // })
+    // }
 
     private receberUsuarioLogado(): void {
         this.afAuth
@@ -63,6 +63,14 @@ export class UsuarioService extends BaseService{
         }).map((usuarios: Usuario[]) => {
             return usuarios.length > 0;
         }).catch(this.handleObservableError);        
+    }
+
+    idUsuarioJaExiste(idUsuario: string): Observable<boolean> {
+        return this.db.list(`/usuario/${idUsuario}`)
+            .map((usuario: Usuario[]) => {
+                console.log(usuario);
+                return usuario.length > 0;
+            }).catch(this.handleObservableError);        
     }
 
     get(idUsuario: string): FirebaseObjectObservable<Usuario> {

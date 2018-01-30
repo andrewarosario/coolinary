@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IngredientesPage } from "../ingredientes/ingredientes";
 import { ListaReceitasPage } from "../lista-receitas/lista-receitas";
 import { NavController } from 'ionic-angular';
-import { LoginPage } from '../login/login';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 @Component({
     selector: 'page-tabs',
@@ -10,12 +10,12 @@ import { LoginPage } from '../login/login';
 })
 export class TabsPage {
 
-    tab1Root: any = LoginPage;
-    tab2Root: any = ListaReceitasPage;
-    tab3Root: any = IngredientesPage;
+    tab1Root: any = ListaReceitasPage;
+    tab2Root: any = IngredientesPage;
 
-    constructor(public navCtrl: NavController) {
-
+    constructor(public navCtrl: NavController,
+                public menuCtrl: MenuController) {
+        this.menuCtrl.enable(true, 'menu-geral');
     }
 
     
