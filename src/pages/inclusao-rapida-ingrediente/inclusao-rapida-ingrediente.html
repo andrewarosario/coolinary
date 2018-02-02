@@ -17,7 +17,7 @@
         <button ion-button clear item-end>
             <ion-icon name="md-add-circle" color="secondary" (click)="inclusaoRapida(ingrediente)"></ion-icon>
         </button>
-        <button ion-button clear item-end>
+        <button *ngIf="!modoFiltro" ion-button clear item-end>
             <ion-icon name="md-arrow-dropdown-circle" color="secondary" (click)="abrirModalIngrediente(ingrediente)"></ion-icon>  
         </button>
     </ion-item>  

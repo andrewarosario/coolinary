@@ -43,9 +43,7 @@ export class LoginPage {
                 }
             })
             .catch((error: any) => {
-                console.log(error);
-                loading.dismiss();
-                this.mostrarAlert(error);
+                this.cancelaLogin(loading,error);
             });
     }
 
@@ -87,9 +85,7 @@ export class LoginPage {
                                 this.usuarioService.criar(dadosUsuario,usuario.uid)
                                     .then(() => console.log('usuário cadastrado!'))
                                     .catch((error: any) => {
-                                        console.log(error);
-                                        loading.dismiss();
-                                        this.mostrarAlert(error);
+                                        this.cancelaLogin(loading,error);
                                     });
                             }
                             loading.dismiss();
@@ -98,14 +94,18 @@ export class LoginPage {
                     loading.dismiss();
                 }
             }).catch((error: any) => {
-                console.log(error);
-                loading.dismiss();
-                this.mostrarAlert(error);
+                this.cancelaLogin(loading,error);
             });
     }
 
     naoLogar() {
         this.navCtrl.setRoot(TabsPage);
+    }
+
+    cancelaLogin(loading: Loading, error) {
+        console.log(error);
+        loading.dismiss();
+        this.mostrarAlert(error);
     }
 
 }

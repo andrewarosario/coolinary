@@ -34,6 +34,7 @@ import { InfoUsuarioComponent } from '../components/info-usuario/info-usuario';
 import { PerfilUsuarioPage } from '../pages/perfil-usuario/perfil-usuario';
 import { BarraProgressoComponent } from '../components/barra-progresso/barra-progresso';
 import { Facebook } from '@ionic-native/facebook';
+import { FiltroIngredientesService } from '../providers/filtro-ingredientes/filtro-ingredientes.service';
 
 @NgModule({
     declarations: [
@@ -50,9 +51,7 @@ import { Facebook } from '@ionic-native/facebook';
         //Inicializando AngularFire com as credenciais
         AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
         AngularFireDatabaseModule,
-        //ComponentsModule,
-        AngularFireAuthModule,
-        //MenuGeralComponentModule,
+        AngularFireAuthModule,        
         TabsPageModule,
         IngredientesPageModule,      
         ListaReceitasPageModule,
@@ -85,7 +84,8 @@ import { Facebook } from '@ionic-native/facebook';
         ReceitasFavoritasService,
         FiltroReceitasService,
         AuthService,
-        UsuarioService
+        UsuarioService,
+        FiltroIngredientesService
     ]
 })
 

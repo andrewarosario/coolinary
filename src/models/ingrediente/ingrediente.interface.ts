@@ -2,7 +2,7 @@ export interface Ingrediente {
     $key?: string;
     keySelectIngrediente: string;
     nome: string;
-    quantidade: number;
+    quantidade?: number;
     unidade: string;
     checado?: boolean;
 }

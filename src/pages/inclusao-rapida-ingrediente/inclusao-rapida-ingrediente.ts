@@ -9,6 +9,8 @@ import { SelectIngredienteService } from '../../providers/select-ingrediente/sel
 import { ModalIngredientesPage } from '../modal-ingredientes/modal-ingredientes';
 import 'rxjs/add/operator/first';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
+import { FiltroIngredientesService } from '../../providers/filtro-ingredientes/filtro-ingredientes.service';
+import { ViewController } from 'ionic-angular/navigation/view-controller';
 
 @Component({
     selector: 'page-inclusao-rapida-ingrediente',
@@ -24,23 +26,40 @@ export class InclusaoRapidaIngredientePage {
 
     itemListRef$: FirebaseListObservable<Ingrediente[]>;
     modoItemCompra: boolean;
+    modoFiltro: boolean;
 
     constructor(public navCtrl: NavController, 
+                public viewCtrl: ViewController,
                 public navParams: NavParams,
                 public modalCtrl: ModalController,
                 public selectIngredienteService: SelectIngredienteService,
                 public ingredienteService: IngredienteService,
                 public itemCompraService: ItemCompraService,
+                public filtroIngredientesService: FiltroIngredientesService,
                 public atualizaReceitasService: AtualizaReceitasService,
                 private toastCtrl: ToastController) {
 
-        if (navParams.get('tipo')  == 'Meus Ingredientes') {        
-            this.itemListRef$ = this.ingredienteService.ingredientes;
-            this.modoItemCompra = false;
-        } else {
-            this.itemListRef$ = this.itemCompraService.itensCompra;
-            this.modoItemCompra = true;
+        switch(navParams.get('tipo')) {
+            case 'Meus Ingredientes':
+                this.itemListRef$ = this.ingredienteService.ingredientes;
+                this.modoItemCompra = false;
+                break;
+            case 'Lista De Compras':
+                this.itemListRef$ = this.itemCompraService.itensCompra;
+                this.modoItemCompra = true;
+                break;
+            case 'Filtro':
+                this.itemListRef$ = this.filtroIngredientesService.ingredientes
+                this.modoFiltro = true;
         }
+
+        // if (navParams.get('tipo')  == 'Meus Ingredientes') {        
+        //     this.itemListRef$ = this.ingredienteService.ingredientes;
+        //     this.modoItemCompra = false;
+        // } else  {
+        //     this.itemListRef$ = this.itemCompraService.itensCompra;
+        //     this.modoItemCompra = true;
+        // }
 
         this.carregarTodosIngredientes()
            
@@ -70,7 +89,9 @@ export class InclusaoRapidaIngredientePage {
 
     inclusaoRapida(selectIngrediente: SelectIngrediente): void {
         let qualProvider;
-        if (this.modoItemCompra) {
+        if (this.modoFiltro) {
+            qualProvider = this.filtroIngredientesService;
+        } else if (this.modoItemCompra) {
             qualProvider = this.itemCompraService;
         } else {
             qualProvider = this.ingredienteService;
@@ -80,15 +101,27 @@ export class InclusaoRapidaIngredientePage {
             .first()
             .subscribe((ingrediente: Ingrediente) => {
                 this.ingrediente = ingrediente; 
-                if (this.ingrediente == null) {
-                    this.incluir(selectIngrediente); 
+                if (this.modoFiltro) {
+                    if (this.ingrediente == null) {
+                        this.incluirFiltro(selectIngrediente);
+                    } else {
+                        this.avisoToast('Este ingrediente já consta na lista de filtros!')
+                    }
                 } else {
-                    this.atualizar(ingrediente, qualProvider);
-                }
-            })
+                    if (this.ingrediente == null) {
+                        this.incluir(selectIngrediente); 
+                    } else {
+                        this.atualizar(ingrediente, qualProvider);
+                    }
+                } 
+            });
     }
 
     incluir(selectIngrediente: SelectIngrediente) {
+        if (this.navParams.get('tipo')  == 'Filtro') {
+
+        }
+
         this.itemListRef$.push({
             nome: selectIngrediente.nome,
             quantidade: 1,
@@ -98,7 +131,6 @@ export class InclusaoRapidaIngredientePage {
             if (!this.modoItemCompra) {
                 this.atualizaReceitasService.setAtualizar(true);
             }
-            
         }).catch(() => this.avisoToast('Não foi possível adicionar :(')); 
     }
 
@@ -129,6 +161,15 @@ export class InclusaoRapidaIngredientePage {
             showCloseButton: false,            
         });
         toast.present();
+    }
+
+    incluirFiltro(selectIngrediente: SelectIngrediente) {
+        this.itemListRef$.push({
+            nome: selectIngrediente.nome,
+            keySelectIngrediente: selectIngrediente.$key
+        })
+        .then(() => this.viewCtrl.dismiss())
+        .catch(() => this.viewCtrl.dismiss()); 
     }
 
 }

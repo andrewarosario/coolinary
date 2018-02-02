@@ -14,6 +14,7 @@ import { FiltroReceitasPage } from '../filtro-receitas/filtro-receitas';
 import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas.service';
 import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
 import { AuthService } from '../../providers/auth/auth.service';
+import { FiltroIngredientesService } from '../../providers/filtro-ingredientes/filtro-ingredientes.service';
 
 @Component({
     selector: 'page-lista-receitas',
@@ -28,6 +29,7 @@ export class ListaReceitasPage {
     receitasFavoritas: ReceitasFavoritas[];
     filtroReceitas = {} as FiltroReceitas;
     ingredientes: Ingrediente[];
+    filtroIngredientes: Ingrediente[];
     toggled: boolean = false;
     
     constructor(public navCtrl: NavController,
@@ -38,6 +40,7 @@ export class ListaReceitasPage {
                 public atualizaReceitasService: AtualizaReceitasService,
                 public receitasFavoritasService: ReceitasFavoritasService,
                 public filtroReceitasService: FiltroReceitasService,
+                public filtroIngredientesService: FiltroIngredientesService,
                 public authService: AuthService) {
 
         //this.carregarReceitas();
@@ -153,7 +156,17 @@ export class ListaReceitasPage {
                 .first()
                 .subscribe((receitasFavoritas: ReceitasFavoritas[]) => {
                     this.receitasFavoritas = receitasFavoritas;
-                })
+                });
+        }
+    }
+
+    private getFiltroIngredientes() {
+        if (this.filtroReceitas.habilita) {
+            this.filtroIngredientesService.ingredientes
+                .first()
+                .subscribe((filtroIngredientes: Ingrediente[]) => {
+                    this.filtroIngredientes = filtroIngredientes
+                });
         }
     }
 
@@ -169,6 +182,8 @@ export class ListaReceitasPage {
             this.filtroReceitas.dataComemorativa = this.filtroReceitas.dataComemorativa || 'todas';
             this.filtroReceitas.tempoPreparo = this.filtroReceitas.tempoPreparo || 'todos';
             this.filtroReceitas.rendimento = this.filtroReceitas.rendimento || 'todos';
+
+            this.getFiltroIngredientes();
         });
     }
 
@@ -260,9 +275,14 @@ export class ListaReceitasPage {
         this.todasReceitas = this.todasReceitas.filter((receita: Receita) => {
             return this.confereTodosFiltros(receita,tempoPreparo,rendimento);
         });
+
     }
 
     confereTodosFiltros(receita: Receita, tempoPreparo, rendimento): boolean {
+        if (!this.verificaFiltroIngredientes(receita)) {
+            return false;
+        }
+
         let filtro = {
                         tipo: false,
                         regiao: false,
@@ -303,6 +323,27 @@ export class ListaReceitasPage {
             }
         }
         return true;
+    }
+
+    verificaFiltroIngredientes(receita: Receita): boolean {
+        let possuiIngrediente: boolean = false;
+
+        if (this.filtroIngredientes.length == 0) {
+            return true;
+        } 
+
+        receita.infoIngredientes.forEach((ingrediente: InfoIngrediente) => {
+            this.filtroIngredientes.forEach((filtroIngrediente: Ingrediente) => {
+                if (filtroIngrediente.keySelectIngrediente == ingrediente.ingredienteKey) {
+                    possuiIngrediente = true;
+                    return;
+                }
+            });
+            if (possuiIngrediente) return;
+        });
+
+        return possuiIngrediente;
+        
     }
 
     abrirFiltro() {
