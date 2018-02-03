@@ -13,7 +13,6 @@ export class FiltroReceitasService {
     
     constructor(public db: AngularFireDatabase,
                 public afAuth: AngularFireAuth) {
-        //this.filtroReceitas = this.db.object('filtroReceitas');
 
         this.carregarFiltro();
         

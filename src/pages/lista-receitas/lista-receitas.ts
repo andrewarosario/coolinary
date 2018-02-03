@@ -83,7 +83,7 @@ export class ListaReceitasPage {
 
         this.getFiltroReceitas();
 
-        this.getReceitas();
+        //this.getReceitas();
 
         loading.dismiss(); 
     }
@@ -161,13 +161,17 @@ export class ListaReceitasPage {
     }
 
     private getFiltroIngredientes() {
-        if (this.filtroReceitas.habilita) {
+        //if (this.filtroReceitas.habilita) {
+            
             this.filtroIngredientesService.ingredientes
                 .first()
                 .subscribe((filtroIngredientes: Ingrediente[]) => {
+    
                     this.filtroIngredientes = filtroIngredientes
+
+                    this.getReceitas();
                 });
-        }
+        //}
     }
 
     getFiltroReceitas() {
@@ -326,20 +330,26 @@ export class ListaReceitasPage {
     }
 
     verificaFiltroIngredientes(receita: Receita): boolean {
-        let possuiIngrediente: boolean = false;
+        let possuiIngrediente: boolean = true;
 
         if (this.filtroIngredientes.length == 0) {
             return true;
         } 
+       
+        this.filtroIngredientes.forEach((filtroIngrediente: Ingrediente) => {
 
-        receita.infoIngredientes.forEach((ingrediente: InfoIngrediente) => {
-            this.filtroIngredientes.forEach((filtroIngrediente: Ingrediente) => {
-                if (filtroIngrediente.keySelectIngrediente == ingrediente.ingredienteKey) {
-                    possuiIngrediente = true;
-                    return;
+            let achou = false;
+
+            receita.infoIngredientes.forEach((ingrediente: InfoIngrediente) => {
+                if (ingrediente.ingredienteKey == filtroIngrediente.keySelectIngrediente) {
+                    achou = true;
                 }
             });
-            if (possuiIngrediente) return;
+
+            if (!achou) {
+                possuiIngrediente = false;
+                return;
+            }
         });
 
         return possuiIngrediente;

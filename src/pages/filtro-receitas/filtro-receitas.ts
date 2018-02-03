@@ -69,6 +69,8 @@ export class FiltroReceitasPage {
         this.filtroReceitas.dataComemorativa = 'todas';
         this.filtroReceitas.tempoPreparo = 'todos';
         this.filtroReceitas.rendimento = 'todos';
+
+        this.deletarTodosIngredientes();
     }
 
     addIngrediente() {
@@ -79,6 +81,10 @@ export class FiltroReceitasPage {
 
     deletarIngrediente(ingrediente: Ingrediente) {
         this.filtroIngredientesListRef$.remove(ingrediente.$key);
+    }
+
+    deletarTodosIngredientes() {
+        this.filtroIngredientesListRef$.remove();
     }
 
 }

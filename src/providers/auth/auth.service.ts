@@ -73,7 +73,7 @@ export class AuthService extends BaseService{
                 .authState
                 .first()
                 .subscribe((authUsuario: firebase.User) => {
-                    console.log(authUsuario);
+                    //console.log(authUsuario);
                     (authUsuario) ? resolve(true) : reject(false);
                 });
         });
