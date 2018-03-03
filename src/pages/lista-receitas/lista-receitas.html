@@ -36,7 +36,7 @@
 
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
 
     <ion-refresher (ionRefresh)="atualizaPagina($event)" [pullMin]=95>
         <ion-refresher-content
@@ -81,4 +81,69 @@
 
     <nenhuma-receita *ngIf="receitas == 0"></nenhuma-receita>
 
+</ion-content> -->
+
+
+
+
+
+
+
+
+
+
+  
+<ion-content class="feed-content">
+    <ion-refresher (ionRefresh)="atualizaPagina($event)" [pullMin]=95>
+        <ion-refresher-content
+            pullingIcon="arrow-dropDown"
+            pullingText="Deslize para atualizar"
+            refreshingSpinner="circles"
+            refreshingText="Aguarde...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <div class="feed-item" *ngFor="let receita of receitas" (click)="abrirReceita(receita)">
+    <ion-card>
+        <img class="imagem-receita" [src]="receita.imagem"/>
+
+        <ion-card-content>
+            <ion-card-title class="item-title">
+                {{receita.titulo}}
+            </ion-card-title>
+
+            <barra-porcentagem-receita [porcentagem]="receita.porcentagemIngredientes"
+            [texto]="receita.textoIngredientesPossui">
+            </barra-porcentagem-receita>
+
+            <ion-chip class="tag-chip" *ngFor="let tag of receita.tags" color="secondary">
+            <ion-label>{{tag}}</ion-label>
+            </ion-chip>
+        </ion-card-content>
+
+        <ion-row no-padding class="actions-row">
+            <ion-col no-padding width-30 text-left>
+            <button class="action-button" ion-button clear small icon-left>
+                <ion-icon name='heart'></ion-icon>
+                {{receita.favorita}}
+            </button>
+            </ion-col>
+            <ion-col no-padding width-45 text-center>
+            <button class="action-button" ion-button clear small icon-left>
+                <ion-icon name='alarm'></ion-icon>
+                {{receita.tempoPreparo}}min
+            </button>
+            </ion-col>
+            <ion-col no-padding width-25 text-right>
+            <button class="action-button" ion-button clear small icon-left>
+                <ion-icon name='restaurant'></ion-icon>
+                {{receita.porcoes}}
+            </button>
+            </ion-col>
+        </ion-row>
+        </ion-card>
+    </div>
+
+    <nenhuma-receita *ngIf="receitas == 0"></nenhuma-receita>
+
 </ion-content>
+  

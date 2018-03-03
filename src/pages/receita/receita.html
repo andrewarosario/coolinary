@@ -46,7 +46,7 @@
         </ion-grid>
 
         <ion-grid>
-            <h2 margin-left>Ingredientes</h2>
+            <h2>Ingredientes</h2>
 
             <ion-row *ngFor="let ingrediente of receita.infoIngredientes">
                 <ion-col col-10>
@@ -66,7 +66,7 @@
         </ion-grid>
 
         <ion-grid *ngIf="receita.adicionais">
-            <h4 margin-left>Ingredientes Adicionais</h4>
+            <h4>Ingredientes Adicionais</h4>
             <ion-row *ngFor="let ingredienteAdicional of receita.adicionais">
                 <ion-col col-10>
                     {{ingredienteAdicional.nome}}
@@ -85,19 +85,16 @@
         </ion-grid>
 
         <ion-grid>
-            <h2 margin-left>Modo de Preparo</h2>
+            <h2>Modo de Preparo</h2>
 
-            <ion-row *ngFor="let passos of receita.modoPreparo; let i = index">
-                <ion-col>
-                    <span>{{i + 1}}</span>
-                    {{passos}}
-                </ion-col>
-            </ion-row>
+            <ol class="modo-preparo">
+                <li *ngFor="let passos of receita.modoPreparo">{{passos}}</li>
+            </ol>
 
         </ion-grid> 
         
         <div *ngIf="receita.video">
-            <h2 margin-left>Vídeo</h2>
+            <h2>Vídeo</h2>
             <iframe width="100%" height="315" [src]="receita.video | youtube" frameborder="0" allowfullscreen></iframe>
         </div>
         

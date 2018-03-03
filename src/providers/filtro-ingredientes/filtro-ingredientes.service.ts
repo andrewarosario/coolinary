@@ -29,7 +29,6 @@ export class FiltroIngredientesService {
             if (authUsuario) {
                 this.idUsuario = authUsuario.uid
                 this.ingredientes = this.db.list(`filtroIngredientes/${this.idUsuario}`);
-                console.log('atribuiu!')
             }
         });
     }

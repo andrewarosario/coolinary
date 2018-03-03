@@ -7,6 +7,7 @@ import { FiltroIngredientesService } from '../../providers/filtro-ingredientes/f
 import { FirebaseListObservable } from 'angularfire2/database';
 import { Ingrediente } from '../../models/ingrediente/ingrediente.interface';
 import { InclusaoRapidaIngredientePage } from '../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 @Component({
     selector: 'page-filtro-receitas',
@@ -14,7 +15,9 @@ import { InclusaoRapidaIngredientePage } from '../inclusao-rapida-ingrediente/in
 })
 export class FiltroReceitasPage {
 
+    podeSair: boolean = false;
     filtroReceitas = {} as FiltroReceitas;
+    filtroIngredientes: Ingrediente[];
     filtroIngredientesListRef$: FirebaseListObservable<Ingrediente[]>;
 
     tipos = ['todos','salgados','doces','bebidas','massas','carnes'];
@@ -24,6 +27,7 @@ export class FiltroReceitasPage {
     rendimentos = ['todos','1 pessoa', 'até 2 pessoas', 'até 5 pessoas', 'até 10 pessoas','mais de 10 pessoas'];
 
     constructor(public navCtrl: NavController, 
+                public alertCtrl: AlertController,
                 public navParams: NavParams,
                 public viewCtrl: ViewController,
                 public filtroReceitasService: FiltroReceitasService,
@@ -43,14 +47,52 @@ export class FiltroReceitasPage {
                 this.filtroReceitas.rendimento = this.filtroReceitas.rendimento || 'todos';
             });
 
-            this.atualizaReceitasService.setAtualizar(true);
+            
     }
 
     ionViewDidLoad() {
-        this.filtroIngredientesListRef$ = this.filtroIngredientesService.ingredientes; 
+        this.filtroIngredientesListRef$ = this.filtroIngredientesService.ingredientes;
+
+        this.filtroIngredientesService.ingredientes
+            .first()
+            .subscribe((filtroIngredientes: Ingrediente[]) => {
+                this.filtroIngredientes = filtroIngredientes;
+            });
     }
 
-    ionViewWillLeave() {
+    ionViewCanLeave(): Promise<boolean> {
+        return new Promise((resolve,reject) => {
+            if (this.podeSair) {
+                resolve();
+                return;
+            }
+            let alertPopup = this.alertCtrl.create({
+                message: 'Deseja aplicar os filtros?',
+                buttons: [{
+                        text: 'Sim',
+                        handler: () => {     
+                            this.filtroReceitas.habilita = true;                               
+                            this.salvarFiltros();
+                            resolve();         
+                        }
+                    },
+                    {
+                        text: 'Não',
+                        handler: () => resolve()
+                    },
+                    {
+                        text: 'Cancelar',
+                        role: 'cancel',
+                        handler: () => reject()
+                    }
+                    ]
+            });
+            alertPopup.present();
+        })
+    }
+
+    salvarFiltros() {
+        this.podeSair = true;
         let salvaFiltro = {
                             habilita: this.filtroReceitas.habilita,
                             tipo: this.filtroReceitas.tipo,
@@ -60,10 +102,20 @@ export class FiltroReceitasPage {
                             rendimento: this.filtroReceitas.rendimento
                           };
 
-        this.filtroReceitasService.atualiza(salvaFiltro);  
+        this.filtroReceitasService.atualiza(salvaFiltro); 
+        this.atualizaReceitasService.setAtualizar(true);
+        //this.navCtrl.pop(); 
+    }
+
+    aplicarFiltros() {
+        this.filtroReceitas.habilita = true;
+
+        this.salvarFiltros();
+        this.navCtrl.pop();
     }
 
     resetarFiltros(): void {
+        this.filtroReceitas.habilita = false;
         this.filtroReceitas.tipo = 'todos';
         this.filtroReceitas.regiao = 'todas';
         this.filtroReceitas.dataComemorativa = 'todas';
@@ -71,12 +123,16 @@ export class FiltroReceitasPage {
         this.filtroReceitas.rendimento = 'todos';
 
         this.deletarTodosIngredientes();
+
+        this.salvarFiltros();
+        this.navCtrl.pop();
     }
 
     addIngrediente() {
+        this.podeSair = true;
         this.navCtrl.push(InclusaoRapidaIngredientePage, {
             tipo: 'Filtro'    
-        });
+        }).then(() => this.podeSair = false);
     }
 
     deletarIngrediente(ingrediente: Ingrediente) {

@@ -1,12 +1,12 @@
 barra-porcentagem-receita {
 
     .barra-externa {
-         width: 96%;
-         margin: 10px 2%;
-         border: 1px solid #dcdcdc;
+        width: 96%;
+        margin: 10px 2%;
+        border: 1px solid #dcdcdc;
         position: relative;
-        width: 96;
-        height: 15px;
+        //width: 96;
+        height: 23px;
         background-color: #f4f4f4;
         border-radius: 20px;
         //box-shadow: inset 3px 5px 0 -1px darken(fade(#f4f4f4 20%), 20%);
@@ -23,7 +23,9 @@ barra-porcentagem-receita {
     .percentual {
         position: absolute;
         top: 0%;
-        left: 50%;
+        //left: 48%;
+        padding-left: 48%;
+        text-align: center;
     }
     
 }

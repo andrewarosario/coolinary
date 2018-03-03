@@ -1,4 +1,23 @@
 page-lista-receitas {
+    .feed-content
+	{
+		//background-color: color($colors, background, base);
+
+		.feed-item
+		{
+			@include basic-card-styles($theme-color-1);
+
+			.item-title
+			{
+				//margin: 0px;
+				margin-bottom: 12px;
+				//padding: 0px;
+				//letter-spacing: 1.1px;
+				//color: $theme-color-2;
+			}
+        }
+    }
+
 
     .botao-atualiza {
         font-size: 25px;
@@ -6,6 +25,22 @@ page-lista-receitas {
 
     .barra-busca {
         background-color: map-get($colors, primary); 
+    }
+
+    .imagem-receita {
+        position: relative;
+        width: 100%;
+        display: block;
+        overflow: hidden;
+        //border-radius: 50%;
+    }
+
+    .tag-chip {
+        height: 30px;
+        background-color: white;
+        border: 1px solid map-get($colors, secondary); 
+        margin: 3px 5px;
+        color: map-get($colors, secondary);
     }
 
 }

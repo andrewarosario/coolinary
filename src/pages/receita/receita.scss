@@ -67,4 +67,48 @@ page-receita {
         text-align: center;
         display: block;
     }
+
+    h2, h4 {
+        margin-left: 1rem; 
+    }
+
+    .modo-preparo {
+         margin-left: 4rem;
+         padding: 0;        
+         line-height: 1.6;
+         list-style-type: none;
+         counter-reset: section;
+
+        li {
+            counter-increment: section;
+            //margin-bottom: 10px;
+            //margin-top: 2rem;
+            //padding-left: 30px;
+            text-align: left;
+            margin-bottom: 3rem;
+            width: 95%;
+        }
+
+        li::before {
+            content: counters(section,"");
+            //border: 1px solid $theme-color-1;
+            //border-radius: 50%;
+            //display: inline-block;
+            float: left;
+            // width: 3.5rem;
+            // height: 3rem;
+            text-align: center;
+            //margin-right: 5px;
+            //font-size: 80%;
+            //background-color: rgb(0,200,200);
+            color: $theme-color-1;
+            //font-weight: bold;
+            //padding: 1px 7px;            
+            margin-left: -3rem;
+            //margin-right: -1rem;
+            //border-radius: 3px;
+            font-size: 120%;
+            
+        }
+    }
 }

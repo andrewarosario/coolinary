@@ -1,3 +1,34 @@
 page-perfil-usuario {
+    .settings-content
+	{
+		background-color: color($colors, background, base);
 
+		.user-image-content
+		{
+			padding: 16px;
+			margin-bottom: 20px;
+			background-color: $white;
+			@include element-shadow();
+
+			.user-image-row
+			{
+				justify-content: center;
+
+				.user-image
+				{
+					border-radius: 50%;
+				}
+			}
+
+			.image-action-button
+			{
+				margin: 10px 0px 0px;
+				border-radius: 6px;
+				background-color: color($colors, button-alt, contrast);
+				color: color($colors, button-alt, base);
+				border-color: color($colors, button-alt, base);
+				font-weight: 500;
+			}
+        }
+    }
 }

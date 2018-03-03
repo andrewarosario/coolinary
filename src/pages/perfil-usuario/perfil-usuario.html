@@ -1,12 +1,25 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Login</ion-title>
-</ion-navbar>
-
+    <ion-navbar>
+        <ion-title>Perfil</ion-title>
+    </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="settings-content">
+    <div class="user-image-content">
+      <ion-row no-padding class="user-image-row">
+        <ion-col no-padding width-40>
+          <info-usuario [usuario]="usuarioAtual" class="user-image" 
+        alt="this is the image" title="IMAGE!"></info-usuario>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding class="user-image-row">
+        <ion-col no-padding width-60>
+          <button class="image-action-button" ion-button outline block small (click)="selecionarFoto($event)">Alterar Foto de Perfil</button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+<!-- <ion-content padding> -->
 
     <info-usuario [usuario]="usuarioAtual"></info-usuario>
 

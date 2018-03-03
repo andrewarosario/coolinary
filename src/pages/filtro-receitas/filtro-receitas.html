@@ -9,11 +9,11 @@
 
 <ion-content>
     
-    <ion-item>
+    <!-- <ion-item>
         <ion-toggle [(ngModel)]="filtroReceitas.habilita"></ion-toggle>
         <ion-label> Habilitar Filtros </ion-label>
         <ion-icon name='funnel' color="primary" item-start></ion-icon>
-    </ion-item>
+    </ion-item> -->
 
     <ion-list>
 
@@ -22,7 +22,7 @@
         <ion-item>
             <ion-icon name='restaurant' item-start></ion-icon>
             <ion-label>Tipo de Receita</ion-label>
-            <ion-select [(ngModel)]="filtroReceitas.tipo" cancelText="Cancelar">
+            <ion-select interface="action-sheet" [(ngModel)]="filtroReceitas.tipo" cancelText="Cancelar">
                 <ion-option 
                   *ngFor="let tipo of tipos" 
                   [value]="tipo">
@@ -34,7 +34,7 @@
         <ion-item>
             <ion-icon name='md-globe' item-start></ion-icon>
             <ion-label>Regiões</ion-label>
-            <ion-select [(ngModel)]="filtroReceitas.regiao" cancelText="Cancelar">
+            <ion-select interface="action-sheet" [(ngModel)]="filtroReceitas.regiao" cancelText="Cancelar">
                 <ion-option 
                   *ngFor="let regiao of regioes" 
                   [value]="regiao">
@@ -46,7 +46,7 @@
         <ion-item>
             <ion-icon name='calendar' item-start></ion-icon>
             <ion-label>Datas Comemorativas</ion-label>
-            <ion-select [(ngModel)]="filtroReceitas.dataComemorativa" cancelText="Cancelar">
+            <ion-select interface="action-sheet" [(ngModel)]="filtroReceitas.dataComemorativa" cancelText="Cancelar">
                 <ion-option 
                   *ngFor="let dataComemorativa of datasComemorativas"
                   [value]="dataComemorativa">
@@ -58,7 +58,7 @@
         <ion-item>
             <ion-icon name='clock' item-start></ion-icon>
             <ion-label>Tempo de Preparo</ion-label>
-            <ion-select [(ngModel)]="filtroReceitas.tempoPreparo" cancelText="Cancelar">
+            <ion-select interface="action-sheet" [(ngModel)]="filtroReceitas.tempoPreparo" cancelText="Cancelar">
                 <ion-option 
                   *ngFor="let tempoPreparo of temposPreparo"
                   [value]="tempoPreparo">
@@ -70,7 +70,7 @@
         <ion-item>
             <ion-icon name='people' item-start></ion-icon>
             <ion-label>Rendimento</ion-label>
-            <ion-select [(ngModel)]="filtroReceitas.rendimento" cancelText="Cancelar">
+            <ion-select interface="action-sheet" [(ngModel)]="filtroReceitas.rendimento" cancelText="Cancelar">
                 <ion-option 
                   *ngFor="let rendimento of rendimentos"
                   [value]="rendimento">
@@ -99,9 +99,10 @@
         </ion-item-sliding>
     </ion-list>
 
-    <ion-footer>
-        <button ion-button block outline (click)="resetarFiltros()">Limpar Filtros</button>
-    </ion-footer>
-    
-
 </ion-content>
+
+<ion-footer>
+
+    <button ion-button block outline (click)="aplicarFiltros()">Aplicar Filtros</button>
+    <button ion-button block outline (click)="resetarFiltros()">Limpar Filtros</button>
+</ion-footer>

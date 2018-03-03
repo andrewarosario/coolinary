@@ -25,6 +25,17 @@
         <ion-input type="number" [(ngModel)]="ingrediente.quantidade"></ion-input>
     </ion-item>
 
+    <ion-item>
+        <ion-label floating>Unidade</ion-label>
+        <ion-select interface="popover" [(ngModel)]="unidadeSelecionada" cancelText="Cancelar">
+            <ion-option 
+              *ngFor="let unidade of selectIngrediente.unidades"
+              [value]="unidade">
+              {{unidade.nome}}
+            </ion-option>
+        </ion-select>
+    </ion-item>
+
     <br>
 
     <button ion-button block color="secondary" (click)="salvarIngrediente(ingrediente)">Salvar</button>    

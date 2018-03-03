@@ -1,5 +1,11 @@
+export class Unidade {
+    nome: string;
+    quantidade: number;
+}
+
 export interface SelectIngrediente {
     $key?: any;
     nome: string;
-    unidade: string;
+    unidadePadrao: string;
+    unidades?: Unidade[];
 }

@@ -29,7 +29,7 @@
 
     <div [ngSwitch]="view">
         <ion-list *ngSwitchCase="'Meus Ingredientes'">
-            <button ion-item *ngFor="let ingrediente of ingredientesListRef$ | async"
+            <!-- <button ion-item *ngFor="let ingrediente of ingredientesListRef$ | async"
             (click)="editarIngrediente(ingrediente,view)">
                 <h2>{{ingrediente.nome}}</h2>
                 <h3>Quantidade: {{ingrediente.quantidade}}</h3>
@@ -40,7 +40,19 @@
                     </ion-icon>  
                 </button>
 
-            </button>
+            </button> -->
+
+            <ion-item-sliding #slidingItem *ngFor="let ingrediente of ingredientesListRef$ | async">
+                <ion-item #item (click)="editarIngrediente(ingrediente,view)">
+                    <ion-icon item-start color="danger" name="remove-circle" 
+                             (click)="excluirIngrediente(ingrediente)">
+                    </ion-icon> 
+                    <h2>{{ingrediente.nome}}</h2>
+                    <h3>Quantidade: {{ingrediente.quantidade}}</h3>
+                </ion-item>
+                <ion-item-options side="right" (ionSwipe)="excluirIngrediente(ingrediente)"></ion-item-options>
+                <ion-item-options side="left" (ionSwipe)="excluirIngrediente(ingrediente)"></ion-item-options>
+            </ion-item-sliding>
             
         </ion-list>
 
@@ -48,16 +60,20 @@
         <div *ngSwitchCase="'Lista De Compras'">
         
             <ion-list>
-                <ion-item *ngFor="let itemCompra of itensCompraListRef$ | async">
-                    <ion-checkbox [(ngModel)]="itemCompra.checado" color="primary" (ionChange)="atualizaChecados(itemCompra)"></ion-checkbox>
-                    <ion-label>{{itemCompra.nome}}</ion-label>
-                    <ion-label class="quantidade">Quantidade: {{itemCompra.quantidade}}</ion-label>
-                    <button ion-button clear item-end>
-                        <ion-icon class="icon-excluir" name="md-close-circle" 
-                                    color="danger" (click)="excluirIngrediente(itemCompra)">
-                        </ion-icon>  
-                    </button>
-                </ion-item>
+                <ion-item-sliding *ngFor="let itemCompra of itensCompraListRef$ | async">                
+                    <ion-item #item>
+                        <ion-checkbox [(ngModel)]="itemCompra.checado" color="primary" (ionChange)="atualizaChecados(itemCompra)"></ion-checkbox>
+                        <ion-label>{{itemCompra.nome}}</ion-label>
+                        <ion-label class="quantidade">Quantidade: {{itemCompra.quantidade}}</ion-label>
+                        <!-- <button ion-button clear item-end>
+                            <ion-icon class="icon-excluir" name="md-close-circle" 
+                                        color="danger" (click)="excluirIngrediente(itemCompra)">
+                            </ion-icon>  
+                        </button> -->
+                    </ion-item>
+                    <ion-item-options side="right" (ionSwipe)="excluirIngrediente(itemCompra)"></ion-item-options>
+                    <ion-item-options side="left" (ionSwipe)="excluirIngrediente(itemCompra)"></ion-item-options>
+                </ion-item-sliding>
             </ion-list>
         </div>  
     

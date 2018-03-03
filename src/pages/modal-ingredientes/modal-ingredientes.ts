@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
-import { SelectIngrediente } from "../../models/select-ingrediente/select-ingrediente.interface";
+import { SelectIngrediente, Unidade } from "../../models/select-ingrediente/select-ingrediente.interface";
 import { FirebaseListObservable } from "angularfire2/database";
 import { ToastController } from 'ionic-angular';
 import { IngredienteService } from "../../providers/ingrediente/ingrediente.service";
@@ -17,6 +17,7 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 export class ModalIngredientesPage {
 
     selectIngredienteId: string;
+    unidadeSelecionada: Unidade;
 
     public modoEdicao: boolean = false;
     public modoItemCompra: boolean = false;
@@ -79,8 +80,11 @@ export class ModalIngredientesPage {
             });
     }
 
-    salvarIngrediente(ingrediente: Ingrediente) {         
+    salvarIngrediente(ingrediente: Ingrediente) {       
         if (!this.confereCampos(ingrediente)) return;
+
+        ingrediente.quantidadeConversao = this.calculaQuantidadeConversao(ingrediente.quantidade);
+        ingrediente.unidade = this.unidadeSelecionada.nome
             
         if (this.modoEdicao) {
             if (this.navParams.get('tipo')  == 'Meus Ingredientes') {
@@ -94,6 +98,8 @@ export class ModalIngredientesPage {
             this.itemListRef$.push({
                 nome: this.selectIngrediente.nome,
                 quantidade: Number(this.ingrediente.quantidade),
+                unidade: this.ingrediente.unidade,
+                quantidadeConversao: this.ingrediente.quantidadeConversao,
                 keySelectIngrediente: this.selectIngrediente.$key,
                 checado: false
             });
@@ -105,10 +111,15 @@ export class ModalIngredientesPage {
         this.fecharModal();        
     }
 
+    calculaQuantidadeConversao(quantidadeInformada) {
+        return this.unidadeSelecionada.quantidade * quantidadeInformada;
+    }
+
     confereCampos(ingrediente: Ingrediente) {
         try {
             if (!this.selectIngrediente.nome || this.selectIngrediente.nome == "") throw "Ingrediente não encontrado!";
             if (!this.ingrediente.quantidade || this.ingrediente.quantidade <= 0) throw "Informe uma quantidade!";
+            if (!this.unidadeSelecionada) throw "Informe uma unidade!";
 
             return true;
         }
