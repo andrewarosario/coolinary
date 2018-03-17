@@ -14,8 +14,5 @@ export class EnviarReceitaPage {
     constructor(public navCtrl: NavController) {
     }
 
-    ionViewDidLoad() {
-      
-    }
 
 }
