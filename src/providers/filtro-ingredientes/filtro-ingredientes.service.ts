@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/map';
 import { FirebaseListObservable, AngularFireDatabase, FirebaseObjectObservable } from "angularfire2/database";
-import { Ingrediente } from "../../models/ingrediente/ingrediente.interface";
+import { Ingrediente, FiltroIngrediente } from "../../models/ingrediente/ingrediente.interface";
 import { UsuarioService } from '../usuario/usuario.service';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
@@ -11,8 +11,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 @Injectable()
 export class FiltroIngredientesService {
 
-    ingredientes: FirebaseListObservable<Ingrediente[]>;
-    ingrediente: FirebaseObjectObservable<Ingrediente>;
+    ingredientes: FirebaseListObservable<FiltroIngrediente[]>;
+    ingrediente: FirebaseObjectObservable<FiltroIngrediente>;
     idUsuario: any;
 
     constructor(public db: AngularFireDatabase,
@@ -43,9 +43,9 @@ export class FiltroIngredientesService {
     //     this.ingrediente.update(ingrediente);
     // }
 
-    getIngrediente(selectIngredienteId: string): Observable<Ingrediente> {
-        return this.ingredientes.map((ingredientes: Ingrediente[]) => {
-                    return ingredientes.find((item: Ingrediente) => item.keySelectIngrediente == selectIngredienteId);
+    getIngrediente(selectIngredienteId: string): Observable<FiltroIngrediente> {
+        return this.ingredientes.map((ingredientes: FiltroIngrediente[]) => {
+                    return ingredientes.find((item: FiltroIngrediente) => item.keySelectIngrediente == selectIngredienteId);
                 });   
     }
 

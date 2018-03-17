@@ -48,7 +48,21 @@
         <ion-grid>
             <h2>Ingredientes</h2>
 
-            <ion-row *ngFor="let ingrediente of receita.infoIngredientes">
+            <ion-list>
+                <ion-item *ngFor="let ingrediente of receita.infoIngredientes">
+                    <p>{{ingrediente.nome}}</p>
+                    <p>{{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})</p>
+                    
+                    <button *ngIf="!ingrediente.possui" 
+                        (click)="abrirOpcoesAdd(ingrediente)"
+                        ion-button clear item-end > 
+                        <ion-icon name="add"></ion-icon>  
+                    </button>
+                </ion-item>
+            </ion-list>
+            
+
+            <!-- <ion-row *ngFor="let ingrediente of receita.infoIngredientes">
                 <ion-col col-10>
                     {{ingrediente.nome}}
                 </ion-col>
@@ -62,7 +76,7 @@
                 <ion-col col-12>
                     {{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})
                 </ion-col>                
-            </ion-row>
+            </ion-row> -->
         </ion-grid>
 
         <ion-grid *ngIf="receita.adicionais">

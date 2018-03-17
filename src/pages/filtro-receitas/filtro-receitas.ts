@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { FiltroReceitas } from '../../models/filtro-receitas/filtro-receitas.interface';
 import { FiltroReceitasService } from '../../providers/filtro-receitas/filtro-receitas.service';
 import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atualiza-receitas';
 import { FiltroIngredientesService } from '../../providers/filtro-ingredientes/filtro-ingredientes.service';
 import { FirebaseListObservable } from 'angularfire2/database';
-import { Ingrediente } from '../../models/ingrediente/ingrediente.interface';
+import { FiltroIngrediente } from '../../models/ingrediente/ingrediente.interface';
 import { InclusaoRapidaIngredientePage } from '../inclusao-rapida-ingrediente/inclusao-rapida-ingrediente';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
@@ -16,9 +16,11 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 export class FiltroReceitasPage {
 
     podeSair: boolean = false;
+    statusMensagem: boolean = false;
     filtroReceitas = {} as FiltroReceitas;
-    filtroIngredientes: Ingrediente[];
-    filtroIngredientesListRef$: FirebaseListObservable<Ingrediente[]>;
+    filtroIngredientes: FiltroIngrediente[];
+    listaIngredientes: FiltroIngrediente[];
+    filtroIngredientesListRef$: FirebaseListObservable<FiltroIngrediente[]>;
 
     tipos = ['todos','salgados','doces','bebidas','massas','carnes'];
     regioes = ['todas','baiana','gaúcha','mexicana','italiana','japonesa'];
@@ -30,6 +32,7 @@ export class FiltroReceitasPage {
                 public alertCtrl: AlertController,
                 public navParams: NavParams,
                 public viewCtrl: ViewController,
+                public modalCtrl: ModalController,
                 public filtroReceitasService: FiltroReceitasService,
                 public filtroIngredientesService: FiltroIngredientesService,
                 public atualizaReceitasService: AtualizaReceitasService,) {
@@ -45,24 +48,24 @@ export class FiltroReceitasPage {
                 this.filtroReceitas.dataComemorativa = this.filtroReceitas.dataComemorativa || 'todas';
                 this.filtroReceitas.tempoPreparo = this.filtroReceitas.tempoPreparo || 'todos';
                 this.filtroReceitas.rendimento = this.filtroReceitas.rendimento || 'todos';
-            });
 
+            });
             
     }
 
     ionViewDidLoad() {
         this.filtroIngredientesListRef$ = this.filtroIngredientesService.ingredientes;
-
         this.filtroIngredientesService.ingredientes
-            .first()
-            .subscribe((filtroIngredientes: Ingrediente[]) => {
-                this.filtroIngredientes = filtroIngredientes;
-            });
+        .first()
+        .subscribe((filtroIngredientes: FiltroIngrediente[]) => {
+            this.filtroIngredientes = filtroIngredientes;
+        });
+
     }
 
     ionViewCanLeave(): Promise<boolean> {
         return new Promise((resolve,reject) => {
-            if (this.podeSair) {
+            if (this.podeSair || !this.statusMensagem) {
                 resolve();
                 return;
             }
@@ -71,7 +74,9 @@ export class FiltroReceitasPage {
                 buttons: [{
                         text: 'Sim',
                         handler: () => {     
-                            this.filtroReceitas.habilita = true;                               
+                            this.filtroReceitas.habilita = true; 
+
+                            this.salvarNovosIngredientes();
                             this.salvarFiltros();
                             resolve();         
                         }
@@ -104,12 +109,12 @@ export class FiltroReceitasPage {
 
         this.filtroReceitasService.atualiza(salvaFiltro); 
         this.atualizaReceitasService.setAtualizar(true);
-        //this.navCtrl.pop(); 
     }
 
     aplicarFiltros() {
         this.filtroReceitas.habilita = true;
 
+        this.salvarNovosIngredientes();
         this.salvarFiltros();
         this.navCtrl.pop();
     }
@@ -130,17 +135,44 @@ export class FiltroReceitasPage {
 
     addIngrediente() {
         this.podeSair = true;
-        this.navCtrl.push(InclusaoRapidaIngredientePage, {
-            tipo: 'Filtro'    
-        }).then(() => this.podeSair = false);
+
+        let modal = this.modalCtrl.create(InclusaoRapidaIngredientePage, {tipo: 'Filtro'});
+        modal.onDidDismiss((ingrediente) => {
+                if (ingrediente) {
+                    this.alteraStatusMensagem()
+                    this.filtroIngredientes.push(
+                                     {
+                                        nome: ingrediente.nome,
+                                        keySelectIngrediente: ingrediente.$key
+                                     }
+                    );
+                }
+            ;
+            this.podeSair = false;
+        });
+        modal.present();
     }
 
-    deletarIngrediente(ingrediente: Ingrediente) {
-        this.filtroIngredientesListRef$.remove(ingrediente.$key);
+    deletarIngrediente(filtroIngredientes, index) {
+        this.alteraStatusMensagem();
+        filtroIngredientes.splice(index,1);
     }
 
     deletarTodosIngredientes() {
         this.filtroIngredientesListRef$.remove();
+    }
+
+    salvarNovosIngredientes() {
+        this.deletarTodosIngredientes();
+        if (this.filtroIngredientes.length > 0) {
+            this.filtroIngredientes.forEach((ingrediente) => {
+                this.filtroIngredientesListRef$.push(ingrediente);
+            })
+        }
+    }
+
+    alteraStatusMensagem() {
+        this.statusMensagem = true;
     }
 
 }

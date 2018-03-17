@@ -35,6 +35,7 @@ import { PerfilUsuarioPage } from '../pages/perfil-usuario/perfil-usuario';
 import { BarraProgressoComponent } from '../components/barra-progresso/barra-progresso';
 import { Facebook } from '@ionic-native/facebook';
 import { FiltroIngredientesService } from '../providers/filtro-ingredientes/filtro-ingredientes.service';
+import { EnviarReceitaPageModule } from '../pages/enviar-receita/enviar-receita.module';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { FiltroIngredientesService } from '../providers/filtro-ingredientes/filt
         LoginPageModule,
         //PerfilUsuarioPageModule,
         LoginInstagramPageModule,
+        EnviarReceitaPageModule
         
         
     ],

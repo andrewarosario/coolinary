@@ -56,10 +56,13 @@ export class AuthService extends BaseService{
                     }))
         } else {
             return this.afAuth.auth
-            .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-            .then(res => {
-                return res.user
-            });
+                    .signInWithPopup(new firebase.auth.FacebookAuthProvider())
+                    .then(res => {
+                        return res.user
+                    })
+                    .catch((error) => {
+                        return error;
+                    });
         }
     }
 

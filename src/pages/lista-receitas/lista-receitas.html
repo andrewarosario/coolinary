@@ -35,63 +35,6 @@
     </ion-navbar>
 
 </ion-header>
-
-<!-- <ion-content>
-
-    <ion-refresher (ionRefresh)="atualizaPagina($event)" [pullMin]=95>
-        <ion-refresher-content
-            pullingIcon="arrow-dropDown"
-            pullingText="Deslize para atualizar"
-            refreshingSpinner="circles"
-            refreshingText="Aguarde...">
-        </ion-refresher-content>
-    </ion-refresher>
-
-    <ion-card class="card" *ngFor="let receita of receitas" (click)="abrirReceita(receita)">
-
-        <img [src]="receita.imagem"/>
-        <ion-card-content>
-            <h1>{{receita.titulo}}</h1>
-        </ion-card-content>
-
-        <barra-porcentagem-receita [porcentagem]="receita.porcentagemIngredientes"
-                                   [texto]="receita.textoIngredientesPossui">
-        </barra-porcentagem-receita>
-        
-        <ion-chip *ngFor="let tag of receita.tags" color="secondary">
-            <ion-label>{{tag}}</ion-label>
-        </ion-chip>
-
-        <ion-item>
-            <button ion-button icon-left clear item-left>
-                <ion-icon name="alarm"></ion-icon>
-                {{receita.tempoPreparo}}min
-            </button>
-            <button ion-button icon-left clear item-left>
-                <ion-icon name="restaurant"></ion-icon>
-                {{receita.porcoes}}
-            </button>
-            <button ion-button icon-left clear item-end>
-                <ion-icon name="heart" color="danger"></ion-icon> 
-                {{receita.favorita}}         
-            </button>
-        </ion-item>
-
-    </ion-card>
-
-    <nenhuma-receita *ngIf="receitas == 0"></nenhuma-receita>
-
-</ion-content> -->
-
-
-
-
-
-
-
-
-
-
   
 <ion-content class="feed-content">
     <ion-refresher (ionRefresh)="atualizaPagina($event)" [pullMin]=95>
@@ -106,7 +49,7 @@
     <ion-card>
         <img class="imagem-receita" [src]="receita.imagem"/>
 
-        <ion-card-content>
+        
             <ion-card-title class="item-title">
                 {{receita.titulo}}
             </ion-card-title>
@@ -115,10 +58,11 @@
             [texto]="receita.textoIngredientesPossui">
             </barra-porcentagem-receita>
 
-            <ion-chip class="tag-chip" *ngFor="let tag of receita.tags" color="secondary">
-            <ion-label>{{tag}}</ion-label>
-            </ion-chip>
-        </ion-card-content>
+            <div class="tags-content">
+                <ion-chip class="tag-chip" *ngFor="let tag of receita.tags" color="secondary">
+                <ion-label>{{tag}}</ion-label>
+                </ion-chip>
+            </div>
 
         <ion-row no-padding class="actions-row">
             <ion-col no-padding width-30 text-left>

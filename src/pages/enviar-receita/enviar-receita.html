@@ -1,0 +1,42 @@
+<!-- <ion-header>
+
+  <ion-navbar color="primary">
+     <ion-title>Envie sua Receita</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="envioForm" (ngSubmit)="enviar(); $event.preventDefault()">
+
+      <ion-label floating>Título da Receita</ion-label>
+      <ion-input type="text" formControlName="titulo"></ion-input> 
+      
+      <ion-label floating>Rendimento</ion-label>
+      <ion-input type="number" formControlName="porcoes"></ion-input> Porções
+
+      <ion-label floating>Tempo de Preparo</ion-label>
+      <ion-input type="number" formControlName="tempoPreparo"></ion-input> Minutos
+
+      <ion-list-header>
+          Ingredientes
+          <button item-end ion-button icon-only clear (click)="addIngrediente()">
+              <ion-icon color="primary" name="add-circle"></ion-icon>
+          </button>
+      </ion-list-header>
+      <ion-item-sliding #slidingItem *ngFor="let ingrediente of filtroIngredientesListRef$ | async">
+          <ion-item #item>
+              <ion-icon item-start color="danger" name="remove-circle" 
+                       (click)="deletarIngrediente(ingrediente)">
+              </ion-icon> 
+              {{ingrediente.nome}}
+          </ion-item>
+          <ion-item-options icon-start (ionSwipe)="deletarIngrediente(ingrediente)">
+          </ion-item-options>
+      </ion-item-sliding>
+      
+  </form>
+
+</ion-content> -->

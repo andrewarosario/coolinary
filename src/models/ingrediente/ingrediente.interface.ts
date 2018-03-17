@@ -7,3 +7,9 @@ export interface Ingrediente {
     quantidadeConversao?: number;
     checado?: boolean;
 }
+
+export interface FiltroIngrediente {
+    $key?: string;
+    keySelectIngrediente: string;
+    nome: string;
+}

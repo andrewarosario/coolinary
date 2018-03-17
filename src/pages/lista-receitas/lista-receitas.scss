@@ -10,8 +10,8 @@ page-lista-receitas {
 			.item-title
 			{
 				//margin: 0px;
-				margin-bottom: 12px;
-				//padding: 0px;
+				margin-bottom: -9px;
+				padding: 13px 10px;
 				//letter-spacing: 1.1px;
 				//color: $theme-color-2;
 			}
@@ -41,6 +41,10 @@ page-lista-receitas {
         border: 1px solid map-get($colors, secondary); 
         margin: 3px 5px;
         color: map-get($colors, secondary);
+    }
+
+    .tags-content {
+        margin-bottom: 1.2rem;
     }
 
 }

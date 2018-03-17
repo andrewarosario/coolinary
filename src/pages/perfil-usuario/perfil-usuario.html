@@ -1,10 +1,10 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="primary">
         <ion-title>Perfil</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content class="settings-content">
+<!-- <ion-content class="settings-content">
     <div class="user-image-content">
       <ion-row no-padding class="user-image-row">
         <ion-col no-padding width-40>
@@ -18,8 +18,6 @@
         </ion-col>
       </ion-row>
     </div>
-
-<!-- <ion-content padding> -->
 
     <info-usuario [usuario]="usuarioAtual"></info-usuario>
 
@@ -59,4 +57,40 @@
 
     </form>
 
+</ion-content> -->
+
+<ion-content class="profile-content">
+    <div class="user-details">
+      <ion-row class="user-main-data-row">
+        <ion-col col-10>
+          <!-- <preload-image class="user-image" [ratio]="{w:1, h:1}" [(src)]="profile.user.image" alt="profile.user.name" title="profile.user.name"></preload-image> -->
+          <info-usuario [usuario]="usuarioAtual"></info-usuario>
+        </ion-col>
+        <ion-col no-padding>
+          <ion-row class="social-presence-row">
+            <ion-col width-100 class="social-presence-item">
+              <a>
+                <h3 class="usuario">@andrewrosario</h3>
+                <!-- <h3 class="social-presence-value">@{{usuarioAtual.nome}}</h3> -->
+                <h4 class="social-presence-title">{{usuarioAtual.usuario}}</h4>
+              </a>
+            </ion-col>
+            <!-- <ion-col width-50 class="social-presence-item">
+              <a>
+                <h2 class="social-presence-value">3</h2>
+                <h4 class="social-presence-title">4</h4>
+              </a>
+            </ion-col> -->
+          </ion-row>
+          <ion-row class="profile-action-row">
+            <ion-col no-padding>
+              <button ion-button block small>
+                Editar Perfil
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </div>
 </ion-content>
+   
