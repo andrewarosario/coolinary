@@ -53,14 +53,6 @@ export class InclusaoRapidaIngredientePage {
                 this.modoFiltro = true;
         }
 
-        // if (navParams.get('tipo')  == 'Meus Ingredientes') {        
-        //     this.itemListRef$ = this.ingredienteService.ingredientes;
-        //     this.modoItemCompra = false;
-        // } else  {
-        //     this.itemListRef$ = this.itemCompraService.itensCompra;
-        //     this.modoItemCompra = true;
-        // }
-
         this.carregarTodosIngredientes()
            
     }
@@ -119,7 +111,9 @@ export class InclusaoRapidaIngredientePage {
         this.itemListRef$.push({
             nome: selectIngrediente.nome,
             quantidade: 1,
-            keySelectIngrediente: selectIngrediente.$key
+            keySelectIngrediente: selectIngrediente.$key,
+            unidadeConversao: 1,
+            unidade: selectIngrediente.unidadePadrao
         }).then(() => {
             this.avisoToast(selectIngrediente.nome + ' adicionado(a)!')
             if (!this.modoItemCompra) {
@@ -130,7 +124,9 @@ export class InclusaoRapidaIngredientePage {
 
     atualizar(ingrediente: Ingrediente, qualProvider) {
         let quantidade = Number(ingrediente.quantidade);
+        let quantidadeConversao = Number(ingrediente.quantidadeConversao);
         ingrediente.quantidade = quantidade + 1;
+        ingrediente.quantidadeConversao = quantidadeConversao + 1;
 
         qualProvider.atualiza(ingrediente);
         this.avisoToast(ingrediente.nome + ' adicionado(a)!')
@@ -158,12 +154,6 @@ export class InclusaoRapidaIngredientePage {
     }
 
     incluirFiltro(selectIngrediente: SelectIngrediente) {
-        // this.itemListRef$.push({
-        //     nome: selectIngrediente.nome,
-        //     keySelectIngrediente: selectIngrediente.$key
-        // })
-        // .then(() => this.viewCtrl.dismiss())
-        // .catch(() => this.viewCtrl.dismiss()); 
         this.viewCtrl.dismiss(selectIngrediente);
     }
 

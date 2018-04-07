@@ -17,7 +17,7 @@ import { AtualizaReceitasService } from '../../providers/atualiza-receitas/atual
 export class ModalIngredientesPage {
 
     selectIngredienteId: string;
-    unidadeSelecionada: Unidade;
+    unidadeSelecionada = {} as Unidade;
 
     public modoEdicao: boolean = false;
     public modoItemCompra: boolean = false;
@@ -76,6 +76,13 @@ export class ModalIngredientesPage {
                 } else {
                     this.titulo = 'Editar Ingrediente';
                     this.modoEdicao = true
+
+                    this.unidadeSelecionada = this.selectIngrediente.unidades.find((unidade: Unidade) => {
+                        return this.ingrediente.unidade == unidade.nome
+                    })
+                    
+                    //this.unidadeSelecionada.nome = ingrediente.unidade                                        
+                    console.log(this.ingrediente)
                 }         
             });
     }

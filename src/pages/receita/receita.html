@@ -50,8 +50,11 @@
 
             <ion-list>
                 <ion-item *ngFor="let ingrediente of receita.infoIngredientes">
-                    <p>{{ingrediente.nome}}</p>
-                    <p>{{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})</p>
+                    <div>
+                        <p [ngStyle]="{'color': corTextoIngrediente(ingrediente.possui)}">{{ingrediente.nome}}</p>
+                        <p [ngStyle]="{'color': corTextoIngrediente(ingrediente.possui)}">{{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})</p>
+                    </div>
+                    
                     
                     <button *ngIf="!ingrediente.possui" 
                         (click)="abrirOpcoesAdd(ingrediente)"
@@ -61,25 +64,30 @@
                 </ion-item>
             </ion-list>
             
-
-            <!-- <ion-row *ngFor="let ingrediente of receita.infoIngredientes">
-                <ion-col col-10>
-                    {{ingrediente.nome}}
-                </ion-col>
-                <ion-col col-2 *ngIf="autenticado">
-                    <button *ngIf="!ingrediente.possui" 
-                        (click)="abrirOpcoesAdd(ingrediente)" ion-button clear item-end>
-                        <ion-icon name="add"></ion-icon>  
-                    </button>
-                </ion-col>
-                
-                <ion-col col-12>
-                    {{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})
-                </ion-col>                
-            </ion-row> -->
         </ion-grid>
 
-        <ion-grid *ngIf="receita.adicionais">
+        <ion-grid>
+            <h3>Ingredientes Adicionais</h3>
+
+            <ion-list>
+                <ion-item *ngFor="let ingrediente of receita.adicionais">
+                    <div>
+                        <p [ngStyle]="{'color': corTextoIngrediente(ingrediente.possui)}">{{ingrediente.nome}}</p>
+                        <p [ngStyle]="{'color': corTextoIngrediente(ingrediente.possui)}">{{ingrediente.quantidade}} {{ingrediente.unidade}} ({{ingrediente.obs}})</p>
+                    </div>
+                    
+                    
+                    <button *ngIf="!ingrediente.possui" 
+                        (click)="abrirOpcoesAdd(ingrediente)"
+                        ion-button clear item-end > 
+                        <ion-icon name="add"></ion-icon>  
+                    </button>
+                </ion-item>
+            </ion-list>
+            
+        </ion-grid>        
+
+        <!-- <ion-grid *ngIf="receita.adicionais">
             <h4>Ingredientes Adicionais</h4>
             <ion-row *ngFor="let ingredienteAdicional of receita.adicionais">
                 <ion-col col-10>
@@ -96,7 +104,7 @@
                     {{ingredienteAdicional.quantidade}} {{ingredienteAdicional.unidade}} ({{ingredienteAdicional.obs}})
                 </ion-col>                
             </ion-row>
-        </ion-grid>
+        </ion-grid> -->
 
         <ion-grid>
             <h2>Modo de Preparo</h2>

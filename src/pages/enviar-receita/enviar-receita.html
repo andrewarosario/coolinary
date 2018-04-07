@@ -1,4 +1,4 @@
-<!-- <ion-header>
+<ion-header>
 
   <ion-navbar color="primary">
      <ion-title>Envie sua Receita</ion-title>
@@ -11,32 +11,43 @@
 
   <form [formGroup]="envioForm" (ngSubmit)="enviar(); $event.preventDefault()">
 
-      <ion-label floating>Título da Receita</ion-label>
-      <ion-input type="text" formControlName="titulo"></ion-input> 
-      
-      <ion-label floating>Rendimento</ion-label>
-      <ion-input type="number" formControlName="porcoes"></ion-input> Porções
+    <ion-item>
+    <ion-label floating>Título da Receita</ion-label>
+    <ion-input type="text" formControlName="titulo"></ion-input> 
+    </ion-item>
 
-      <ion-label floating>Tempo de Preparo</ion-label>
-      <ion-input type="number" formControlName="tempoPreparo"></ion-input> Minutos
+    <ion-item>
+    <ion-label floating>Rendimento (Porções)</ion-label>
+    <ion-input type="number" formControlName="porcoes"></ion-input>
+    </ion-item>
 
-      <ion-list-header>
-          Ingredientes
-          <button item-end ion-button icon-only clear (click)="addIngrediente()">
-              <ion-icon color="primary" name="add-circle"></ion-icon>
-          </button>
-      </ion-list-header>
-      <ion-item-sliding #slidingItem *ngFor="let ingrediente of filtroIngredientesListRef$ | async">
-          <ion-item #item>
-              <ion-icon item-start color="danger" name="remove-circle" 
-                       (click)="deletarIngrediente(ingrediente)">
-              </ion-icon> 
-              {{ingrediente.nome}}
-          </ion-item>
-          <ion-item-options icon-start (ionSwipe)="deletarIngrediente(ingrediente)">
-          </ion-item-options>
-      </ion-item-sliding>
+    <ion-item>
+    <ion-label floating>Tempo de Preparo (Em minutos)</ion-label>
+    <ion-input type="number" formControlName="tempoPreparo"></ion-input> 
+    </ion-item>
+
+    <br>
+
+    <ion-list-header>
+        <h2>Ingredientes</h2>
+        <button item-end ion-button icon-only clear (click)="addIngrediente()">
+            <ion-icon color="primary" name="add-circle"></ion-icon>
+        </button>
+    </ion-list-header>
+    <ion-item-sliding #slidingItem *ngFor="let ingrediente of ingredientes; let i = index;">
+        <ion-item #item>
+            <ion-icon item-start color="danger" name="remove-circle" 
+                    (click)="deletarIngrediente(ingredientes,i)">
+            </ion-icon> 
+            {{ingrediente.nome}}
+        </ion-item>
+        <ion-item-options icon-start (ionSwipe)="deletarIngrediente(ingredientes,i)">
+        </ion-item-options>
+    </ion-item-sliding>
       
+      <br>
+
+      <button ion-button full type="submit" [disabled]="envioForm.invalid || ingredientes.length == 0">Enviar</button>
   </form>
 
-</ion-content> -->
+</ion-content>

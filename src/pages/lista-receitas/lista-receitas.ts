@@ -215,6 +215,18 @@ export class ListaReceitasPage {
 
             });
 
+            //Lembrete: depois transformar em função
+            receita.adicionais.forEach((infoIngrediente: InfoIngrediente) => {
+
+                this.ingredientes.forEach((ingrediente: Ingrediente) => {
+                    if (ingrediente.keySelectIngrediente == infoIngrediente.ingredienteKey) {
+                        //this.todasReceitas[index].numeroIngredientesPossui ++;
+                        infoIngrediente.possui = true;
+                    }
+                });
+
+            });            
+
             let disponiveis = this.todasReceitas[index].numeroIngredientesPossui;
             let total = this.todasReceitas[index].infoIngredientes.length;
 

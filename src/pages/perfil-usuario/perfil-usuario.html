@@ -1,96 +1,20 @@
-<ion-header>
-    <ion-navbar color="primary">
-        <ion-title>Perfil</ion-title>
-    </ion-navbar>
-</ion-header>
-
-<!-- <ion-content class="settings-content">
-    <div class="user-image-content">
-      <ion-row no-padding class="user-image-row">
-        <ion-col no-padding width-40>
-          <info-usuario [usuario]="usuarioAtual" class="user-image" 
-        alt="this is the image" title="IMAGE!"></info-usuario>
-        </ion-col>
-      </ion-row>
-      <ion-row no-padding class="user-image-row">
-        <ion-col no-padding width-60>
-          <button class="image-action-button" ion-button outline block small (click)="selecionarFoto($event)">Alterar Foto de Perfil</button>
-        </ion-col>
-      </ion-row>
+  <ion-content>
+    <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + backgroundURL +')'}"></div>
+    <div id="content">
+      <div id="profile-info">
+        <img id="profile-image" [src]="usuarioAtual.foto || 'assets/img/no-photo.jpg'">
+        <h3 id="profile-name">{{usuarioAtual.usuario}}</h3>
+        <button (click)="selecionarFoto($event)" ion-button block small>
+            Alterar Foto
+        </button>
+      </div>
+      <ion-list>
+        <ion-item no-lines>
+            <button ion-item detail-none *ngFor="let p of paginas" (click)="abrirPagina(p)">
+                <ion-icon [name]="p.icone" item-left></ion-icon>
+                {{ p.titulo }}
+            </button>
+        </ion-item>
+      </ion-list>
     </div>
-
-    <info-usuario [usuario]="usuarioAtual"></info-usuario>
-
-    <button ion-button block (click)="podeEditar = !podeEditar">Editar</button>
-
-    <form (ngSubmit)="enviar($event)" *ngIf="podeEditar" #perfilForm="ngForm">
-
-        <ion-item>
-            <ion-icon name="person" item-start></ion-icon>
-            <ion-input type="text" placeholder="Nome" name="name"
-                        [(ngModel)]="usuarioAtual.nome" required minlenght="3">
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-icon name="at" item-start></ion-icon>
-            <ion-input
-                type="text"
-                placeholder="Usuário"
-                name="username"
-                [(ngModel)]="usuarioAtual.usuario"
-                required
-                minlenght="3">
-            </ion-input>
-        </ion-item>
-        
-        <ion-item>
-            <ion-icon name="image" item-end></ion-icon>
-            <input type="file" accept="image/*" (change)="selecionarFoto($event)">
-        </ion-item>
-
-        <barra-progresso *ngIf="progressoUpload" [progresso]="progressoUpload"></barra-progresso>
-
-        <br>
-
-        <button ion-button block type="submit" [disabled]="perfilForm.form.invalid">Salvar</button>
-
-    </form>
-
-</ion-content> -->
-
-<ion-content class="profile-content">
-    <div class="user-details">
-      <ion-row class="user-main-data-row">
-        <ion-col col-10>
-          <!-- <preload-image class="user-image" [ratio]="{w:1, h:1}" [(src)]="profile.user.image" alt="profile.user.name" title="profile.user.name"></preload-image> -->
-          <info-usuario [usuario]="usuarioAtual"></info-usuario>
-        </ion-col>
-        <ion-col no-padding>
-          <ion-row class="social-presence-row">
-            <ion-col width-100 class="social-presence-item">
-              <a>
-                <h3 class="usuario">@andrewrosario</h3>
-                <!-- <h3 class="social-presence-value">@{{usuarioAtual.nome}}</h3> -->
-                <h4 class="social-presence-title">{{usuarioAtual.usuario}}</h4>
-              </a>
-            </ion-col>
-            <!-- <ion-col width-50 class="social-presence-item">
-              <a>
-                <h2 class="social-presence-value">3</h2>
-                <h4 class="social-presence-title">4</h4>
-              </a>
-            </ion-col> -->
-          </ion-row>
-          <ion-row class="profile-action-row">
-            <ion-col no-padding>
-              <button ion-button block small>
-                Editar Perfil
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-    </div>
-</ion-content>
-   
+  </ion-content>

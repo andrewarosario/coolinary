@@ -48,7 +48,7 @@
                              (click)="excluirIngrediente(ingrediente)">
                     </ion-icon> 
                     <h2>{{ingrediente.nome}}</h2>
-                    <h3>Quantidade: {{ingrediente.quantidade}}</h3>
+                    <h3>{{ingrediente.quantidade}} - {{ingrediente.unidade}}</h3>
                 </ion-item>
                 <ion-item-options side="right" (ionSwipe)="excluirIngrediente(ingrediente)"></ion-item-options>
                 <ion-item-options side="left" (ionSwipe)="excluirIngrediente(ingrediente)"></ion-item-options>

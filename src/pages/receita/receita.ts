@@ -96,6 +96,10 @@ export class ReceitaPage {
         return this.receitaFavorita != null ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
     }
 
+    public corTextoIngrediente(possui): string {
+        return possui ? 'green' : 'red';
+    }
+
     avisoToast(mensagem: string) {
         let toast = this.toastCtrl.create( {
             message: mensagem, 
